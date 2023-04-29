@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 using Assets.Scripts.Constants;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.Models;
-using Assets.Scripts.Scenes.TheRoom;
+
+using GameFrame.Core.Extensions;
 
 using UnityEngine;
 
@@ -12,14 +14,11 @@ namespace Assets.Scripts.Scenes.TheRoom
 {
     public class TheRoomBehaviour : MonoBehaviour
     {
-        private Int32 counter = 0;
+        private readonly Dictionary<String, GameObject> availableModels = new Dictionary<String, GameObject>();
+        private GameObject objectsContainer;
 
-        public GameObject template;
-
-        public List<GameObject> models;
-
-        private float scale;
-        private Dictionary<string, GameObject> modelDict;
+        public GameObject template; 
+        public Camera sceneCamera;
         public RoomElementBehaviour selectedElement;
 
         public void ToMainMenu()
@@ -30,20 +29,58 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void Awake()
         {
-            RectTransform rt = (RectTransform)template.transform;
-            scale = rt.rect.width;
-            modelDict = new Dictionary<string, GameObject>();
-
-            foreach (var model in models)
-            {
-                modelDict.Add(model.name, model);
-            }
+            this.objectsContainer = transform.Find("ObjectsContainer").gameObject;
+            LoadTemplates();
         }
 
         public void TestLoad()
         {
             var room = Base.Core.Game.AvailableGameModes[0].TheRoom;
+            //var room = BuildRoom();
             LoadRoom(room);
+        }
+
+        private Room BuildRoom()
+        {
+            int sizeX = 10;
+            int sizeY = 10;
+            int sizeZ = 10;
+            Room room = new Room
+            {
+                Materials = new RoomElement[sizeX, sizeY, sizeZ]
+            };
+            for (int x = 0; x < sizeX; x++)
+            {
+                for (int y = 0; y < sizeY; y++)
+                {
+                    room.Materials[x, y, 0] = new RoomElement("Wall");
+                    room.Materials[x, y, sizeZ - 1] = new RoomElement("Wall");
+                }
+                for (int z = 0; z < sizeZ; z++)
+                {
+                    room.Materials[x, 0, z] = new RoomElement("Wall");
+                    room.Materials[x, sizeY - 1, z] = new RoomElement("Wall");
+                }
+            }
+            for (int y = 0; y < sizeY; y++)
+            {
+                for (int z = 0; z < sizeZ; z++)
+                {
+                    room.Materials[0, y, z] = new RoomElement("Wall");
+                    room.Materials[sizeX - 1, y, z] = new RoomElement("Wall");
+                }
+            }
+            DumpRoom(room);
+            return room;
+        }
+
+        private void DumpRoom(Room room)
+        {
+            var json = GameFrame.Core.Json.Handler.SerializePretty(room);
+            var filePath = Application.streamingAssetsPath + "/room.json";
+            StreamWriter writer = new StreamWriter(filePath, true);
+            writer.Write(json);
+            writer.Close();
         }
 
         public void LoadBox()
@@ -55,9 +92,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 Rotation = GameFrame.Core.Math.Vector3.Zero,
             };
 
-            counter++;
-
-            AddRoomElement(box, new Vector3(counter, 1, 1));
+            AddRoomElement(box, new UnityEngine.Vector3(1, 1, 1));
         }
 
         public void LoadBoxLong()
@@ -69,24 +104,19 @@ namespace Assets.Scripts.Scenes.TheRoom
                 Rotation = GameFrame.Core.Math.Vector3.Zero
             };
 
-            counter++;
-
-            AddRoomElement(longBox, new Vector3(counter, 1, 1));
+            AddRoomElement(longBox, new UnityEngine.Vector3(1, 1, 1));
         }
-
 
         public void LoadBroom()
         {
-            var longBox = new RoomElement("LongBox")
+            var longBox = new RoomElement("Broom")
             {
-                Model = "broooom_edge",
+                Model = "Broom_edge",
                 Rotatable = true,
                 Rotation = GameFrame.Core.Math.Vector3.Zero
             };
 
-            counter++;
-
-            AddRoomElement(longBox, new Vector3(counter, 1, 1));
+            AddRoomElement(longBox, new UnityEngine.Vector3(1, 1, 1));
         }
 
         public void LoadLetter()
@@ -98,9 +128,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 Rotation = GameFrame.Core.Math.Vector3.Zero
             };
 
-            counter++;
-
-            AddRoomElement(longBox, new Vector3(counter, 1, 1));
+            AddRoomElement(longBox, new UnityEngine.Vector3(1, 1, 1));
         }
 
         public void LoadRoom(Room room)
@@ -115,30 +143,38 @@ namespace Assets.Scripts.Scenes.TheRoom
 
                         if (roomElement != default)
                         {
-                            var mat = Instantiate(template, template.transform.parent);
+                            var mat = Instantiate(template, objectsContainer.transform);
 
                             mat.AddRoomElement(roomElement);
-
+                            mat.AddComponent<BoundsCalculationBehaviour>();
                             mat.transform.position = new UnityEngine.Vector3(x, y, z);
                             mat.SetActive(true);
                         }
                     }
                 }
             }
+            AdjustCamera();
         }
 
-        private void AddRoomElement(RoomElement roomElement, Vector3 position, Boolean setSelected = true)
+        private void AddRoomElement(RoomElement roomElement, UnityEngine.Vector3 position, Boolean setSelected = true)
         {
-            var mat = Instantiate(modelDict[roomElement.Model], template.transform.parent);
-
-            var roomElementBehaviour = mat.AddRoomElement(roomElement);
-
-            mat.transform.position = position;
-            mat.SetActive(true);
-
-            if (setSelected)
+            if (roomElement.Model.HasValue() && availableModels.TryGetValue(roomElement.Model, out var modelTemplate))
             {
-                SetSelectedElement(roomElementBehaviour);
+                var mat = Instantiate(modelTemplate, objectsContainer.transform);
+
+                var roomElementBehaviour = mat.AddRoomElement(roomElement);
+
+                mat.transform.position = position;
+                mat.SetActive(true);
+
+                if (setSelected)
+                {
+                    SetSelectedElement(roomElementBehaviour);
+                }
+            }
+            else
+            {
+
             }
         }
 
@@ -154,26 +190,92 @@ namespace Assets.Scripts.Scenes.TheRoom
             this.selectedElement.SetSelected(true);
         }
 
+        private void LoadTemplates()
+        {
+            var templateConatiner = transform.Find("Templates");
 
-        //private void LateUpdate()
-        //{
-        //    if (Input.GetMouseButtonUp(0)) //!Base.Core.Game.LockCameraMovement && 
-        //    {
-        //        if (!EventSystem.current.IsPointerOverGameObject())    // is the touch on the GUI
-        //        {
-        //            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (templateConatiner != default)
+            {
+                LoadTemplates(this.availableModels, templateConatiner, "Objects");
+            }
+        }
 
-        //            if (Physics.Raycast(ray, out var raycastHit, 100.0f))
-        //            {
-        //                if (raycastHit.transform.gameObject != null)
-        //                {
-        //                    selectedObject = raycastHit.transform.gameObject;        
+        private void LoadTemplates<T>(IDictionary<String, T> cache, Transform rootTemplateContainer, String templateContainerName)
+        {
+            var templateGameObjects = rootTemplateContainer.transform.Find(templateContainerName).gameObject;
 
-        //                }
-        //            }
-        //        }
-        //    }
+            if (templateGameObjects.transform.childCount > 0)
+            {
+                foreach (Transform buildingTemplate in templateGameObjects.transform)
+                {
+                    if (buildingTemplate.gameObject is T castedObject)
+                    {
+                        cache[buildingTemplate.name] = castedObject;
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception($"Missing '{templateContainerName}' templates!");
+            }
+        }
 
-        //}
+
+        public void AdjustCamera()
+        {
+            Bounds b = GetBounds(this.gameObject);
+
+            float cameraDistance = .25f; // Constant factor
+            UnityEngine.Vector3 objectSizes = b.max - b.min;
+
+            float objectSize = Mathf.Max(objectSizes.x, objectSizes.y, objectSizes.z);
+
+            float cameraView = 2.0f * Mathf.Tan(0.5f * Mathf.Deg2Rad * sceneCamera.fieldOfView); // Visible height 1 meter in front
+            float distance = cameraDistance * objectSize / cameraView; // Combined wanted distance from the object
+            distance += 0.5f * objectSize; // Estimated offset from the center to the outside of the object
+            sceneCamera.transform.position = b.center - distance * sceneCamera.transform.forward;
+        }
+
+        internal static Bounds GetBounds(GameObject gameObject)
+        {
+            Bounds b = new Bounds(gameObject.transform.position, UnityEngine.Vector3.zero);
+
+            b = GetBoundRec(gameObject.transform, b);
+
+            return b;
+        }
+
+        internal static Bounds GetBoundRec(Transform goT, Bounds b)
+        {
+            var boundsBehaviour = goT.GetComponent<BoundsCalculationBehaviour>();
+
+            if (boundsBehaviour == default || boundsBehaviour.IsIncluded)
+            {
+                foreach (Transform child in goT)
+                {
+                    if (child.gameObject.activeSelf)
+                    {
+                        b = GetBoundRec(child, b);
+
+                        Renderer r = child.GetComponent<MeshRenderer>();
+
+                        if (r != default)
+                        {
+                            b.Encapsulate(r.bounds);
+                            //Debug.Log("dodi", child);
+                        }
+                        else
+                        {
+                            //Debug.Log("No render:", child);
+                        }
+                    }
+                }
+            }
+
+            return b;
+        }
+
+
+
     }
 }
