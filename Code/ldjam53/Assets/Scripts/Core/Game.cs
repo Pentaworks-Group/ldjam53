@@ -12,7 +12,6 @@ namespace Assets.Scripts.Core
 {
     public class Game : GameFrame.Core.Game<GameState, PlayerOptions, SavedGamedPreviewImpl>
     {
-
         public IList<GameMode> AvailableGameModes { get; } = new List<GameMode>();
         public GameMode SelectedGameMode { get; set; }
 
@@ -23,10 +22,9 @@ namespace Assets.Scripts.Core
 
         public bool LockCameraMovement { get; set; } = false;
 
-
         public void PlayButtonSound()
         {
-            Debug.LogError("Implement PlayButtonSound");
+            GameFrame.Base.Audio.Effects.Play("Button");
         }
 
         protected override GameState InitializeGameState()
@@ -43,7 +41,6 @@ namespace Assets.Scripts.Core
             return gameState;
         }
 
-
         protected override PlayerOptions InitialzePlayerOptions()
         {
             return new PlayerOptions()
@@ -58,12 +55,22 @@ namespace Assets.Scripts.Core
             };
         }
 
+        protected override void OnGameStart()
+        {
+            base.OnGameStart();
+
+            var backgroundClips = new List<AudioClip>()
+            {
+                GameFrame.Base.Resources.Manager.Audio.Get("Background_Music_1"),
+            };
+
+            GameFrame.Base.Audio.Background.Play(backgroundClips);
+        }
+
         private void GenerateWorld(GameState gameState)
         {
 
         }
-
-
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void GameStart()
