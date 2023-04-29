@@ -31,5 +31,20 @@ Nice to have:
  
 Ideas:
 ----------------------------------
- - 
+ - Travel time
+ - Time to fit delivery
+ - Coins
  
+ 
+ 
+ 
+ 
+ 
+ 
+ Delivery Items:
+----------------------------------
+ - Wands
+ - Brooms
+ - Potions
+ - Packages
+ - 
