@@ -1,6 +1,8 @@
 using Assets.Scripts.Constants;
 using UnityEngine;
 using Assets.Scripts.Models;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Scenes
 {
@@ -8,11 +10,12 @@ namespace Assets.Scripts.Scenes
     {
         public GameObject template;
 
-        public GameObject ModelBox;
-        public GameObject ModelBoxLong;
-        public GameObject ModelLetter;
+        public List<GameObject> models;
 
         private float scale;
+        private Dictionary<string, GameObject> modelDict;
+        private GameObject selectedObject;
+
 
         public void ToMainMenu()
         {
@@ -23,9 +26,15 @@ namespace Assets.Scripts.Scenes
 
         public void Awake()
         {
-            RectTransform rt = (RectTransform)template.transform.transform;
+            RectTransform rt = (RectTransform)template.transform;
             scale = rt.rect.width;
+            modelDict = new Dictionary<string, GameObject>();
+            foreach (var model in models)
+            {
+                modelDict.Add(model.name, model);
+            }
         }
+
 
 
         public void TestLoad()
@@ -44,7 +53,7 @@ namespace Assets.Scripts.Scenes
                     room.Materials[x, y, ix] = new RoomMaterial("wall xy");
                 }
             }
-            
+
             for (int z = 0; z < room.Materials.GetLength(2); z++)
             {
                 for (int y = 0; y < room.Materials.GetLength(1); y++)
@@ -58,7 +67,7 @@ namespace Assets.Scripts.Scenes
 
         public void LoadBox()
         {
-            var mat = Instantiate(ModelBox, template.transform.parent);
+            var mat = Instantiate(modelDict["Pack_box"], template.transform.parent);
             mat.name = "Box";
             mat.transform.position = new UnityEngine.Vector3(1, 1, 1);
             mat.SetActive(true);
@@ -66,7 +75,7 @@ namespace Assets.Scripts.Scenes
 
         public void LoadBoxLong()
         {
-            var mat = Instantiate(ModelBoxLong, template.transform.parent);
+            var mat = Instantiate(modelDict["Pack_box_long"], template.transform.parent);
             mat.name = "Box";
             mat.transform.position = new UnityEngine.Vector3(1, 1, 1);
             mat.SetActive(true);
@@ -74,7 +83,7 @@ namespace Assets.Scripts.Scenes
 
         public void LoadLetter()
         {
-            var mat = Instantiate(ModelLetter, template.transform.parent);
+            var mat = Instantiate(modelDict["Pack_letter"], template.transform.parent);
             mat.name = "Box";
             mat.transform.position = new UnityEngine.Vector3(1, 1, 1);
             mat.SetActive(true);
@@ -100,5 +109,27 @@ namespace Assets.Scripts.Scenes
                 }
             }
         }
+
+
+        //private void LateUpdate()
+        //{
+        //    if (Input.GetMouseButtonUp(0)) //!Base.Core.Game.LockCameraMovement && 
+        //    {
+        //        if (!EventSystem.current.IsPointerOverGameObject())    // is the touch on the GUI
+        //        {
+        //            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        //            if (Physics.Raycast(ray, out var raycastHit, 100.0f))
+        //            {
+        //                if (raycastHit.transform.gameObject != null)
+        //                {
+        //                    selectedObject = raycastHit.transform.gameObject;        
+                            
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //}
     }
 }
