@@ -81,15 +81,6 @@ public class OptionsMenuBehaviour : MonoBehaviour
         }
     }
 
-    public void OnMobileInterfaceValueChanged(Toggle t)
-    {
-        if (t.isOn)
-        {
-            //TextMeshProUGUI text = t.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-            //Core.Game.Options.MobileInterface = text.text;
-        }
-    }
-
     public void OnRestoreDefaultsClick()
     {
         Core.Game.PlayButtonSound();
