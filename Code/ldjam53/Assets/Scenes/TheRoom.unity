@@ -913,6 +913,7 @@ MonoBehaviour:
   template: {fileID: 400544414}
   sceneCamera: {fileID: 414000126}
   selectedElement: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!114 &608277025
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -95,7 +95,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 isLooking = false;
             }
 
-            if (lookX != 0  || lookY != 0)
+            if (lookX != 0 || lookY != 0)
             {
                 cam.transform.Rotate(new Vector3(-lookY, lookX, 0) * Time.deltaTime * Base.Core.Game.Options.LookSensivity);
                 float z = cam.transform.eulerAngles.z;
@@ -211,6 +211,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             return false;
         }
+
 
         private bool ZoomHandling()
         {
