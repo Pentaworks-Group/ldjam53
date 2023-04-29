@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 using Assets.Scripts.Constants;
 using Assets.Scripts.Extensions;
@@ -16,7 +17,8 @@ namespace Assets.Scripts.Scenes.TheRoom
         private readonly Dictionary<String, GameObject> availableModels = new Dictionary<String, GameObject>();
         private GameObject objectsContainer;
 
-        public GameObject template;
+        public GameObject template; 
+        public Camera sceneCamera;
         public RoomElementBehaviour selectedElement;
 
         public void ToMainMenu()
@@ -33,12 +35,12 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void TestLoad()
         {
-            //var room = Base.Core.Game.AvailableGameModes[0].TheRoom;
-            var room = BuildRoom();
+            var room = Base.Core.Game.AvailableGameModes[0].TheRoom;
+            //var room = BuildRoom();
             LoadRoom(room);
         }
 
-        public Room BuildRoom()
+        private Room BuildRoom()
         {
             int sizeX = 10;
             int sizeY = 10;
@@ -68,7 +70,17 @@ namespace Assets.Scripts.Scenes.TheRoom
                     room.Materials[sizeX - 1, y, z] = new RoomElement("Wall");
                 }
             }
+            DumpRoom(room);
             return room;
+        }
+
+        private void DumpRoom(Room room)
+        {
+            var json = GameFrame.Core.Json.Handler.SerializePretty(room);
+            var filePath = Application.streamingAssetsPath + "/room.json";
+            StreamWriter writer = new StreamWriter(filePath, true);
+            writer.Write(json);
+            writer.Close();
         }
 
         public void LoadBox()
@@ -214,7 +226,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             Bounds b = GetBounds(this.gameObject);
 
             float cameraDistance = .25f; // Constant factor
-            Vector3 objectSizes = b.max - b.min;
+            UnityEngine.Vector3 objectSizes = b.max - b.min;
 
             float objectSize = Mathf.Max(objectSizes.x, objectSizes.y, objectSizes.z);
 
@@ -226,7 +238,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         internal static Bounds GetBounds(GameObject gameObject)
         {
-            Bounds b = new Bounds(gameObject.transform.position, Vector3.zero);
+            Bounds b = new Bounds(gameObject.transform.position, UnityEngine.Vector3.zero);
 
             b = GetBoundRec(gameObject.transform, b);
 
@@ -264,26 +276,6 @@ namespace Assets.Scripts.Scenes.TheRoom
         }
 
 
-        //private void LateUpdate()
-        //{
-        //    if (Input.GetMouseButtonUp(0)) //!Base.Core.Game.LockCameraMovement && 
-        //    {
-        //        if (!EventSystem.current.IsPointerOverGameObject())    // is the touch on the GUI
-        //        {
-        //            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        //            if (Physics.Raycast(ray, out var raycastHit, 100.0f))
-        //            {
-        //                if (raycastHit.transform.gameObject != null)
-        //                {
-        //                    selectedObject = raycastHit.transform.gameObject;        
-
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //}
 
     }
 }
