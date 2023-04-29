@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Assets.Scripts.Models;
-
-using Unity.VisualScripting;
 
 using UnityEngine;
 
@@ -15,7 +9,7 @@ namespace Assets.Scripts.Scenes.TheRoom
     public class RoomElementBehaviour : MonoBehaviour
     {
         private HighlightBehaviour highlightBehaviour;
-        
+
         private RoomElement element;
         public RoomElement Element
         {
@@ -36,12 +30,13 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             this.name = roomElement.Texture;
             this.highlightBehaviour = this.gameObject.AddComponent<HighlightBehaviour>();
+            this.highlightBehaviour.SetElement(roomElement);
         }
 
         public void SetSelected(Boolean isSelected)
         {
             this.element.Selected = isSelected;
-            this.highlightBehaviour.ToggleHighlight(isSelected);
+            this.highlightBehaviour.UpdateHightlight();
         }
 
         private void Start()
@@ -50,7 +45,32 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private void Update()
         {
-            
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            this.element.CollisionAmount++;
+
+            UpdateIsPlaceable();
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            this.element.CollisionAmount--;
+
+            UpdateIsPlaceable();
+        }
+
+        private void UpdateIsPlaceable()
+        {
+            var isPlaceable = this.element.CollisionAmount < 1;
+
+            if (this.element.Selected)
+            {
+                this.element.IsPlaceable = isPlaceable;                
+            }
+
+            this.highlightBehaviour.UpdateHightlight();
         }
     }
 }

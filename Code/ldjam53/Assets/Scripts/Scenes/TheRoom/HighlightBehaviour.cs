@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+
+using Assets.Scripts.Models;
 
 using UnityEngine;
 
@@ -10,9 +11,60 @@ namespace Assets.Scripts.Scenes.TheRoom
     {
         private const float INTENSITY = 0.4f;
 
-        private static Vector4 testHighlightColor = new Vector4(1 * INTENSITY, 0.4f * INTENSITY, 0.7f * INTENSITY, 1);
-
+        private static Vector4 selectedColor = new Vector4(1 * INTENSITY, 0.4f * INTENSITY, 0.7f * INTENSITY, 1);
+        private static Vector4 notPlaceableColor = new Vector4(10 * INTENSITY, 0f * INTENSITY, 0f * INTENSITY, 1);
+        
         private readonly List<Material> materials = new List<Material>();
+                
+        private RoomElement roomElement;
+        
+        public void SetElement(RoomElement roomElement)
+        {
+            if (roomElement == default)
+            {
+                throw new ArgumentNullException(nameof(roomElement));
+            }
+
+            this.roomElement = roomElement;
+        }
+
+        public void UpdateHightlight()
+        {
+            if (!this.roomElement.IsPlaceable)
+            {
+                EnableEmission(notPlaceableColor);
+            }
+            else if (this.roomElement.Selected)
+            {
+                EnableEmission(selectedColor);
+            }
+            else
+            {
+                DisableEmission();
+            }
+        }
+
+        private void EnableEmission(Vector4 emissionColor)
+        {
+            foreach (var material in materials)
+            {
+                //We need to enable the EMISSION
+                material.EnableKeyword("_EMISSION");
+
+                //var currentColor = material.color;
+
+                //before we can set the color
+                material.SetVector("_EmissionColor", emissionColor);
+            }
+        }
+
+        private void DisableEmission()
+        {
+            foreach (var material in materials)
+            {
+                material.DisableKeyword("_EMISSION");
+            }
+        }
 
         private void Awake()
         {
@@ -21,34 +73,6 @@ namespace Assets.Scripts.Scenes.TheRoom
                 //A single child-object might have mutliple materials on it
                 //that is why we need to all materials with "s"
                 materials.AddRange(new List<Material>(renderer.materials));
-            }
-        }
-
-        public void ToggleHighlight(Boolean isHighlighted)
-        {
-            if (isHighlighted)
-            {
-                foreach (var material in materials)
-                {
-                    //We need to enable the EMISSION
-                    material.EnableKeyword("_EMISSION");
-
-                    //var currentColor = material.color;
-
-                    //before we can set the color
-                    material.SetVector("_EmissionColor", testHighlightColor);
-                }
-
-                //StartCoroutine(gloom());
-            }
-            else
-            {
-                foreach (var material in materials)
-                {
-                    //we can just disable the EMISSION
-                    //if we don't use emission color anywhere else
-                    material.DisableKeyword("_EMISSION");
-                }
             }
         }
 

@@ -13,7 +13,10 @@ namespace Assets.Scripts.Models
         public string Texture { get; set; }
         public string Model { get; set; }
         public Vector3 Rotation { get; set; }
-        public bool Rotatable { get; set; } = true;
-        public bool Selected { get; set; }
+        public Boolean Rotatable { get; set; } = true;
+        public Boolean Selected { get; set; }
+        public Boolean IsPlaceable { get; set; } = true;
+        public Boolean IsPlaced { get; set; }
+        public Int32 CollisionAmount { get; set; }
     }
 }
