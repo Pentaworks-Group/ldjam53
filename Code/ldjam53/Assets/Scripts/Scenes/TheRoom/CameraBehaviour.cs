@@ -11,9 +11,6 @@ namespace Assets.Scripts.Scenes.TheRoom
         public Camera cam;
 
 
-        //Old Values
-        //    private readonly float moveSpeed = 15f;
-        //    private readonly float moveSpeedTouch = 0.125f;
         private readonly float moveSpeed = 10f;
         private readonly float moveSpeedTouch = 0.085f;
         private readonly float moveSpeedMouseDrag = 1f;
@@ -21,8 +18,6 @@ namespace Assets.Scripts.Scenes.TheRoom
         private readonly float zoomSpeedMouse = 20.0f;
         private readonly float zoomSpeedTouch = 0.25f;
 
-        //private readonly float minFov = 15.0f;
-        //private float maxFov = 120.0f;
 
         private (Vector2, Vector2) prevPinch = default;
         private Vector3 clickDown;
@@ -31,7 +26,6 @@ namespace Assets.Scripts.Scenes.TheRoom
         public static int panTimeout { get; private set; } = 0;
         private static bool isMoving { get; set; } = false;
         private static bool isLooking { get; set; } = false;
-        private static bool isZooming { get; set; } = false;
 
 
 
@@ -104,7 +98,8 @@ namespace Assets.Scripts.Scenes.TheRoom
             if (lookX != 0  || lookY != 0)
             {
                 cam.transform.Rotate(new Vector3(-lookY, lookX, 0) * Time.deltaTime * Base.Core.Game.Options.LookSensivity);
-
+                float z = cam.transform.eulerAngles.z;
+                cam.transform.Rotate(0, 0, -z);
             }
         }
 
@@ -113,9 +108,27 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             //// Movement along x, z axis
             // Keys
-            float moveX = Input.GetAxisRaw("Horizontal");
+            float moveX = 0;
 
-            float moveZ = Input.GetAxisRaw("Vertical");
+            float moveZ = 0;
+
+            // Keys
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                moveX = -1;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                moveX = +1;
+            }
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                moveZ = 1;
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                moveZ = -1;
+            }
 
             if (Base.Core.Game.Options.IsMouseScreenEdgeScrollingEnabled)
             {
@@ -188,8 +201,13 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             if (moveX != 0 || moveZ != 0)
             {
-                cam.transform.position += new Vector3(moveX, 0, moveZ) * Time.deltaTime * Base.Core.Game.Options.MoveSensivity;
-
+                //var inputDir = new Vector3(moveX, 0, moveZ);
+                //var moveDir = Vector3.Scale(inputDir, cam.transform.forward);
+                var moveDir = new Vector3(moveX, 0, moveZ);
+                //var moveDir = cam.ViewportToWorldPoint(inputDir);
+                moveDir *= Time.deltaTime * Base.Core.Game.Options.MoveSensivity;
+                //Debug.Log($"moveDir:{moveDir}; forward: {cam.transform.forward}; inputDir: {inputDir}");
+                cam.transform.position += moveDir;
                 return true;
             }
 
@@ -237,10 +255,6 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             if (zoom != 0)
             {
-                //float newView = cam.fieldOfView + zoom * Time.deltaTime * Core.Game.Options.ZoomSensivity;
-                //newView = Mathf.Max(minFov, newView);
-                //newView = Mathf.Min(maxFov, newView);
-                //cam.fieldOfView = newView;
                 Vector3 newCamPos = cam.transform.position + cam.transform.forward * zoom * Time.deltaTime * Base.Core.Game.Options.ZoomSensivity;
                 if (newCamPos.y < 1)
                 {

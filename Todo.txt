@@ -38,6 +38,7 @@ WIP:
 Nice to have:
 ----------------------------------
  - Refactor GameMode Loading (simpler behaviour & move to GameFrame)
+ - clean up camera yaw prevention
  
 Ideas:
 ----------------------------------
