@@ -11,6 +11,7 @@ namespace Assets.Scripts.Constants
         public const String Options = "OptionsScene";
         public const String World = "WorldScene";
         public const String Credits = "CreditsScene";
+        public const String TheRoom = "TheRoom";
 
 
         public static List<String> scenes = new() { MainMenu, SavedGames, Options, Credits, World };
