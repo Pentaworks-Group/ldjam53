@@ -1,5 +1,9 @@
 Todo:
 ----------------------------------
+ Name:
+ - O.W.L - Owls With Luggage
+ 
+ 
  Bugs: 
  - 
  
@@ -7,16 +11,22 @@ Todo:
  - 
  
  Core:
- - 
+ - Load assets from JSON
    
  GamePlay:
- - 
+ - Handle items
+ - Highlight Items
      
  UI: 
+ - Credits
  - 
    
  Audio:
- - 
+ - Background
+ - Ambience
+ - Effects
+   - Owl flying off
+   - dropping an item
   
 Refactoring:
 ----------------------------------
@@ -33,7 +43,7 @@ Ideas:
 ----------------------------------
  - Travel time
  - Time to fit delivery
- - Coins
+ - Coins (Price / reward)
  
  
  
