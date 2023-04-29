@@ -1,18 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Base;
+using Assets.Scripts.Constants;
 using UnityEngine;
 
 public class MainMenuBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void ShowSavedGames()
     {
-        
+        Core.Game.PlayButtonSound();
+        Core.Game.ChangeScene(SceneNames.SavedGames);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowModes()
     {
-        
+        Core.Game.PlayButtonSound();
+        Core.Game.ChangeScene(SceneNames.GameMode);
     }
+
+    public void ShowOptions()
+    {
+        Core.Game.PlayButtonSound();
+        Core.Game.ChangeScene(SceneNames.Options);
+    }
+
+    public void ShowCredits()
+    {
+        Core.Game.PlayButtonSound();
+        Core.Game.ChangeScene(SceneNames.Credits);
+    }
+
+    public void PlayGame()
+    {
+        Core.Game.PlayButtonSound();
+        Core.Game.ChangeScene(SceneNames.Credits);
+    }
+
 }
