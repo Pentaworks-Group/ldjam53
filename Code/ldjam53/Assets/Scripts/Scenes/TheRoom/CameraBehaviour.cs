@@ -201,12 +201,10 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             if (moveX != 0 || moveZ != 0)
             {
-                //var inputDir = new Vector3(moveX, 0, moveZ);
-                //var moveDir = Vector3.Scale(inputDir, cam.transform.forward);
-                var moveDir = new Vector3(moveX, 0, moveZ);
-                //var moveDir = cam.ViewportToWorldPoint(inputDir);
-                moveDir *= Time.deltaTime * Base.Core.Game.Options.MoveSensivity;
-                //Debug.Log($"moveDir:{moveDir}; forward: {cam.transform.forward}; inputDir: {inputDir}");
+                var inputDir = new Vector3(moveX, 0, moveZ);
+                inputDir *= Time.deltaTime * Base.Core.Game.Options.MoveSensivity;
+                var moveDir = cam.transform.TransformDirection(inputDir);
+                moveDir.y = 0;
                 cam.transform.position += moveDir;
                 return true;
             }
