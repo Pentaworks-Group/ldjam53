@@ -12,7 +12,19 @@ namespace Assets.Scripts.Core
 {
     public class Game : GameFrame.Core.Game<GameState, PlayerOptions, SavedGamedPreviewImpl>
     {
-        public IList<GameMode> AvailableGameModes { get; } = new List<GameMode>();
+
+        private IList<GameMode> availableGameModes = new List<GameMode>();
+        public IList<GameMode> AvailableGameModes
+        {
+            get
+            {
+                if (availableGameModes.Count == 0)
+                {
+                    LoadGameSettings();
+                }
+                return availableGameModes;
+            }
+        }
         public GameMode SelectedGameMode { get; set; }
 
         public List<AudioClip> AudioClipListMenu { get; set; }
@@ -75,6 +87,35 @@ namespace Assets.Scripts.Core
         private static void GameStart()
         {
             Base.Core.Game.Startup();
+        }
+
+
+
+        public void LoadGameSettings()
+        {
+            var filePath = Application.streamingAssetsPath + "/GameModes.json";
+            var gameO = new GameObject();
+            var mono = gameO.AddComponent<Scenes.Menues.BaseMenuBehaviour>();
+            mono.StartCoroutine(GameFrame.Core.Json.Handler.DeserializeObjectFromStreamingAssets<List<GameMode>>(filePath, SetGameSettings));
+            GameObject.Destroy(gameO);
+        }
+
+        private List<GameMode> SetGameSettings(List<GameMode> loadedGameModes)
+        {
+            if (loadedGameModes?.Count > 0)
+            {
+                foreach (var gameMode in loadedGameModes)
+                {
+                    availableGameModes.Add(gameMode);
+                }
+            }
+
+            if (SelectedGameMode == default)
+            {
+                SelectedGameMode = loadedGameModes[0];
+            }
+
+            return loadedGameModes;
         }
     }
 }

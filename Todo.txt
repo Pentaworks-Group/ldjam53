@@ -37,7 +37,7 @@ WIP:
  
 Nice to have:
 ----------------------------------
- - 
+ - Refactor GameMode Loading (simpler behaviour & move to GameFrame)
  
 Ideas:
 ----------------------------------

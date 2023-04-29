@@ -3,6 +3,8 @@ using UnityEngine;
 using Assets.Scripts.Models;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using Assets.Scripts.Core;
+using System.IO;
 
 namespace Assets.Scripts.Scenes
 {
@@ -39,28 +41,7 @@ namespace Assets.Scripts.Scenes
 
         public void TestLoad()
         {
-            Room room = new Room();
-            room.Materials = new RoomElement[20, 20, 20];
-            var ix = room.Materials.GetLength(0) - 1;
-            for (int x = 0; x < room.Materials.GetLength(0); x++)
-            {
-                for (int z = 0; z < room.Materials.GetLength(2); z++)
-                {
-                    room.Materials[x, 0, z] = new RoomElement("floor");
-                }
-                for (int y = 0; y < room.Materials.GetLength(1); y++)
-                {
-                    room.Materials[x, y, ix] = new RoomElement("wall xy");
-                }
-            }
-
-            for (int z = 0; z < room.Materials.GetLength(2); z++)
-            {
-                for (int y = 0; y < room.Materials.GetLength(1); y++)
-                {
-                    room.Materials[ix, y, z] = new RoomElement("wall zy");
-                }
-            }
+            var room = Base.Core.Game.AvailableGameModes[0].TheRoom;
             LoadRoom(room);
         }
 
@@ -101,7 +82,7 @@ namespace Assets.Scripts.Scenes
                         if (roomMaterial != default)
                         {
                             var mat = Instantiate(template, template.transform.parent);
-                            mat.name = string.Format("{0} x:{1} y:{2} z:{3}", roomMaterial.texture, x, y, z);
+                            mat.name = string.Format("{0} x:{1} y:{2} z:{3}", roomMaterial.Texture, x, y, z);
                             mat.transform.position = new UnityEngine.Vector3(x, y, z);
                             mat.SetActive(true);
                         }

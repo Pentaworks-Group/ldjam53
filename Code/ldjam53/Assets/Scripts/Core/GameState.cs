@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Models;
+using System;
 using System.Collections.Generic;
 
 
@@ -9,5 +10,7 @@ namespace Assets.Scripts.Core
         public GameMode GameMode { get; set; }
 
         public float ElapsedTime { get; set; }
+
+        public Room TheRoom { get; set; }
     }
 }
