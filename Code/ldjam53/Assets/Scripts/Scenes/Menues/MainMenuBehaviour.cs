@@ -35,5 +35,11 @@ namespace Assets.Scripts.Scenes.Menues
             Base.Core.Game.PlayButtonSound();
             Base.Core.Game.ChangeScene(SceneNames.Credits);
         }
+
+        public void GoToRoom()
+        {
+            Base.Core.Game.PlayButtonSound();
+            Base.Core.Game.ChangeScene(SceneNames.TheRoom);
+        }
     }
 }

@@ -8,6 +8,10 @@ namespace Assets.Scripts.Scenes
     {
         public GameObject template;
 
+        public GameObject ModelBox;
+        public GameObject ModelBoxLong;
+        public GameObject ModelLetter;
+
         private float scale;
 
         public void ToMainMenu()
@@ -51,6 +55,30 @@ namespace Assets.Scripts.Scenes
             LoadRoom(room);
         }
 
+
+        public void LoadBox()
+        {
+            var mat = Instantiate(ModelBox, template.transform.parent);
+            mat.name = "Box";
+            mat.transform.position = new UnityEngine.Vector3(1, 1, 1);
+            mat.SetActive(true);
+        }
+
+        public void LoadBoxLong()
+        {
+            var mat = Instantiate(ModelBoxLong, template.transform.parent);
+            mat.name = "Box";
+            mat.transform.position = new UnityEngine.Vector3(1, 1, 1);
+            mat.SetActive(true);
+        }
+
+        public void LoadLetter()
+        {
+            var mat = Instantiate(ModelLetter, template.transform.parent);
+            mat.name = "Box";
+            mat.transform.position = new UnityEngine.Vector3(1, 1, 1);
+            mat.SetActive(true);
+        }
 
         public void LoadRoom(Room room)
         {

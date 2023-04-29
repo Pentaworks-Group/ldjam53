@@ -16,5 +16,6 @@ namespace Assets.Scripts.Models
         public string texture;
         private string model;
         private string rotation;
+        private bool rotatable = true;
     }
 }
