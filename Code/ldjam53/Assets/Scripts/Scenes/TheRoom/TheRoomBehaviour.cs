@@ -8,7 +8,7 @@ using Assets.Scripts.Scenes.TheRoom;
 
 using UnityEngine;
 
-namespace Assets.Scripts.Scenes
+namespace Assets.Scripts.Scenes.TheRoom
 {
     public class TheRoomBehaviour : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace Assets.Scripts.Scenes
 
         private float scale;
         private Dictionary<string, GameObject> modelDict;
-        private RoomElementBehaviour selectedElement;
+        public RoomElementBehaviour selectedElement;
 
         public void ToMainMenu()
         {
