@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using Assets.Scripts.Core.Definitions;
 using Assets.Scripts.Models;
-using GameFrame.Core.Math;
 
 namespace Assets.Scripts.Core
 {
@@ -9,7 +10,8 @@ namespace Assets.Scripts.Core
     {
         public String Name { get; set; }
         public String Description { get; set; }
-
-        public Room TheRoom { get; set; }
+        public Dictionary<String, RoomType> RoomTypes { get; set; }
+        public Dictionary<String, ElementType> ElementTypes { get; set; }
+        public Dictionary<Guid, LevelDefinition> Levels { get; set; }
     }
 }

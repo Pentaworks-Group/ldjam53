@@ -45,7 +45,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void PlaceSelected()
         {
-            if (selectedElement == default || selectedElement.Element.IsPlaceable)
+            if (selectedElement == default || selectedElement.IsPlaceable)
             {
                 var nextSelected = ChooseNext();
                 AddRoomElement(nextSelected, new UnityEngine.Vector3(1, 1, 1));

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Assets.Scripts.Models;
-
 using GameFrame.Core.UI.List;
 
 namespace Assets.Scripts.Scenes.TheRoom
@@ -17,70 +15,51 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void UpdateList()
         {
-            var items = new List<RoomElement>();
+            var items = new Dictionary<String, RoomElementListItem>();
 
-            if (Base.Core.Game?.State?.CurrentLevel?.Elements?.Count > 0)
+            if (Base.Core.Game?.State?.CurrentLevel?.RemainingElements?.Count > 0)
             {
-                items.AddRange(Base.Core.Game.State.CurrentLevel.Elements);
-            }
-            else
-            {
-                items.Add(new RoomElement("Box")
+                foreach (var item in Base.Core.Game.State.CurrentLevel.RemainingElements)
                 {
-                    Model = "Pack_box_edge",
-                    Rotatable = true,
-                    Rotation = GameFrame.Core.Math.Vector3.Zero,
-                });
-                
-                items.Add(new RoomElement("Box 2")
-                {
-                    Model = "Pack_box_edge",
-                    Rotatable = true,
-                    Rotation = GameFrame.Core.Math.Vector3.Zero,
-                });
-                
-                items.Add(new RoomElement("Box")
-                {
-                    Model = "Pack_box_edge",
-                    Rotatable = true,
-                    Rotation = GameFrame.Core.Math.Vector3.Zero,
-                });
-            }
-
-            var groupedItems = new Dictionary<String, RoomElementListItem>();
-
-            foreach (var item in items)
-            {
-                if (!groupedItems.TryGetValue(item.Texture, out var listItem))
-                {
-                    listItem = new RoomElementListItem()
+                    if (!items.TryGetValue(item.Key, out var listItem))
                     {
-                        Name = item.Texture,
-                        Model = item.Model,
-                        Quantity = 1,
-                        Elements =
-                        {
-                            item
-                        }
-                    };
+                        var elementType = GetElementType(item.Key);
 
-                    groupedItems[listItem.Name] = listItem;
-                }
-                else
-                {
-                    listItem.Quantity++;
-                    listItem.Elements.Add(item);
+                        listItem = new RoomElementListItem()
+                        {
+                            Type = item.Key,
+                            Name = elementType.Name,
+                            IconReference = elementType.IconReference,
+                            Quantity = item.Value,
+                        };
+
+                        items[item.Key] = listItem;
+                    }
+                    else
+                    {
+                        listItem.Quantity++;
+                    }
                 }
             }
 
-            SetContentList(groupedItems.Values.ToList());
+            SetContentList(items.Values.ToList());
         }
 
         public void OnSlotSelected(RoomElementListSlotBehaviour slot)
         {
             Base.Core.Game.PlayButtonSound();
-            
+
             // Do Stuff with slot.. e.g. Spawn & Select.
+        }
+
+        private Core.Definitions.ElementType GetElementType(String elementTypeReference)
+        {
+            if (Base.Core.Game?.State?.GameMode?.ElementTypes?.TryGetValue(elementTypeReference, out var elementType) == true)
+            {
+                return elementType;
+            }
+
+            return default;
         }
     }
 }

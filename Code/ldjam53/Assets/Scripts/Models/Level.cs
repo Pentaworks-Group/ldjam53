@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Models
 {
     public class Level
     {
-        public Room Room { get; set; }
-        public List<RoomElement> Elements { get; set; }
+        public Guid ID { get; set; }
+        public Dictionary<String, Int32> RemainingElements { get; set; }
+        public Room TheRoom { get; set; }
     }
 }

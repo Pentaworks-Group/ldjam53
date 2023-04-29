@@ -6,24 +6,19 @@ namespace Assets.Scripts.Models
 {
     public class RoomElement
     {
-        public RoomElement(String texture)
+        public RoomElement(String name)
         {
-            this.Texture = texture;
+            this.Name = name;
         }
 
-        public String Texture { get; set; }
+        public String Name { get; set; }
+        public String Material { get; set; }
         public String Model { get; set; }
+        public String IconReference { get; set; }
+        public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
         public Boolean Rotatable { get; set; } = true;
         public Boolean Selected { get; set; }
-        public Boolean IsPlaceable { get; set; } = true;
-        public Boolean IsPlaced { get; set; }
         public Int32 CollisionAmount { get; set; }
-
-
-
-
-
-        public String IconReference { get; set; }
     }
 }

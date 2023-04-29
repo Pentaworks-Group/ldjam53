@@ -71,7 +71,7 @@ namespace Assets.Scripts.Core
 
         private void GenerateWorld(GameState gameState)
         {
-
+            
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
