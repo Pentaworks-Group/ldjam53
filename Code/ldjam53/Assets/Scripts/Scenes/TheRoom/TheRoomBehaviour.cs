@@ -22,6 +22,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         public RoomElementBehaviour selectedElement;
         //public GameObject cube;
 
+
         public void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -47,6 +48,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             if (selectedElement == default || selectedElement.IsPlaceable)
             {
+
                 var nextSelected = ChooseNext();
                 AddRoomElement(nextSelected, new UnityEngine.Vector3(1, 1, 1));
             }
