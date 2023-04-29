@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using Assets.Scripts.Constants;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.Models;
-using Assets.Scripts.Scenes.TheRoom;
+
+using GameFrame.Core.Extensions;
 
 using UnityEngine;
 
@@ -12,14 +13,10 @@ namespace Assets.Scripts.Scenes.TheRoom
 {
     public class TheRoomBehaviour : MonoBehaviour
     {
-        private Int32 counter = 0;
+        private readonly Dictionary<String, GameObject> availableModels = new Dictionary<String, GameObject>();
+        private GameObject objectsContainer;
 
         public GameObject template;
-
-        public List<GameObject> models;
-
-        private float scale;
-        private Dictionary<string, GameObject> modelDict;
         public RoomElementBehaviour selectedElement;
 
         public void ToMainMenu()
@@ -30,14 +27,8 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void Awake()
         {
-            RectTransform rt = (RectTransform)template.transform;
-            scale = rt.rect.width;
-            modelDict = new Dictionary<string, GameObject>();
-
-            foreach (var model in models)
-            {
-                modelDict.Add(model.name, model);
-            }
+            this.objectsContainer = transform.Find("ObjectsContainer").gameObject;
+            LoadTemplates();
         }
 
         public void TestLoad()
@@ -55,9 +46,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 Rotation = GameFrame.Core.Math.Vector3.Zero,
             };
 
-            counter++;
-
-            AddRoomElement(box, new Vector3(counter, 1, 1));
+            AddRoomElement(box, new UnityEngine.Vector3(1, 1, 1));
         }
 
         public void LoadBoxLong()
@@ -69,24 +58,19 @@ namespace Assets.Scripts.Scenes.TheRoom
                 Rotation = GameFrame.Core.Math.Vector3.Zero
             };
 
-            counter++;
-
-            AddRoomElement(longBox, new Vector3(counter, 1, 1));
+            AddRoomElement(longBox, new UnityEngine.Vector3(1, 1, 1));
         }
-
 
         public void LoadBroom()
         {
-            var longBox = new RoomElement("LongBox")
+            var longBox = new RoomElement("Broom")
             {
-                Model = "broooom_edge",
+                Model = "Broom_edge",
                 Rotatable = true,
                 Rotation = GameFrame.Core.Math.Vector3.Zero
             };
 
-            counter++;
-
-            AddRoomElement(longBox, new Vector3(counter, 1, 1));
+            AddRoomElement(longBox, new UnityEngine.Vector3(1, 1, 1));
         }
 
         public void LoadLetter()
@@ -98,9 +82,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 Rotation = GameFrame.Core.Math.Vector3.Zero
             };
 
-            counter++;
-
-            AddRoomElement(longBox, new Vector3(counter, 1, 1));
+            AddRoomElement(longBox, new UnityEngine.Vector3(1, 1, 1));
         }
 
         public void LoadRoom(Room room)
@@ -115,7 +97,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
                         if (roomElement != default)
                         {
-                            var mat = Instantiate(template, template.transform.parent);
+                            var mat = Instantiate(template, objectsContainer.transform);
 
                             mat.AddRoomElement(roomElement);
 
@@ -127,18 +109,25 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
-        private void AddRoomElement(RoomElement roomElement, Vector3 position, Boolean setSelected = true)
+        private void AddRoomElement(RoomElement roomElement, UnityEngine.Vector3 position, Boolean setSelected = true)
         {
-            var mat = Instantiate(modelDict[roomElement.Model], template.transform.parent);
-
-            var roomElementBehaviour = mat.AddRoomElement(roomElement);
-
-            mat.transform.position = position;
-            mat.SetActive(true);
-
-            if (setSelected)
+            if (roomElement.Model.HasValue() && availableModels.TryGetValue(roomElement.Model, out var modelTemplate))
             {
-                SetSelectedElement(roomElementBehaviour);
+                var mat = Instantiate(modelTemplate, objectsContainer.transform);
+
+                var roomElementBehaviour = mat.AddRoomElement(roomElement);
+
+                mat.transform.position = position;
+                mat.SetActive(true);
+
+                if (setSelected)
+                {
+                    SetSelectedElement(roomElementBehaviour);
+                }
+            }
+            else
+            {
+
             }
         }
 
@@ -153,6 +142,37 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             this.selectedElement.SetSelected(true);
         }
+
+        private void LoadTemplates()
+        {
+            var templateConatiner = transform.Find("Templates");
+
+            if (templateConatiner != default)
+            {
+                LoadTemplates(this.availableModels, templateConatiner, "Objects");
+            }
+        }
+
+        private void LoadTemplates<T>(IDictionary<String, T> cache, Transform rootTemplateContainer, String templateContainerName)
+        {
+            var templateGameObjects = rootTemplateContainer.transform.Find(templateContainerName).gameObject;
+
+            if (templateGameObjects.transform.childCount > 0)
+            {
+                foreach (Transform buildingTemplate in templateGameObjects.transform)
+                {
+                    if (buildingTemplate.gameObject is T castedObject)
+                    {
+                        cache[buildingTemplate.name] = castedObject;
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception($"Missing '{templateContainerName}' templates!");
+            }
+        }
+
 
 
         //private void LateUpdate()
@@ -175,5 +195,6 @@ namespace Assets.Scripts.Scenes.TheRoom
         //    }
 
         //}
+
     }
 }
