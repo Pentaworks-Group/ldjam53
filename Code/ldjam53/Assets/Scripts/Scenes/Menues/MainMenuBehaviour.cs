@@ -2,36 +2,40 @@ using Assets.Scripts.Base;
 using Assets.Scripts.Constants;
 using UnityEngine;
 
-public class MainMenuBehaviour : MonoBehaviour
+
+namespace Assets.Scripts.Scenes.Menues
 {
-    public void ShowSavedGames()
+    public class MainMenuBehaviour : MonoBehaviour
     {
-        Core.Game.PlayButtonSound();
-        Core.Game.ChangeScene(SceneNames.SavedGames);
-    }
+        public void ShowSavedGames()
+        {
+            Base.Core.Game.PlayButtonSound();
+            Base.Core.Game.ChangeScene(SceneNames.SavedGames);
+        }
 
-    public void ShowModes()
-    {
-        Core.Game.PlayButtonSound();
-        Core.Game.ChangeScene(SceneNames.GameMode);
-    }
+        public void ShowModes()
+        {
+            Base.Core.Game.PlayButtonSound();
+            Base.Core.Game.ChangeScene(SceneNames.GameMode);
+        }
 
-    public void ShowOptions()
-    {
-        Core.Game.PlayButtonSound();
-        Core.Game.ChangeScene(SceneNames.Options);
-    }
+        public void ShowOptions()
+        {
+            Base.Core.Game.PlayButtonSound();
+            Base.Core.Game.ChangeScene(SceneNames.Options);
+        }
 
-    public void ShowCredits()
-    {
-        Core.Game.PlayButtonSound();
-        Core.Game.ChangeScene(SceneNames.Credits);
-    }
+        public void ShowCredits()
+        {
+            Base.Core.Game.PlayButtonSound();
+            Base.Core.Game.ChangeScene(SceneNames.Credits);
+        }
 
-    public void PlayGame()
-    {
-        Core.Game.PlayButtonSound();
-        Core.Game.ChangeScene(SceneNames.Credits);
-    }
+        public void PlayGame()
+        {
+            Base.Core.Game.PlayButtonSound();
+            Base.Core.Game.ChangeScene(SceneNames.Credits);
+        }
 
+    }
 }

@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Assets.Scripts.Scenes
+namespace Assets.Scripts.Scenes.Menues
 {
     public class BaseMenuBehaviour : MonoBehaviour
     {
