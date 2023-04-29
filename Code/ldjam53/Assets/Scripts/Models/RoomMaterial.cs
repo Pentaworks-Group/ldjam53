@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GameFrame.Core.Math;
 
 namespace Assets.Scripts.Models
 {
@@ -13,9 +10,9 @@ namespace Assets.Scripts.Models
             this.texture = texture;
         }
 
-        public string texture;
-        private string model;
-        private string rotation;
-        private bool rotatable = true;
-    }
+        public string texture { get; set; }
+        public string model { get; set; }
+        public Vector3 rotation { get; set; }
+        public bool rotatable { get; set; } = true;
+}
 }
