@@ -1,21 +1,26 @@
-using Assets.Scripts.Constants;
-using UnityEngine;
-using Assets.Scripts.Models;
+using System;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
+
+using Assets.Scripts.Constants;
+using Assets.Scripts.Extensions;
+using Assets.Scripts.Models;
+using Assets.Scripts.Scenes.TheRoom;
+
+using UnityEngine;
 
 namespace Assets.Scripts.Scenes
 {
     public class TheRoomBehaviour : MonoBehaviour
     {
+        private Int32 counter = 0;
+
         public GameObject template;
 
         public List<GameObject> models;
 
         private float scale;
         private Dictionary<string, GameObject> modelDict;
-        private GameObject selectedObject;
-
+        private RoomElementBehaviour selectedElement;
 
         public void ToMainMenu()
         {
@@ -23,25 +28,27 @@ namespace Assets.Scripts.Scenes
             Base.Core.Game.ChangeScene(SceneNames.MainMenu);
         }
 
-
         public void Awake()
         {
             RectTransform rt = (RectTransform)template.transform;
             scale = rt.rect.width;
             modelDict = new Dictionary<string, GameObject>();
+
             foreach (var model in models)
             {
                 modelDict.Add(model.name, model);
             }
         }
 
-
-
         public void TestLoad()
         {
-            Room room = new Room();
-            room.Materials = new RoomElement[20, 20, 20];
+            Room room = new Room
+            {
+                Materials = new RoomElement[20, 20, 20]
+            };
+
             var ix = room.Materials.GetLength(0) - 1;
+
             for (int x = 0; x < room.Materials.GetLength(0); x++)
             {
                 for (int z = 0; z < room.Materials.GetLength(2); z++)
@@ -61,32 +68,50 @@ namespace Assets.Scripts.Scenes
                     room.Materials[ix, y, z] = new RoomElement("wall zy");
                 }
             }
+
             LoadRoom(room);
         }
 
-
         public void LoadBox()
         {
-            var mat = Instantiate(modelDict["Pack_box"], template.transform.parent);
-            mat.name = "Box";
-            mat.transform.position = new UnityEngine.Vector3(1, 1, 1);
-            mat.SetActive(true);
+            var box = new RoomElement("BoxDefault")
+            {
+                Model = "Test",
+                Rotatable = true,
+                Rotation = GameFrame.Core.Math.Vector3.Zero,
+            };
+
+            counter++;
+
+            AddRoomElement(box, new Vector3(counter, 1, 1));
         }
 
         public void LoadBoxLong()
         {
-            var mat = Instantiate(modelDict["Pack_box_long"], template.transform.parent);
-            mat.name = "Box";
-            mat.transform.position = new UnityEngine.Vector3(1, 1, 1);
-            mat.SetActive(true);
+            var longBox = new RoomElement("LongBox")
+            {
+                Model = "Pack_box_long",
+                Rotatable = true,
+                Rotation = GameFrame.Core.Math.Vector3.Zero
+            };
+
+            counter++;
+
+            AddRoomElement(longBox, new Vector3(counter, 1, 1));
         }
 
         public void LoadLetter()
         {
-            var mat = Instantiate(modelDict["Pack_letter"], template.transform.parent);
-            mat.name = "Box";
-            mat.transform.position = new UnityEngine.Vector3(1, 1, 1);
-            mat.SetActive(true);
+            var longBox = new RoomElement("Letter")
+            {
+                Model = "Pack_letter",
+                Rotatable = true,
+                Rotation = GameFrame.Core.Math.Vector3.Zero
+            };
+
+            counter++;
+
+            AddRoomElement(longBox, new Vector3(counter, 1, 1));
         }
 
         public void LoadRoom(Room room)
@@ -97,17 +122,47 @@ namespace Assets.Scripts.Scenes
                 {
                     for (int z = 0; z < room.Materials.GetLength(2); z++)
                     {
-                        var roomMaterial = room.Materials[x, y, z];
-                        if (roomMaterial != default)
+                        var roomElement = room.Materials[x, y, z];
+
+                        if (roomElement != default)
                         {
                             var mat = Instantiate(template, template.transform.parent);
-                            mat.name = string.Format("{0} x:{1} y:{2} z:{3}", roomMaterial.texture, x, y, z);
+
+                            mat.AddRoomElement(roomElement);
+
                             mat.transform.position = new UnityEngine.Vector3(x, y, z);
                             mat.SetActive(true);
                         }
                     }
                 }
             }
+        }
+
+        private void AddRoomElement(RoomElement roomElement, Vector3 position, Boolean setSelected = true)
+        {
+            var mat = Instantiate(modelDict[roomElement.Model], template.transform.parent);
+
+            var roomElementBehaviour = mat.AddRoomElement(roomElement);
+
+            mat.transform.position = position;
+            mat.SetActive(true);
+
+            if (setSelected)
+            {
+                SetSelectedElement(roomElementBehaviour);
+            }
+        }
+
+        private void SetSelectedElement(RoomElementBehaviour roomElementBehaviour)
+        {
+            if (this.selectedElement != null)
+            {
+                this.selectedElement.SetSelected(false);
+            }
+
+            this.selectedElement = roomElementBehaviour;
+
+            this.selectedElement.SetSelected(true);
         }
 
 
@@ -124,7 +179,7 @@ namespace Assets.Scripts.Scenes
         //                if (raycastHit.transform.gameObject != null)
         //                {
         //                    selectedObject = raycastHit.transform.gameObject;        
-                            
+
         //                }
         //            }
         //        }
