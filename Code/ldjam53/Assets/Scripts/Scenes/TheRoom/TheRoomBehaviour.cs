@@ -71,7 +71,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             int sizeX = 12;
             int sizeY = 12;
-            int sizeZ = 12;
+            int sizeZ = 26;
             Room room = new Room
             {
                 Materials = new RoomElement[sizeX, sizeY, sizeZ]
