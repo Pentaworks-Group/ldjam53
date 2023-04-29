@@ -46,7 +46,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void PlaceSelected()
         {
-            if (selectedElement == default || selectedElement.Element.IsPlaceable)
+            if (selectedElement == default || selectedElement.IsPlaceable)
             {
 
                 var nextSelected = ChooseNext();

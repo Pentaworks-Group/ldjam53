@@ -16,25 +16,25 @@ namespace Assets.Scripts.Scenes.TheRoom
         
         private readonly List<Material> materials = new List<Material>();
                 
-        private RoomElement roomElement;
+        private RoomElementBehaviour roomElementBehaviour;
         
-        public void SetElement(RoomElement roomElement)
+        public void SetElement(RoomElementBehaviour roomElementBehaviour)
         {
-            if (roomElement == default)
+            if (roomElementBehaviour == default)
             {
-                throw new ArgumentNullException(nameof(roomElement));
+                throw new ArgumentNullException(nameof(roomElementBehaviour));
             }
 
-            this.roomElement = roomElement;
+            this.roomElementBehaviour = roomElementBehaviour;
         }
 
         public void UpdateHightlight()
         {
-            if (!this.roomElement.IsPlaceable)
+            if (!this.roomElementBehaviour.IsPlaceable)
             {
                 EnableEmission(notPlaceableColor);
             }
-            else if (this.roomElement.Selected)
+            else if (this.roomElementBehaviour.Element.Selected)
             {
                 EnableEmission(selectedColor);
             }

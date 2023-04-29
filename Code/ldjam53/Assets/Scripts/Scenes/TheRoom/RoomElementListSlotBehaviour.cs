@@ -25,11 +25,11 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public override void UpdateUI()
         {
-            if (currentIcon != content.Model)
+            if (currentIcon != content.IconReference)
             {
-                currentIcon = content.Model;
+                currentIcon = content.IconReference;
 
-                var icon = GameFrame.Base.Resources.Manager.Sprites.Get(content.Model);
+                var icon = GameFrame.Base.Resources.Manager.Sprites.Get(content.IconReference);
 
                 if (icon != null)
                 {

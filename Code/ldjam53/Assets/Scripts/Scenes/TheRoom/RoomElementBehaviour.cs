@@ -19,6 +19,15 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
+        private Boolean isPlaceable;
+        public Boolean IsPlaceable
+        {
+            get
+            {
+                return this.isPlaceable;
+            }
+        }
+
         public void SetElement(RoomElement roomElement)
         {
             if (roomElement == default)
@@ -28,9 +37,9 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             this.element = roomElement;
 
-            this.name = roomElement.Texture;
+            this.name = roomElement.Name;
             this.highlightBehaviour = this.gameObject.AddComponent<HighlightBehaviour>();
-            this.highlightBehaviour.SetElement(roomElement);
+            this.highlightBehaviour.SetElement(this);
         }
 
         public void SetSelected(Boolean isSelected)
@@ -59,7 +68,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             if (this.element.Selected)
             {
-                this.element.IsPlaceable = hasCollisions;
+                this.isPlaceable = hasCollisions;
             }
 
             this.highlightBehaviour.UpdateHightlight();
