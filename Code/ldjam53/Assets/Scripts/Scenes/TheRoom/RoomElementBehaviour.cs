@@ -55,11 +55,11 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private void UpdateIsPlaceable()
         {
-            var isPlaceable = this.element.CollisionAmount < 1;
+            var hasCollisions = this.element.CollisionAmount < 1;
 
             if (this.element.Selected)
             {
-                this.element.IsPlaceable = isPlaceable;                
+                this.element.IsPlaceable = hasCollisions;
             }
 
             this.highlightBehaviour.UpdateHightlight();

@@ -51,8 +51,6 @@ namespace Assets.Scripts.Scenes.TheRoom
                 //We need to enable the EMISSION
                 material.EnableKeyword("_EMISSION");
 
-                //var currentColor = material.color;
-
                 //before we can set the color
                 material.SetVector("_EmissionColor", emissionColor);
             }
