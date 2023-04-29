@@ -101,6 +101,8 @@ public class OptionsMenuBehaviour : MonoBehaviour
 
     public void SaveOptions()
     {
+        Core.Game.PlayButtonSound();
+
         Core.Game.SaveOptions();
     }
 
