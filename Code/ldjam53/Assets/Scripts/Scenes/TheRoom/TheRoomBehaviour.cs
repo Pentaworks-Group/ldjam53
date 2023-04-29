@@ -50,7 +50,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             var box = new RoomElement("BoxDefault")
             {
-                Model = "Pack_box",
+                Model = "Pack_box_edge",
                 Rotatable = true,
                 Rotation = GameFrame.Core.Math.Vector3.Zero,
             };
@@ -64,7 +64,22 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             var longBox = new RoomElement("LongBox")
             {
-                Model = "Pack_box_long",
+                Model = "Pack_box_long_edge",
+                Rotatable = true,
+                Rotation = GameFrame.Core.Math.Vector3.Zero
+            };
+
+            counter++;
+
+            AddRoomElement(longBox, new Vector3(counter, 1, 1));
+        }
+
+
+        public void LoadBroom()
+        {
+            var longBox = new RoomElement("LongBox")
+            {
+                Model = "broooom_edge",
                 Rotatable = true,
                 Rotation = GameFrame.Core.Math.Vector3.Zero
             };
@@ -78,7 +93,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             var longBox = new RoomElement("Letter")
             {
-                Model = "Pack_letter",
+                Model = "Pack_letter_edge",
                 Rotatable = true,
                 Rotation = GameFrame.Core.Math.Vector3.Zero
             };
