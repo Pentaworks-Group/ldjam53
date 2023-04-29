@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
 
 using Assets.Scripts.Constants;
-
-using GameFrame.Core.Audio.Continuous;
-using GameFrame.Core.Audio.Multi;
 
 using UnityEngine;
 
@@ -26,11 +22,6 @@ namespace Assets.Scripts.Core
             }
         }
         public GameMode SelectedGameMode { get; set; }
-
-        public List<AudioClip> AudioClipListMenu { get; set; }
-        public List<AudioClip> AudioClipListGame { get; set; }
-        public List<AudioClip> AmbientClipList { get; set; }
-        public List<String> AmbientEffectsClipList { get; set; }
 
         public bool LockCameraMovement { get; set; } = false;
 
@@ -70,12 +61,12 @@ namespace Assets.Scripts.Core
         {
             base.OnGameStart();
 
-            var backgroundClips = new List<AudioClip>()
-            {
-                GameFrame.Base.Resources.Manager.Audio.Get("Background_Music_1"),
-            };
+            //var backgroundClips = new List<AudioClip>()
+            //{
+            //    GameFrame.Base.Resources.Manager.Audio.Get("Background_Music_1"),
+            //};
 
-            GameFrame.Base.Audio.Background.Play(backgroundClips);
+            //GameFrame.Base.Audio.Background.Play(backgroundClips);
         }
 
         private void GenerateWorld(GameState gameState)
