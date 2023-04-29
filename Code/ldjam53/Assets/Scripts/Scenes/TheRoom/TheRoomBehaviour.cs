@@ -20,6 +20,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         public GameObject template; 
         public Camera sceneCamera;
         public RoomElementBehaviour selectedElement;
+        //public GameObject cube;
 
         public void ToMainMenu()
         {
@@ -39,6 +40,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             //var room = BuildRoom();
             LoadRoom(room);
         }
+
 
         private Room BuildRoom()
         {
@@ -133,6 +135,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void LoadRoom(Room room)
         {
+            //List<GameObject> wallObjects = new List<GameObject>();
             for (int x = 0; x < room.Materials.GetLength(0); x++)
             {
                 for (int y = 0; y < room.Materials.GetLength(1); y++)
@@ -149,12 +152,41 @@ namespace Assets.Scripts.Scenes.TheRoom
                             mat.AddComponent<BoundsCalculationBehaviour>();
                             mat.transform.position = new UnityEngine.Vector3(x, y, z);
                             mat.SetActive(true);
+                            //if (roomElement.Texture == "Wall")
+                            //{
+                            //    wallObjects.Add(mat);
+                            //}
                         }
                     }
                 }
             }
+            //MergeWallMeshes(wallObjects);
             AdjustCamera();
         }
+
+
+
+        //private void MergeWallMeshes(List<GameObject> wallObjects)
+        //{
+
+        //    //MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+        //    CombineInstance[] combine = new CombineInstance[wallObjects.Count];
+
+        //    int i = 0;
+        //    while (i < wallObjects.Count)
+        //    {
+        //        combine[i].mesh = wallObjects[i].GetComponent<MeshFilter>().sharedMesh;
+        //        combine[i].transform = wallObjects[i].transform.localToWorldMatrix;
+        //        wallObjects[i].gameObject.SetActive(false);
+
+        //        i++;
+        //    }
+
+        //    Mesh mesh = new Mesh();
+        //    mesh.CombineMeshes(combine);
+        //    cube.transform.GetComponent<MeshFilter>().sharedMesh = mesh;
+        //    //transform.gameObject.SetActive(true);
+        //}
 
         private void AddRoomElement(RoomElement roomElement, UnityEngine.Vector3 position, Boolean setSelected = true)
         {
