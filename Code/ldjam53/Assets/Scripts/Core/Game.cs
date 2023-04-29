@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Assets.Scripts.Constants;
+using Assets.Scripts.Core.Definitions;
 
 using UnityEngine;
 
@@ -9,7 +12,7 @@ namespace Assets.Scripts.Core
     public class Game : GameFrame.Core.Game<GameState, PlayerOptions, SavedGamedPreviewImpl>
     {
 
-        private IList<GameMode> availableGameModes = new List<GameMode>();
+        private readonly IList<GameMode> availableGameModes = new List<GameMode>();
         public IList<GameMode> AvailableGameModes
         {
             get
@@ -18,9 +21,11 @@ namespace Assets.Scripts.Core
                 {
                     LoadGameSettings();
                 }
+
                 return availableGameModes;
             }
         }
+
         public GameMode SelectedGameMode { get; set; }
 
         public bool LockCameraMovement { get; set; } = false;
@@ -39,7 +44,7 @@ namespace Assets.Scripts.Core
                 GameMode = this.SelectedGameMode
             };
 
-            GenerateWorld(gameState);
+            GenerateLevel(gameState);
 
             return gameState;
         }
@@ -69,9 +74,37 @@ namespace Assets.Scripts.Core
             //GameFrame.Base.Audio.Background.Play(backgroundClips);
         }
 
-        private void GenerateWorld(GameState gameState)
+        private void GenerateLevel(GameState gameState)
         {
-            
+            if (gameState.GameMode.Levels.Count > 0)
+            {
+                var levelDefinition = gameState.GameMode.Levels.FirstOrDefault();
+
+                var level = new Models.Level()
+                {
+                    ID = levelDefinition.ID,
+                    RemainingElements = GenerateRemainingElements(levelDefinition),
+                    TheRoom = new Models.Room()
+                };
+
+                gameState.CurrentLevel = level;
+            }
+            else
+            {
+                throw new System.Exception("Failed to generate Level from LevelDefinition!");
+            }
+        }
+
+        private Dictionary<String, Int32> GenerateRemainingElements(LevelDefinition levelDefinition)
+        {
+            var remainingElements = new Dictionary<String, Int32>();
+
+            foreach (var item in levelDefinition.Elements)
+            {
+                remainingElements[item.Key] = item.Value;
+            }
+
+            return remainingElements;
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -79,8 +112,6 @@ namespace Assets.Scripts.Core
         {
             Base.Core.Game.Startup();
         }
-
-
 
         public void LoadGameSettings()
         {

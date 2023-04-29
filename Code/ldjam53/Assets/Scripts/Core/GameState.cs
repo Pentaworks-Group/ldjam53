@@ -6,9 +6,6 @@ namespace Assets.Scripts.Core
     {
         public float ElapsedTime { get; set; }
         public GameMode GameMode { get; set; }
-
-
-
         public Level CurrentLevel { get; set; }
     }
 }
