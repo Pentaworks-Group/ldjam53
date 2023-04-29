@@ -42,33 +42,7 @@ namespace Assets.Scripts.Scenes
 
         public void TestLoad()
         {
-            Room room = new Room
-            {
-                Materials = new RoomElement[20, 20, 20]
-            };
-
-            var ix = room.Materials.GetLength(0) - 1;
-
-            for (int x = 0; x < room.Materials.GetLength(0); x++)
-            {
-                for (int z = 0; z < room.Materials.GetLength(2); z++)
-                {
-                    room.Materials[x, 0, z] = new RoomElement("floor");
-                }
-                for (int y = 0; y < room.Materials.GetLength(1); y++)
-                {
-                    room.Materials[x, y, ix] = new RoomElement("wall xy");
-                }
-            }
-
-            for (int z = 0; z < room.Materials.GetLength(2); z++)
-            {
-                for (int y = 0; y < room.Materials.GetLength(1); y++)
-                {
-                    room.Materials[ix, y, z] = new RoomElement("wall zy");
-                }
-            }
-
+            var room = Base.Core.Game.AvailableGameModes[0].TheRoom;
             LoadRoom(room);
         }
 
