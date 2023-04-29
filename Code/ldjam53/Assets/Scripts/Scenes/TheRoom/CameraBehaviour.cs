@@ -219,11 +219,11 @@ namespace Assets.Scripts.Scenes.TheRoom
             float zoom = 0.0f;
 
             // Keys
-            if (Input.GetKey(KeyCode.Q))
+            if (Input.GetKey(KeyCode.PageUp))
             {
                 zoom = -zoomSpeed;
             }
-            else if (Input.GetKey(KeyCode.E))
+            else if (Input.GetKey(KeyCode.PageDown))
             {
                 zoom = zoomSpeed;
             }

@@ -22,6 +22,14 @@ namespace Assets.Scripts.Scenes.TheRoom
         public RoomElementBehaviour selectedElement;
         //public GameObject cube;
 
+        public void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                PlaceSelected();
+            }
+        }
+
         public void ToMainMenu()
         {
             Base.Core.Game.PlayButtonSound();
@@ -34,19 +42,36 @@ namespace Assets.Scripts.Scenes.TheRoom
             LoadTemplates();
         }
 
+
+        public void PlaceSelected()
+        {
+            if (selectedElement == default || selectedElement.Element.IsPlaceable)
+            {
+                var nextSelected = ChooseNext();
+                AddRoomElement(nextSelected, new UnityEngine.Vector3(1, 1, 1));
+            }
+        }
+
+        public RoomElement ChooseNext()
+        {
+            List<RoomElement> elements = GetPossibleRoomElements();
+            var rndElement = elements.GetRandomEntry();
+            return rndElement;
+        }
+
         public void TestLoad()
         {
-            var room = Base.Core.Game.AvailableGameModes[0].TheRoom;
-            //var room = BuildRoom();
+            //var room = Base.Core.Game.AvailableGameModes[0].TheRoom;
+            var room = BuildRoom();
             LoadRoom(room);
         }
 
 
         private Room BuildRoom()
         {
-            int sizeX = 10;
-            int sizeY = 10;
-            int sizeZ = 10;
+            int sizeX = 12;
+            int sizeY = 12;
+            int sizeZ = 12;
             Room room = new Room
             {
                 Materials = new RoomElement[sizeX, sizeY, sizeZ]
@@ -83,6 +108,44 @@ namespace Assets.Scripts.Scenes.TheRoom
             StreamWriter writer = new StreamWriter(filePath, true);
             writer.Write(json);
             writer.Close();
+        }
+
+        private List<RoomElement> GetPossibleRoomElements()
+        {
+            List<RoomElement> elements = new List<RoomElement>();
+            var box = new RoomElement("BoxDefault")
+            {
+                Model = "Pack_box_edge",
+                Rotatable = true,
+                Rotation = GameFrame.Core.Math.Vector3.Zero,
+            };
+            elements.Add(box);
+
+            var longBox = new RoomElement("LongBox")
+            {
+                Model = "Pack_box_long_edge",
+                Rotatable = true,
+                Rotation = GameFrame.Core.Math.Vector3.Zero
+            };
+            elements.Add(longBox);
+
+            var broom = new RoomElement("Broom")
+            {
+                Model = "Broom_edge",
+                Rotatable = true,
+                Rotation = GameFrame.Core.Math.Vector3.Zero
+            };
+            elements.Add(broom);
+
+            var letter = new RoomElement("Letter")
+            {
+                Model = "Pack_letter_edge",
+                Rotatable = true,
+                Rotation = GameFrame.Core.Math.Vector3.Zero
+            };
+            elements.Add(letter);
+
+            return elements;
         }
 
         public void LoadBox()

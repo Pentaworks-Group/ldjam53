@@ -39,14 +39,6 @@ namespace Assets.Scripts.Scenes.TheRoom
             this.highlightBehaviour.UpdateHightlight();
         }
 
-        private void Start()
-        {
-        }
-
-        private void Update()
-        {
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             this.element.CollisionAmount++;
