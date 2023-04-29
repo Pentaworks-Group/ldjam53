@@ -18,5 +18,11 @@ namespace Assets.Scripts.Models
         public Boolean IsPlaceable { get; set; } = true;
         public Boolean IsPlaced { get; set; }
         public Int32 CollisionAmount { get; set; }
+
+
+
+
+
+        public String IconReference { get; set; }
     }
 }
