@@ -76,7 +76,7 @@ namespace Assets.Scripts.Scenes
         {
             var box = new RoomElement("BoxDefault")
             {
-                Model = "Test",
+                Model = "Pack_box",
                 Rotatable = true,
                 Rotation = GameFrame.Core.Math.Vector3.Zero,
             };

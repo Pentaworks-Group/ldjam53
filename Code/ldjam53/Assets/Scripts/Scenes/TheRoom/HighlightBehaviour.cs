@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -7,7 +8,9 @@ namespace Assets.Scripts.Scenes.TheRoom
 {
     public class HighlightBehaviour : MonoBehaviour
     {
-        private static Color highlightColor = new Color(1, 0.4f, 0.7f, 1);
+        private const float INTENSITY = 0.4f;
+
+        private static Vector4 testHighlightColor = new Vector4(1 * INTENSITY, 0.4f * INTENSITY, 0.7f * INTENSITY, 1);
 
         private readonly List<Material> materials = new List<Material>();
 
@@ -29,9 +32,14 @@ namespace Assets.Scripts.Scenes.TheRoom
                 {
                     //We need to enable the EMISSION
                     material.EnableKeyword("_EMISSION");
+
+                    //var currentColor = material.color;
+
                     //before we can set the color
-                    material.SetColor("_EmissionColor", highlightColor);
+                    material.SetVector("_EmissionColor", testHighlightColor);
                 }
+
+                //StartCoroutine(gloom());
             }
             else
             {
@@ -43,5 +51,40 @@ namespace Assets.Scripts.Scenes.TheRoom
                 }
             }
         }
+
+        //private IEnumerator gloom()
+        //{
+        //    float i;
+
+        //    while (true)
+        //    {
+        //        i = 0;
+        //        while (i < 1)
+        //        {
+        //            currentColor = Vector3.Lerp(baseColor, offColor, i);
+        //            print(currentColor);
+        //            g.SetColor("_Color", currentColor);
+        //            yield return new WaitForSeconds(.05f);
+        //            i += 0.2f;
+
+        //        }
+        //        i = 1;
+        //        g.SetColor("_Color", offColor);
+        //        yield return new WaitForSeconds(.1f);
+        //        while (i > 0)
+        //        {
+
+        //            currentColor = Vector3.Lerp(baseColor, offColor, i);
+        //            print(currentColor);
+        //            g.SetColor("_Color", currentColor);
+        //            yield return new WaitForSeconds(.05f);
+        //            i -= 0.2f;
+
+        //        }
+        //        g.SetColor("_Color", baseColor);
+        //        yield return new WaitForSeconds(.5f);
+        //    }
+
+        //}
     }
 }
