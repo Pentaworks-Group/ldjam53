@@ -93,6 +93,11 @@ namespace Assets.Scripts.Scenes.TheRoom
         private void SpawnRandomFromRemainingElement()
         {
             var remainingElements = Base.Core.Game.State.CurrentLevel.RemainingElements;
+            if (remainingElements.Count < 1)
+            {
+                LevelCompleted();
+                return;
+            }
             List<String> elements = new List<String>(remainingElements.Keys);
             var rndKey = elements.GetRandomEntry();
             remainingElements[rndKey]--;
@@ -103,6 +108,11 @@ namespace Assets.Scripts.Scenes.TheRoom
             SpawnFromKey(rndKey);
         }
 
+
+        private void LevelCompleted()
+        {
+            Debug.Log("Level Completed");
+        }
 
 
         public void BuildRoom()
