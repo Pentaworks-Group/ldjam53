@@ -8,7 +8,7 @@
                 "ID": "e19cc835-4c50-4618-b15f-79db42a7b802",
                 "Name": "There is always a first time",
                 "RoomReference": "Cask",
-                "IsSelectionRandom": true,
+                "IsSelectionRandom": false,
                 "Elements": {
                     "Broom": 5,
                     "BoxLong": 5,
