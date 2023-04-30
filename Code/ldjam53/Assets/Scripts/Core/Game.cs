@@ -92,6 +92,7 @@ namespace Assets.Scripts.Core
             };
 
             GameFrame.Base.Audio.Background.Play(AudioClipListMenu);
+            LoadGameSettings();
         }
 
         private void GenerateLevel(GameState gameState)

@@ -29,11 +29,11 @@ namespace Assets.Scripts.Scenes.TheRoom
                     }
                     else if (Input.GetKey(KeyCode.A))
                     {
-                        Move(new Vector3(0, 0, -1));
+                        Move(new Vector3(0, 0, 1));
                     }
                     else if (Input.GetKey(KeyCode.D))
                     {
-                        Move(new Vector3(0, 0, 1));
+                        Move(new Vector3(0, 0, -1));
                     }
                     else if (Input.GetKey(KeyCode.Q))
                     {
