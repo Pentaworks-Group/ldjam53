@@ -82,13 +82,15 @@ namespace Assets.Scripts.Scenes.TheRoom
             return true;
         }
 
+ 
+
         public void UpdateIsPlaceable()
         {
             var hasCollisions = this.element.CollisionAmount < 1;
 
             if (this.element.Selected)
             {
-                this.isPlaceable = hasCollisions && IsInBound();
+                this.isPlaceable = hasCollisions && IsInBound() && theRoomBehaviour.IsInEmptySpace(transform.position);
             }
 
             this.highlightBehaviour.UpdateHightlight();

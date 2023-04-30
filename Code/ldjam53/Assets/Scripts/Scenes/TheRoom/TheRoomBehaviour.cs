@@ -25,6 +25,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         private UnityEngine.Vector3 spawn = new UnityEngine.Vector3(2, 2, 2);
         public RoomType CurrentRoomType { get; private set; }
 
+        private Boolean[,,] roomPlacements;
 
 
         public void Awake()
@@ -60,6 +61,11 @@ namespace Assets.Scripts.Scenes.TheRoom
             {
                 Base.Core.Game.PlayButtonSound();
                 var level = GetCurrentLevelDefinition();
+                if (selectedElement != default)
+                {
+                    roomPlacements[(int)selectedElement.transform.position.x, (int)selectedElement.transform.position.y, (int)selectedElement.transform.position.z] = true;
+                }
+                
 
                 if (level.IsSelectionRandom)
                 {
@@ -78,6 +84,11 @@ namespace Assets.Scripts.Scenes.TheRoom
             {
                 GameFrame.Base.Audio.Effects.Play("Error");
             }
+        }
+
+        public bool IsInEmptySpace(UnityEngine.Vector3 position)
+        {
+            return !roomPlacements[(int)position.x, (int)position.y, (int)position.z];
         }
 
         public void SpawnFromKey(String key)
@@ -208,6 +219,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             CurrentRoomType = GetRoomTypeByLevelId();
             spawn = new UnityEngine.Vector3(CurrentRoomType.Size.X / 2, CurrentRoomType.Size.Y + 1, CurrentRoomType.Size.Z /2);
+            roomPlacements = new Boolean[(int)CurrentRoomType.Size.X, (int)CurrentRoomType.Size.Y, (int)CurrentRoomType.Size.Z];
             foreach (var wallElem in CurrentRoomType.WallElements)
             {
                 availableModels.TryGetValue(wallElem.Model, out var modelTemplate);
@@ -238,6 +250,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             mat.AddComponent<BoundsCalculationBehaviour>();
             mat.transform.position = position.ToUnity();
             mat.SetActive(true);
+            roomPlacements[(int)position.X, (int)position.Y, (int)position.Z] = true;
         }
 
         private RoomType GetRoomTypeByLevelId()
