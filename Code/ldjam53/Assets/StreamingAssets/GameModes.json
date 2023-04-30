@@ -33,17 +33,17 @@
                 ]
             },
             "BoxLong": {
-                "Name": "Box_Long",
+                "Name": "Box Long",
                 "IconReference": "2d_Longbox",
                 "Models": [
                     "Pack_box_long_edge"
                 ]
             },
             "Letter": {
-                "Name": "Letter",
+                "Name": "Letterbox",
                 "IconReference": "2d_Letters",
                 "Models": [
-                    "Pack_letter_edge"
+                    "Pack_Letterbox"
                 ]
             }
         },
@@ -57,7 +57,7 @@
                 },
                 "WallElements": [
                     {
-                        "Model": "Singleblock",
+                        "Model": "Wall",
                         "Material": null,
                         "Positions": [
                             {
@@ -6193,7 +6193,7 @@
                 },
                 "WallElements": [
                     {
-                        "Model": "Singleblock",
+                        "Model": "Wall",
                         "Material": null,
                         "Positions": [
                             {
@@ -13169,7 +13169,7 @@
                 },
                 "WallElements": [
                     {
-                        "Model": "Singleblock",
+                        "Model": "Wall",
                         "Material": null,
                         "Positions": [
                             {

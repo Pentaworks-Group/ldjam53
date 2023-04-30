@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 9197012409844836033}
   - component: {fileID: 5231241342646405086}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b6f7785f54a9a5e4b94812ca1c7ffdf0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72d2c1dbaebc9204da72e067006a2d13, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 1089443915508359277}
   - component: {fileID: 2518638729547669830}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: OuterArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b6f7785f54a9a5e4b94812ca1c7ffdf0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72d2c1dbaebc9204da72e067006a2d13, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -301,7 +301,7 @@ RectTransform:
   - {fileID: 4794415886690088704}
   - {fileID: 554178820284362367}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 630883012989048965}
   - component: {fileID: 6614039686680773431}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: OuterArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -563,7 +563,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e3f49b65a53165b4a83526e8908a5295, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b0058970a42a1f047a7a567d8ad3effb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -723,7 +723,7 @@ GameObject:
   - component: {fileID: 8265207898760333049}
   - component: {fileID: 6775905373487072342}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -777,7 +777,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e3f49b65a53165b4a83526e8908a5295, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b0058970a42a1f047a7a567d8ad3effb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1166,7 +1166,7 @@ GameObject:
   - component: {fileID: 8642172125811212638}
   - component: {fileID: 252471304731195305}
   m_Layer: 5
-  m_Name: BackGround (1)
+  m_Name: InnerArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e3f49b65a53165b4a83526e8908a5295, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b0058970a42a1f047a7a567d8ad3effb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1609,7 +1609,7 @@ GameObject:
   - component: {fileID: 7113317498213544199}
   - component: {fileID: 8215522019471563033}
   m_Layer: 5
-  m_Name: BackGround (1)
+  m_Name: InnerArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1663,7 +1663,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b6f7785f54a9a5e4b94812ca1c7ffdf0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72d2c1dbaebc9204da72e067006a2d13, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
