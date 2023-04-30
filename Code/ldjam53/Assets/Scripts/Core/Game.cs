@@ -138,22 +138,13 @@ namespace Assets.Scripts.Core
             var filePath = Application.streamingAssetsPath + "/GameModes.json";
             var gameO = new GameObject();
             var mono = gameO.AddComponent<Scenes.Menues.BaseMenuBehaviour>();
-            
-            Debug.Log("Starting Corouting");
-
             mono.StartCoroutine(GameFrame.Core.Json.Handler.DeserializeObjectFromStreamingAssets<List<GameMode>>(filePath, SetGameSettings));
 
-            Debug.Log("Started");
-
             GameObject.Destroy(gameO);
-
-            Debug.Log("Destroyed Object");
         }
 
         private List<GameMode> SetGameSettings(List<GameMode> loadedGameModes)
         {
-            Debug.Log("SetGameSettings called");
-
             if (loadedGameModes?.Count > 0)
             {
                 foreach (var gameMode in loadedGameModes)
