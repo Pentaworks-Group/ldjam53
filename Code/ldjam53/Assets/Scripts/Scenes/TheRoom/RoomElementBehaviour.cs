@@ -55,14 +55,14 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             this.element.CollisionAmount++;
 
-            //UpdateIsPlaceable();
+            UpdateIsPlaceable();
         }
 
         private void OnTriggerExit(Collider other)
         {
             this.element.CollisionAmount--;
 
-            //UpdateIsPlaceable();
+            UpdateIsPlaceable();
         }
 
         private bool IsInBound()
