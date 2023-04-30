@@ -5,6 +5,8 @@ using System.Linq;
 using Assets.Scripts.Constants;
 using Assets.Scripts.Core.Definitions;
 
+using GameFrame.Core.Extensions;
+
 using UnityEngine;
 
 namespace Assets.Scripts.Core
@@ -77,6 +79,7 @@ namespace Assets.Scripts.Core
                 GameFrame.Base.Resources.Manager.Audio.Get("Menu_1"),
                 GameFrame.Base.Resources.Manager.Audio.Get("Menu_2"),
             };
+
             AudioClipListGame = new List<AudioClip>()
             {
                 GameFrame.Base.Resources.Manager.Audio.Get("Menu_1"),

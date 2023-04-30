@@ -32,20 +32,18 @@ namespace Assets.Scripts.Scenes.Menues
 
         public void PlayGame()
         {
+            GameFrame.Base.Audio.Background.ReplaceClips(Base.Core.Game.AudioClipListGame);
             Base.Core.Game.PlayButtonSound();
+         
             Base.Core.Game.Start();
-
-            GameFrame.Base.Audio.Background.Clips = Base.Core.Game.AudioClipListGame;
-
-            //Base.Core.Game.ChangeScene(SceneNames.Credits);
         }
 
         public void GoToRoom()
         {
+            GameFrame.Base.Audio.Background.ReplaceClips(Base.Core.Game.AudioClipListGame);
+
             Base.Core.Game.PlayButtonSound();
             Base.Core.Game.ChangeScene(SceneNames.TheRoom);
-
-            GameFrame.Base.Audio.Background.Clips = Base.Core.Game.AudioClipListGame;
         }
     }
 }
