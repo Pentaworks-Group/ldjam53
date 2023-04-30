@@ -31,7 +31,7 @@ namespace Assets.Scripts.Scenes.Menues
 
         public void ShowCredits()
         {
-            Base.Core.Game.PlayButtonSound();
+            // No Button sound required as page plays a sound for itself
             Base.Core.Game.ChangeScene(SceneNames.Credits);
         }
 

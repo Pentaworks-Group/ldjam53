@@ -5,9 +5,17 @@ using UnityEngine;
 namespace Assets.Scripts.Scenes.Menues
 {
     public class BaseMenuBehaviour : MonoBehaviour
-    {
+    {   
+        private void Start()
+        {
+            OnStart();
+        }
 
-   
+        private void Awake()
+        {
+            OnAwake();
+        }
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -16,6 +24,14 @@ namespace Assets.Scripts.Scenes.Menues
             }
 
             OnUpdate();
+        }
+
+        protected virtual void OnAwake()
+        {
+        }
+
+        protected virtual void OnStart()
+        {
         }
 
         protected virtual void OnUpdate()
