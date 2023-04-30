@@ -280,7 +280,6 @@ namespace Assets.Scripts.Scenes.TheRoom
             return level;
         }
 
-
         //private void MergeWallMeshes(List<GameObject> wallObjects)
         //{
 
