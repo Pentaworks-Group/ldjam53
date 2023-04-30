@@ -65,9 +65,13 @@ namespace Assets.Scripts.Scenes.TheRoom
                 if (level.IsSelectionRandom)
                 {
                     SpawnRandomFromRemainingElement();
-                } else
+                }
+                else
                 {
-
+                    if (this.selectedElement != null)
+                    {
+                        this.selectedElement.SetSelected(false);
+                    }
                 }
 
             }
@@ -261,10 +265,6 @@ namespace Assets.Scripts.Scenes.TheRoom
                 {
                     SetSelectedElement(roomElementBehaviour);
                 }
-            }
-            else
-            {
-
             }
         }
 
