@@ -912,6 +912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52c0b34974b4e942953205bfde62114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 414000126}
   theRoomBehaviour: {fileID: 608277024}
 --- !u!1 &812141820 stripped
 GameObject:

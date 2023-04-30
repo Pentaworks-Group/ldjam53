@@ -9,6 +9,8 @@ namespace Assets.Scripts.Scenes.TheRoom
 {
     public class ManipulatorBehaviour : MonoBehaviour
     {
+        public Camera cam;
+
         public TheRoomBehaviour theRoomBehaviour;
         private float moveInterval = 0.1f;
         private float currentInterval = 0f;
@@ -17,6 +19,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             if (currentInterval <= 0)
             {
+
                 if (theRoomBehaviour.selectedElement != default)
                 {
                     if (Input.GetKey(KeyCode.W))
