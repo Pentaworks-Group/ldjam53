@@ -89,20 +89,33 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private void SpawnRandomFromRemainingElement()
         {
-            var remainingElement = Base.Core.Game.State.CurrentLevel.RemainingElements;
+            var remainingElements = Base.Core.Game.State.CurrentLevel.RemainingElements;
 
-            var randomKey = remainingElement.GetRandomKey();
-
-            var entry = remainingElement[randomKey];
-            
-            entry--;
-            
-            if (entry < 1)
+            if (remainingElements.Count > 0)
             {
-                remainingElement.Remove(randomKey);
-            }
+                var randomKey = remainingElements.GetRandomKey();
 
-            SpawnFromKey(randomKey);
+                var entry = remainingElements[randomKey];
+
+                entry--;
+
+                if (entry < 1)
+                {
+                    remainingElements.Remove(randomKey);
+                }
+
+                SpawnFromKey(randomKey);
+            }
+            else
+            {
+                LevelCompleted();
+            }
+        }
+
+
+        private void LevelCompleted()
+        {
+            Debug.Log("Level Completed");
         }
 
         public void OnSlotSelected(RoomElementListSlotBehaviour slot)
@@ -277,10 +290,6 @@ namespace Assets.Scripts.Scenes.TheRoom
                 {
                     SetSelectedElement(roomElementBehaviour);
                 }
-            }
-            else
-            {
-
             }
         }
 

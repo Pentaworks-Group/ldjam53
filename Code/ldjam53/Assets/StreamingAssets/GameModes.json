@@ -8,12 +8,12 @@
                 "ID": "e19cc835-4c50-4618-b15f-79db42a7b802",
                 "Name": "There is always a first time",
                 "RoomReference": "Cask",
-                "IsSelectionRandom": false,
+                "IsSelectionRandom": true,
                 "Elements": {
-                    "Broom": 5,
-                    "BoxLong": 5,
-                    "Box": 5,
-                    "Letter": 5
+                    "Broom": 1,
+                    "BoxLong": 1,
+                    "Box": 1,
+                    "Letter": 1
                 }
             }
         ],
@@ -36,7 +36,7 @@
                 "Name": "Box_Long",
                 "IconReference": "Box_Long_Icon",
                 "Models": [
-                    "Broom_edge"
+                    "Pack_box_long_edge"
                 ]
             },
             "Letter": {
