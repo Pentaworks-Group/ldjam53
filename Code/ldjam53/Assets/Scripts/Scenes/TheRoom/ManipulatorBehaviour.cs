@@ -79,7 +79,6 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private void Move(Vector3 dir)
         {
-            Debug.Log(dir);
             theRoomBehaviour.selectedElement.transform.position = theRoomBehaviour.selectedElement.transform.position + dir;
             currentInterval = moveInterval;
             theRoomBehaviour.selectedElement.UpdateIsPlaceable();
