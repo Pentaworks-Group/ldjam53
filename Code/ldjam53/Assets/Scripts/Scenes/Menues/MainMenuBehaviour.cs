@@ -34,6 +34,9 @@ namespace Assets.Scripts.Scenes.Menues
         {
             Base.Core.Game.PlayButtonSound();
             Base.Core.Game.Start();
+
+            GameFrame.Base.Audio.Background.Clips = Base.Core.Game.AudioClipListGame;
+
             //Base.Core.Game.ChangeScene(SceneNames.Credits);
         }
 
@@ -41,6 +44,8 @@ namespace Assets.Scripts.Scenes.Menues
         {
             Base.Core.Game.PlayButtonSound();
             Base.Core.Game.ChangeScene(SceneNames.TheRoom);
+
+            GameFrame.Base.Audio.Background.Clips = Base.Core.Game.AudioClipListGame;
         }
     }
 }
