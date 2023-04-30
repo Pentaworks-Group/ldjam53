@@ -25,7 +25,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         private UnityEngine.Vector3 spawn = new UnityEngine.Vector3(2, 2, 2);
         public RoomType CurrentRoomType { get; private set; }
 
-        private Boolean[,,] roomPlacements;
+        //private Boolean[,,] roomPlacements;
 
         public void Awake()
         {
@@ -61,10 +61,10 @@ namespace Assets.Scripts.Scenes.TheRoom
 
                 var level = GetCurrentLevelDefinition();
 
-                if (selectedElement != default)
-                {
-                    roomPlacements[(int)selectedElement.transform.position.x, (int)selectedElement.transform.position.y, (int)selectedElement.transform.position.z] = true;
-                }
+                //if (selectedElement != default)
+                //{
+                //    roomPlacements[(int)selectedElement.transform.position.x, (int)selectedElement.transform.position.y, (int)selectedElement.transform.position.z] = true;
+                //}
 
                 if (level.IsSelectionRandom)
                 {
@@ -86,10 +86,12 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
-        public bool IsInEmptySpace(UnityEngine.Vector3 position)
-        {
-            return !roomPlacements[(int)position.x, (int)position.y, (int)position.z];
-        }
+        //public bool IsInEmptySpace(UnityEngine.Vector3 position)
+        //{
+        //    //Debug.Log("IsInEmptySpace set to true");
+        //    //return true;
+        //    return !roomPlacements[(int)position.x, (int)position.y, (int)position.z];
+        //}
 
         public void SpawnFromKey(String key)
         {
@@ -115,7 +117,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 var randomKey = remainingElements.GetRandomKey();
 
                 remainingElements[randomKey]--;
-                                
+
                 if (remainingElements[randomKey] < 1)
                 {
                     remainingElements.Remove(randomKey);
@@ -186,32 +188,41 @@ namespace Assets.Scripts.Scenes.TheRoom
             var wall = new WallElement()
             {
                 Positions = new List<GameFrame.Core.Math.Vector3>(),
-                Model = "Singleblock"
+                Model = "Wall"
             };
             roomType.WallElements.Add(wall);
+            wall.Positions.Add(new GameFrame.Core.Math.Vector3(5, 5, 5));
             //var roof = new WallElement();
-            for (int x = 0; x < sizeX; x++)
-            {
-                for (int y = 0; y < sizeY; y++)
-                {
-                    wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, y, 0));
-                    wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, y, sizeZ - 1));
-                }
-                for (int z = 0; z < sizeZ; z++)
-                {
-                    wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, 0, z));
-                    //wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, sizeY - 1, z));
-                }
-            }
-            for (int y = 0; y < sizeY; y++)
-            {
-                for (int z = 0; z < sizeZ; z++)
-                {
-                    wall.Positions.Add(new GameFrame.Core.Math.Vector3(0, y, z));
-                    wall.Positions.Add(new GameFrame.Core.Math.Vector3(sizeX - 1, y, z));
-                }
-            }
+            //for (int x = 0; x < sizeX; x++)
+            //{
+            //    for (int y = 0; y < sizeY; y++)
+            //    {
+            //        wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, y, 0));
+            //        wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, y, sizeZ - 1));
+            //    }
+            //    for (int z = 0; z < sizeZ; z++)
+            //    {
+            //        wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, 0, z));
+            //        //wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, sizeY - 1, z));
+            //    }
+            //}
+            //for (int y = 0; y < sizeY; y++)
+            //{
+            //    for (int z = 0; z < sizeZ; z++)
+            //    {
+            //        wall.Positions.Add(new GameFrame.Core.Math.Vector3(0, y, z));
+            //        wall.Positions.Add(new GameFrame.Core.Math.Vector3(sizeX - 1, y, z));
+            //    }
+            //}
             DumpRoom(roomType);
+            foreach (var wallElem in roomType.WallElements)
+            {
+                availableModels.TryGetValue(wallElem.Model, out var modelTemplate);
+                foreach (var position in wallElem.Positions)
+                {
+                    InstantiateWallElement(position, modelTemplate);
+                }
+            }
         }
 
         private void DumpRoom(RoomType room)
@@ -223,11 +234,23 @@ namespace Assets.Scripts.Scenes.TheRoom
             writer.Close();
         }
 
+        public void SpawnTest()
+        {
+            var roomElement = new RoomElement("Longbox")
+            {
+                Model = "Longbox",
+                IconReference = "2d_Longbox"
+                //Rotatable = roomElementType.Rotatable
+            };
+
+            AddRoomElement(roomElement, spawn);
+        }
+
         private void LoadCurrentRoom()
         {
             CurrentRoomType = GetRoomTypeByLevelId();
             spawn = new UnityEngine.Vector3(CurrentRoomType.Size.X / 2, CurrentRoomType.Size.Y + 1, CurrentRoomType.Size.Z / 2);
-            roomPlacements = new Boolean[(int)CurrentRoomType.Size.X, (int)CurrentRoomType.Size.Y, (int)CurrentRoomType.Size.Z];
+            //roomPlacements = new Boolean[(int)CurrentRoomType.Size.X, (int)CurrentRoomType.Size.Y, (int)CurrentRoomType.Size.Z];
             foreach (var wallElem in CurrentRoomType.WallElements)
             {
                 availableModels.TryGetValue(wallElem.Model, out var modelTemplate);
@@ -258,7 +281,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             mat.AddComponent<BoundsCalculationBehaviour>();
             mat.transform.position = position.ToUnity();
             mat.SetActive(true);
-            roomPlacements[(int)position.X, (int)position.Y, (int)position.Z] = true;
+            //roomPlacements[(int)position.X, (int)position.Y, (int)position.Z] = true;
         }
 
         private RoomType GetRoomTypeByLevelId()

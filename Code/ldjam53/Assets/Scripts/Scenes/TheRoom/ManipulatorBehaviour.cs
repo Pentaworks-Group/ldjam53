@@ -67,16 +67,23 @@ namespace Assets.Scripts.Scenes.TheRoom
             theRoomBehaviour.selectedElement.transform.position = theRoomBehaviour.selectedElement.transform.position + dir;
             currentInterval = moveInterval;
             theRoomBehaviour.selectedElement.UpdateIsPlaceable();
-            Debug.Log("New Position: " + theRoomBehaviour.selectedElement.transform.position);
+            //Debug.Log("New Position: " + theRoomBehaviour.selectedElement.transform.position);
         }
 
         private void Rotate(Vector3 dir)
         {
-            var rotationPoint = theRoomBehaviour.selectedElement.transform.position + new Vector3(0.5f, 0.5f, 0.5f);
-            theRoomBehaviour.selectedElement.transform.RotateAround(rotationPoint, dir, 90);
+
+            //var pos = theRoomBehaviour.selectedElement.transform.position;
+            //var rotationPoint = pos + theRoomBehaviour.selectedElement.transform.rotation * new Vector3(0.5f, 0.5f, 0.5f);
+            //Debug.Log("Position: " + theRoomBehaviour.selectedElement.transform.position);
+            //Debug.Log("Rotate around: " + rotationPoint);
+            //theRoomBehaviour.SpawnFromKey("Wall", rotationPoint);
+            //theRoomBehaviour.selectedElement.transform.RotateAround(rotationPoint, dir, 90);
+            theRoomBehaviour.selectedElement.transform.Rotate(dir);
             currentInterval = moveInterval;
+            //theRoomBehaviour.selectedElement.transform.position = pos;
             theRoomBehaviour.selectedElement.UpdateIsPlaceable();
-            Debug.Log("New Position: " + theRoomBehaviour.selectedElement.transform.position);
+            //Debug.Log("New Position: " + theRoomBehaviour.selectedElement.transform.position);
         }
 
 
