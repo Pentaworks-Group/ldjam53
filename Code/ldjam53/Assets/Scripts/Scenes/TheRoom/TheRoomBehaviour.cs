@@ -207,6 +207,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         private void LoadCurrentRoom()
         {
             CurrentRoomType = GetRoomTypeByLevelId();
+            spawn = new UnityEngine.Vector3(CurrentRoomType.Size.X / 2, CurrentRoomType.Size.Y + 1, CurrentRoomType.Size.Z /2);
             foreach (var wallElem in CurrentRoomType.WallElements)
             {
                 availableModels.TryGetValue(wallElem.Model, out var modelTemplate);
