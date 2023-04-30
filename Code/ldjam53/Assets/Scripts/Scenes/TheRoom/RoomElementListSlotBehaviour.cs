@@ -16,6 +16,14 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private String currentIcon;
 
+        public RoomElementListItem RoomElementItem
+        {
+            get
+            {
+                return this.content;
+            }
+        }
+
         public override void RudeAwake()
         {
             iconImage = transform.Find("Info/Icon").GetComponent<Image>();

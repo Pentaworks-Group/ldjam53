@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Assets.Scripts.Extensions;
+
 using GameFrame.Core.UI.List;
 
 namespace Assets.Scripts.Scenes.TheRoom
@@ -23,7 +25,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 {
                     if (!items.TryGetValue(item.Key, out var listItem))
                     {
-                        var elementType = GetElementType(item.Key);
+                        var elementType = item.Key.GetElementType();
 
                         listItem = new RoomElementListItem()
                         {
@@ -43,23 +45,6 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
 
             SetContentList(items.Values.ToList());
-        }
-
-        public void OnSlotSelected(RoomElementListSlotBehaviour slot)
-        {
-            Base.Core.Game.PlayButtonSound();
-
-            // Do Stuff with slot.. e.g. Spawn & Select.
-        }
-
-        private Core.Definitions.ElementType GetElementType(String elementTypeReference)
-        {
-            if (Base.Core.Game?.State?.GameMode?.ElementTypes?.TryGetValue(elementTypeReference, out var elementType) == true)
-            {
-                return elementType;
-            }
-
-            return default;
         }
     }
 }

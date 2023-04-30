@@ -516,8 +516,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 254722087}
-        m_TargetAssemblyTypeName: Assets.Scripts.Scenes.TheRoom.RoomElementListBehaviour,
+      - m_Target: {fileID: 608277024}
+        m_TargetAssemblyTypeName: Assets.Scripts.Scenes.TheRoom.TheRoomBehaviour,
           Assembly-CSharp
         m_MethodName: OnSlotSelected
         m_Mode: 2

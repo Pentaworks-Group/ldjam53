@@ -19,7 +19,6 @@ Todo:
      
  UI: 
  - Credits
- - Itemlist
    
  Audio:
  - Background
