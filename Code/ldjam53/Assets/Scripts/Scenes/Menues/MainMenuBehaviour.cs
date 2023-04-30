@@ -8,7 +8,7 @@ namespace Assets.Scripts.Scenes.Menues
     {
         public void Awake()
         {
-            GameFrame.Base.Audio.Background.Clips = Base.Core.Game.AudioClipListMenu;
+            GameFrame.Base.Audio.Background.ReplaceClips(Base.Core.Game.AudioClipListMenu);
         }
 
         public void ShowSavedGames()
