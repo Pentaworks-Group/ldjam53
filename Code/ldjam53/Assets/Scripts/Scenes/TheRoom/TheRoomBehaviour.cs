@@ -25,6 +25,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         private UnityEngine.Vector3 spawn = new UnityEngine.Vector3(2, 2, 2);
         public RoomType CurrentRoomType { get; private set; }
 
+        private Boolean[,,] roomPlacements;
 
 
         public void Awake()
@@ -58,12 +59,18 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             if (selectedElement == default || selectedElement.IsPlaceable)
             {
+                Base.Core.Game.PlayButtonSound();
                 var level = GetCurrentLevelDefinition();
+                if (selectedElement != default)
+                {
+                    roomPlacements[(int)selectedElement.transform.position.x, (int)selectedElement.transform.position.y, (int)selectedElement.transform.position.z] = true;
+                }
+                
 
                 if (level.IsSelectionRandom)
                 {
                     SpawnRandomFromRemainingElement();
-                } 
+                }
                 else
                 {
                     SetSelectedElement(default);
@@ -73,7 +80,15 @@ namespace Assets.Scripts.Scenes.TheRoom
                         LevelCompleted();
                     }
                 }
+            } else
+            {
+                GameFrame.Base.Audio.Effects.Play("Error");
             }
+        }
+
+        public bool IsInEmptySpace(UnityEngine.Vector3 position)
+        {
+            return !roomPlacements[(int)position.x, (int)position.y, (int)position.z];
         }
 
         public void SpawnFromKey(String key)
@@ -100,9 +115,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 var randomKey = remainingElements.GetRandomKey();
 
                 var entry = remainingElements[randomKey];
-
                 entry--;
-
                 if (entry < 1)
                 {
                     remainingElements.Remove(randomKey);
@@ -124,24 +137,30 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void OnSlotSelected(RoomElementListSlotBehaviour slot)
         {
-            Base.Core.Game.PlayButtonSound();
-            
-            var key = slot.RoomElementItem.Type;
-
-            SpawnFromKey(key);
-
-            slot.RoomElementItem.Quantity--;
-
-            var remainingElements = Base.Core.Game.State.CurrentLevel.RemainingElements;
-
-            remainingElements[key]--;
-
-            if (remainingElements[key] < 1)
+            if (selectedElement == default || selectedElement.IsPlaceable)
             {
-                remainingElements.Remove(key);
-            }
+                Base.Core.Game.PlayButtonSound();
 
-            RoomElementListBehaviour.UpdateList();
+                var key = slot.RoomElementItem.Type;
+
+                SpawnFromKey(key);
+
+                slot.RoomElementItem.Quantity--;
+
+                var remainingElements = Base.Core.Game.State.CurrentLevel.RemainingElements;
+
+                remainingElements[key]--;
+
+                if (remainingElements[key] < 1)
+                {
+                    remainingElements.Remove(key);
+                }
+
+                RoomElementListBehaviour.UpdateList();
+            } else
+            {
+                GameFrame.Base.Audio.Effects.Play("Error");
+            }
         }
 
         public void BuildRoom()
@@ -199,6 +218,8 @@ namespace Assets.Scripts.Scenes.TheRoom
         private void LoadCurrentRoom()
         {
             CurrentRoomType = GetRoomTypeByLevelId();
+            spawn = new UnityEngine.Vector3(CurrentRoomType.Size.X / 2, CurrentRoomType.Size.Y + 1, CurrentRoomType.Size.Z /2);
+            roomPlacements = new Boolean[(int)CurrentRoomType.Size.X, (int)CurrentRoomType.Size.Y, (int)CurrentRoomType.Size.Z];
             foreach (var wallElem in CurrentRoomType.WallElements)
             {
                 availableModels.TryGetValue(wallElem.Model, out var modelTemplate);
@@ -229,6 +250,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             mat.AddComponent<BoundsCalculationBehaviour>();
             mat.transform.position = position.ToUnity();
             mat.SetActive(true);
+            roomPlacements[(int)position.X, (int)position.Y, (int)position.Z] = true;
         }
 
         private RoomType GetRoomTypeByLevelId()
