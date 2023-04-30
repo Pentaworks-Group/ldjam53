@@ -11,6 +11,8 @@ namespace Assets.Scripts.Core
 {
     public class Game : GameFrame.Core.Game<GameState, PlayerOptions, SavedGamedPreviewImpl>
     {
+        public List<AudioClip> AudioClipListMenu { get; set; }
+        public List<AudioClip> AudioClipListGame { get; set; }
 
         private readonly IList<GameMode> availableGameModes = new List<GameMode>();
         public IList<GameMode> AvailableGameModes
@@ -70,12 +72,24 @@ namespace Assets.Scripts.Core
         {
             base.OnGameStart();
 
-            //var backgroundClips = new List<AudioClip>()
-            //{
-            //    GameFrame.Base.Resources.Manager.Audio.Get("Background_Music_1"),
-            //};
+            AudioClipListMenu = new List<AudioClip>()
+            {
+                GameFrame.Base.Resources.Manager.Audio.Get("Menu_1"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Menu_2"),
+            };
+            AudioClipListGame = new List<AudioClip>()
+            {
+                GameFrame.Base.Resources.Manager.Audio.Get("Menu_1"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Menu_2"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Game_1"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Game_2"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Game_3"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Game_4"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Game_5"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Game_6"),
+            };
 
-            //GameFrame.Base.Audio.Background.Play(backgroundClips);
+            GameFrame.Base.Audio.Background.Play(AudioClipListMenu);
         }
 
         private void GenerateLevel(GameState gameState)
