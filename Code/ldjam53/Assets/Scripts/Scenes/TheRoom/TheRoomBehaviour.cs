@@ -59,16 +59,20 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             if (selectedElement == default || selectedElement.IsPlaceable)
             {
+                Base.Core.Game.PlayButtonSound();
                 var level = GetCurrentLevelDefinition();
 
                 if (level.IsSelectionRandom)
                 {
                     SpawnRandomFromRemainingElement();
-                } 
+                }
                 else
                 {
                     SetSelectedElement(default);
                 }
+            } else
+            {
+                GameFrame.Base.Audio.Effects.Play("Error");
             }
         }
 
@@ -96,9 +100,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 var randomKey = remainingElements.GetRandomKey();
 
                 var entry = remainingElements[randomKey];
-
                 entry--;
-
                 if (entry < 1)
                 {
                     remainingElements.Remove(randomKey);
@@ -120,12 +122,19 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void OnSlotSelected(RoomElementListSlotBehaviour slot)
         {
-            Base.Core.Game.PlayButtonSound();
+            if (selectedElement == default || selectedElement.IsPlaceable)
+            {
+                Base.Core.Game.PlayButtonSound();
 
-            slot.RoomElementItem.Quantity--;
-            Base.Core.Game.State.CurrentLevel.RemainingElements[slot.RoomElementItem.Type]--;
+                slot.RoomElementItem.Quantity--;
+                slot.UpdateUI();
+                Base.Core.Game.State.CurrentLevel.RemainingElements[slot.RoomElementItem.Type]--;
 
-            SpawnFromKey(slot.RoomElementItem.Type);
+                SpawnFromKey(slot.RoomElementItem.Type);
+            } else
+            {
+                GameFrame.Base.Audio.Effects.Play("Error");
+            }
         }
 
         public void BuildRoom()
