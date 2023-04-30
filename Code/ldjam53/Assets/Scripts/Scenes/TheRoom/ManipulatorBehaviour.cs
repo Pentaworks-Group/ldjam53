@@ -24,31 +24,35 @@ namespace Assets.Scripts.Scenes.TheRoom
                 if (camAngle >= 45 && camAngle < 135)
                 {
                     correctionAngle = 90;
-                } else if (camAngle >= 135 && camAngle < 225)
+                }
+                else if (camAngle >= 135 && camAngle < 225)
                 {
                     correctionAngle = 180;
-                } else if (camAngle >= 225 && camAngle < 312)
+                }
+                else if (camAngle >= 225 && camAngle < 312)
                 {
                     correctionAngle = 270;
                 }
 
                 if (theRoomBehaviour.selectedElement != default)
                 {
+
+                    var radCorrectionAngle = Mathf.Deg2Rad * correctionAngle;
                     if (Input.GetKey(KeyCode.W))
                     {
-                        Move(new Vector3(Mathf.Sin(Mathf.Deg2Rad*correctionAngle), 0, Mathf.Cos(Mathf.Deg2Rad * correctionAngle)));
+                        Move(new Vector3(Mathf.Sin(radCorrectionAngle), 0, Mathf.Cos(radCorrectionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.S))
                     {
-                        Move(new Vector3(-Mathf.Sin(Mathf.Deg2Rad * correctionAngle), 0, -Mathf.Cos(Mathf.Deg2Rad * correctionAngle)));
+                        Move(new Vector3(-Mathf.Sin(radCorrectionAngle), 0, -Mathf.Cos(radCorrectionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.A))
                     {
-                        Move(new Vector3(-Mathf.Cos(-Mathf.Deg2Rad * correctionAngle), 0, -Mathf.Sin(-Mathf.Deg2Rad * correctionAngle)));
+                        Move(new Vector3(-Mathf.Cos(-radCorrectionAngle), 0, -Mathf.Sin(-radCorrectionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.D))
                     {
-                        Move(new Vector3(Mathf.Cos(-Mathf.Deg2Rad * correctionAngle), 0, Mathf.Sin(-Mathf.Deg2Rad * correctionAngle)));
+                        Move(new Vector3(Mathf.Cos(-radCorrectionAngle), 0, Mathf.Sin(-radCorrectionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.Q))
                     {
@@ -71,7 +75,8 @@ namespace Assets.Scripts.Scenes.TheRoom
                         Rotate(new Vector3(0, 0, 90));
                     }
                 }
-            } else
+            }
+            else
             {
                 currentInterval -= Time.deltaTime;
             }
