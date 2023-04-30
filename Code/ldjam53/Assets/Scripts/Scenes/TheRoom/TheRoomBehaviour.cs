@@ -99,7 +99,12 @@ namespace Assets.Scripts.Scenes.TheRoom
             SpawnFromKey(rndKey);
         }
 
+        public void OnSlotSelected(RoomElementListSlotBehaviour slot)
+        {
+            Base.Core.Game.PlayButtonSound();
 
+            // Do Stuff with slot.. e.g. Spawn & Select.
+        }
 
         public void BuildRoom()
         {
