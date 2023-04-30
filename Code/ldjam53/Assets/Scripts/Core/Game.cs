@@ -140,6 +140,7 @@ namespace Assets.Scripts.Core
             var gameO = new GameObject();
             var mono = gameO.AddComponent<Scenes.Menues.BaseMenuBehaviour>();
             mono.StartCoroutine(GameFrame.Core.Json.Handler.DeserializeObjectFromStreamingAssets<List<GameMode>>(filePath, SetGameSettings));
+
             GameObject.Destroy(gameO);
         }
 

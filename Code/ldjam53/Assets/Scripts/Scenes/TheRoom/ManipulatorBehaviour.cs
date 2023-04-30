@@ -9,6 +9,8 @@ namespace Assets.Scripts.Scenes.TheRoom
 {
     public class ManipulatorBehaviour : MonoBehaviour
     {
+        public Camera cam;
+
         public TheRoomBehaviour theRoomBehaviour;
         private float moveInterval = 0.1f;
         private float currentInterval = 0f;
@@ -17,23 +19,36 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             if (currentInterval <= 0)
             {
+                float camAngle = cam.transform.eulerAngles.y;
+                float correctionAngle = 0;
+                if (camAngle >= 45 && camAngle < 135)
+                {
+                    correctionAngle = 90;
+                } else if (camAngle >= 135 && camAngle < 225)
+                {
+                    correctionAngle = 180;
+                } else if (camAngle >= 225 && camAngle < 312)
+                {
+                    correctionAngle = 270;
+                }
+
                 if (theRoomBehaviour.selectedElement != default)
                 {
                     if (Input.GetKey(KeyCode.W))
                     {
-                        Move(new Vector3(1, 0, 0));
+                        Move(new Vector3(Mathf.Sin(Mathf.Deg2Rad*correctionAngle), 0, Mathf.Cos(Mathf.Deg2Rad * correctionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.S))
                     {
-                        Move(new Vector3(-1, 0, 0));
+                        Move(new Vector3(-Mathf.Sin(Mathf.Deg2Rad * correctionAngle), 0, -Mathf.Cos(Mathf.Deg2Rad * correctionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.A))
                     {
-                        Move(new Vector3(0, 0, 1));
+                        Move(new Vector3(-Mathf.Cos(-Mathf.Deg2Rad * correctionAngle), 0, -Mathf.Sin(-Mathf.Deg2Rad * correctionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.D))
                     {
-                        Move(new Vector3(0, 0, -1));
+                        Move(new Vector3(Mathf.Cos(-Mathf.Deg2Rad * correctionAngle), 0, Mathf.Sin(-Mathf.Deg2Rad * correctionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.Q))
                     {
