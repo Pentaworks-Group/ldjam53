@@ -11,10 +11,10 @@ namespace Assets.Scripts.Scenes.TheRoom
         public Camera cam;
 
 
-        private readonly float moveSpeed = 10f;
+        private readonly float moveSpeed = 15f;
         private readonly float moveSpeedTouch = 0.085f;
-        private readonly float moveSpeedMouseDrag = 1f;
-        private readonly float zoomSpeed = 10.0f;
+        private readonly float moveSpeedMouseDrag = 1.5f;
+        private readonly float zoomSpeed = 15.0f;
         private readonly float zoomSpeedMouse = 20.0f;
         private readonly float zoomSpeedTouch = 0.25f;
 
@@ -109,7 +109,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             //// Movement along x, z axis
             // Keys
             float moveX = 0;
-
+            float moveY = 0;
             float moveZ = 0;
 
             // Keys
@@ -128,6 +128,14 @@ namespace Assets.Scripts.Scenes.TheRoom
             else if (Input.GetKey(KeyCode.DownArrow))
             {
                 moveZ = -1;
+            }
+            else if (Input.GetKey(KeyCode.Home))
+            {
+                moveY = 1;
+            }
+            else if (Input.GetKey(KeyCode.End))
+            {
+                moveY = -1;
             }
 
             if (Base.Core.Game.Options.IsMouseScreenEdgeScrollingEnabled)
@@ -158,6 +166,11 @@ namespace Assets.Scripts.Scenes.TheRoom
             if (moveX != 0)
             {
                 moveX *= moveSpeed;
+            }
+
+            if (moveY != 0)
+            {
+                moveY *= moveSpeed;
             }
 
             if (moveZ != 0)
@@ -199,19 +212,52 @@ namespace Assets.Scripts.Scenes.TheRoom
                 isMoving = false;
             }
 
-            if (moveX != 0 || moveZ != 0)
+            if (moveX != 0 || moveZ != 0 || moveY != 0)
             {
-                var inputDir = new Vector3(moveX, 0, moveZ);
-                inputDir *= Time.deltaTime * Base.Core.Game.Options.MoveSensivity;
-                var moveDir = cam.transform.TransformDirection(inputDir);
-                moveDir.y = 0;
-                cam.transform.position += moveDir;
+                //var inputDir = new Vector3(moveX, 0, moveZ);
+                //inputDir *= Time.deltaTime * Base.Core.Game.Options.MoveSensivity;
+                //cam.transform.position += inputDir;
+                //var moveDir = cam.transform.TransformDirection(inputDir);
+                //moveDir.y = 0;
+                cam.transform.position += ApplyCamCorrection(moveX, moveY, moveZ) * Time.deltaTime * Base.Core.Game.Options.MoveSensivity;
                 return true;
             }
 
             return false;
         }
 
+
+        private float GetCamCorrectionAngle()
+        {
+            float camAngle = cam.transform.eulerAngles.y;
+            //float correctionAngle = 0;
+            //if (camAngle >= 45 && camAngle < 135)
+            //{
+            //    correctionAngle = 90;
+            //}
+            //else if (camAngle >= 135 && camAngle < 225)
+            //{
+            //    correctionAngle = 180;
+            //}
+            //else if (camAngle >= 225 && camAngle < 312)
+            //{
+            //    correctionAngle = 270;
+            //}
+
+            //return Mathf.Deg2Rad * correctionAngle;
+            return Mathf.Deg2Rad * camAngle;
+        }
+        private Vector3 ApplyCamCorrection(float inputX, float inputY, float inputZ)
+        {
+            var radCorrectionAngle = GetCamCorrectionAngle();
+            var xPartX = Mathf.Sin(radCorrectionAngle) * inputZ;
+            var xPartZ = Mathf.Cos(radCorrectionAngle) * inputZ;
+            var zPartX = Mathf.Cos(-radCorrectionAngle) * inputX;
+            var zPartZ = Mathf.Sin(-radCorrectionAngle) * inputX;
+
+            return new Vector3(xPartX + zPartX, inputY, xPartZ + zPartZ);
+
+        }
 
         private bool ZoomHandling()
         {

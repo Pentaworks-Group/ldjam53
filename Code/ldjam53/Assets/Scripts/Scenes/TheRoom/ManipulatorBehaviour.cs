@@ -19,23 +19,22 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             if (currentInterval <= 0)
             {
-                float camAngle = cam.transform.eulerAngles.y;
-                float correctionAngle = 0;
-                if (camAngle >= 45 && camAngle < 135)
-                {
-                    correctionAngle = 90;
-                }
-                else if (camAngle >= 135 && camAngle < 225)
-                {
-                    correctionAngle = 180;
-                }
-                else if (camAngle >= 225 && camAngle < 312)
-                {
-                    correctionAngle = 270;
-                }
-
                 if (theRoomBehaviour.selectedElement != default)
                 {
+                    float camAngle = cam.transform.eulerAngles.y;
+                    float correctionAngle = 0;
+                    if (camAngle >= 45 && camAngle < 135)
+                    {
+                        correctionAngle = 90;
+                    }
+                    else if (camAngle >= 135 && camAngle < 225)
+                    {
+                        correctionAngle = 180;
+                    }
+                    else if (camAngle >= 225 && camAngle < 312)
+                    {
+                        correctionAngle = 270;
+                    }
 
                     var radCorrectionAngle = Mathf.Deg2Rad * correctionAngle;
                     if (Input.GetKey(KeyCode.W))
