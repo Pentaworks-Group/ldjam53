@@ -6,15 +6,5 @@ namespace Assets.Scripts.Models
     {
         public List<RoomElement> Elements { get; set; }
 
-
-
-
-
-
-
-
-
-        public RoomElement[,,] Materials { get; set; }
-
     }
 }

@@ -37,10 +37,14 @@ namespace Assets.Scripts.Core
 
         protected override GameState InitializeGameState()
         {
+            if (SelectedGameMode == default)
+            {
+                SelectedGameMode = AvailableGameModes[0];
+            }
             // Maybe add a Tutorial scene, where the user can set "skip" for the next time.
             var gameState = new GameState()
             {
-                CurrentScene = SceneNames.World,
+                CurrentScene = SceneNames.TheRoom,
                 GameMode = this.SelectedGameMode
             };
 

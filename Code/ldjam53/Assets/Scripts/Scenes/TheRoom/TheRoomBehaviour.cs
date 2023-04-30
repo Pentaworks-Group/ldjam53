@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using Assets.Scripts.Constants;
+using Assets.Scripts.Core.Definitions;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.Models;
 
@@ -17,11 +18,13 @@ namespace Assets.Scripts.Scenes.TheRoom
         private readonly Dictionary<String, GameObject> availableModels = new Dictionary<String, GameObject>();
         private GameObject objectsContainer;
 
-        public GameObject template; 
+        public GameObject template;
         public Camera sceneCamera;
         public RoomElementBehaviour selectedElement;
         //public GameObject cube;
 
+
+        public RoomType CurrentRoomType { get; private set; }
 
         public void Update()
         {
@@ -43,6 +46,11 @@ namespace Assets.Scripts.Scenes.TheRoom
             LoadTemplates();
         }
 
+        public void Start()
+        {
+            LoadCurrentRoom();
+        }
+
 
         public void PlaceSelected()
         {
@@ -61,49 +69,49 @@ namespace Assets.Scripts.Scenes.TheRoom
             return rndElement;
         }
 
-        public void TestLoad()
-        {
-            //var room = Base.Core.Game.AvailableGameModes[0].TheRoom;
-            var room = BuildRoom();
-            LoadRoom(room);
-        }
-
-
-        private Room BuildRoom()
+        public void BuildRoom()
         {
             int sizeX = 12;
             int sizeY = 12;
             int sizeZ = 26;
-            Room room = new Room
+            RoomType roomType = new RoomType
             {
-                Materials = new RoomElement[sizeX, sizeY, sizeZ]
+                WallElements = new List<WallElement>(),
+                Name = "Cask",
+                Size = new GameFrame.Core.Math.Vector3(sizeX, sizeY, sizeZ)
+                
             };
+            var wall = new WallElement() {
+                Positions = new List<GameFrame.Core.Math.Vector3>(),
+                Model = "Singleblock" 
+            };
+            roomType.WallElements.Add(wall);
+            //var roof = new WallElement();
             for (int x = 0; x < sizeX; x++)
             {
                 for (int y = 0; y < sizeY; y++)
                 {
-                    room.Materials[x, y, 0] = new RoomElement("Wall");
-                    room.Materials[x, y, sizeZ - 1] = new RoomElement("Wall");
+                    wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, y, 0));
+                    wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, y, sizeZ - 1));
                 }
                 for (int z = 0; z < sizeZ; z++)
                 {
-                    room.Materials[x, 0, z] = new RoomElement("Wall");
-                    room.Materials[x, sizeY - 1, z] = new RoomElement("Wall");
+                    wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, 0, z));
+                    //wall.Positions.Add(new GameFrame.Core.Math.Vector3(x, sizeY - 1, z));
                 }
             }
             for (int y = 0; y < sizeY; y++)
             {
                 for (int z = 0; z < sizeZ; z++)
                 {
-                    room.Materials[0, y, z] = new RoomElement("Wall");
-                    room.Materials[sizeX - 1, y, z] = new RoomElement("Wall");
+                    wall.Positions.Add(new GameFrame.Core.Math.Vector3(0, y, z));
+                    wall.Positions.Add(new GameFrame.Core.Math.Vector3(sizeX - 1, y, z));
                 }
             }
-            DumpRoom(room);
-            return room;
+            DumpRoom(roomType);
         }
 
-        private void DumpRoom(Room room)
+        private void DumpRoom(RoomType room)
         {
             var json = GameFrame.Core.Json.Handler.SerializePretty(room);
             var filePath = Application.streamingAssetsPath + "/room.json";
@@ -198,36 +206,49 @@ namespace Assets.Scripts.Scenes.TheRoom
             AddRoomElement(longBox, new UnityEngine.Vector3(1, 1, 1));
         }
 
-        public void LoadRoom(Room room)
+        private void LoadCurrentRoom()
         {
-            //List<GameObject> wallObjects = new List<GameObject>();
-            for (int x = 0; x < room.Materials.GetLength(0); x++)
+            CurrentRoomType = GetRoomTypeByLevelId(Base.Core.Game.State.CurrentLevel.ID);
+            foreach (var wallElem in CurrentRoomType.WallElements)
             {
-                for (int y = 0; y < room.Materials.GetLength(1); y++)
+                availableModels.TryGetValue(wallElem.Model, out var modelTemplate);
+                foreach (var position in wallElem.Positions)
                 {
-                    for (int z = 0; z < room.Materials.GetLength(2); z++)
-                    {
-                        var roomElement = room.Materials[x, y, z];
-
-                        if (roomElement != default)
-                        {
-                            var mat = Instantiate(template, objectsContainer.transform);
-
-                            mat.AddRoomElement(roomElement);
-                            mat.AddComponent<BoundsCalculationBehaviour>();
-                            mat.transform.position = new UnityEngine.Vector3(x, y, z);
-                            mat.SetActive(true);
-                            //if (roomElement.Texture == "Wall")
-                            //{
-                            //    wallObjects.Add(mat);
-                            //}
-                        }
-                    }
+                    InstantiateWallElement(position, modelTemplate);
                 }
             }
-            //MergeWallMeshes(wallObjects);
+
             AdjustCamera();
+            if (Base.Core.Game.State.CurrentLevel.TheRoom.Elements == default)
+            {
+                Base.Core.Game.State.CurrentLevel.TheRoom.Elements = new List<RoomElement>();
+            }
+            foreach (var roomElement in Base.Core.Game.State.CurrentLevel.TheRoom.Elements)
+            {
+                AddRoomElement(roomElement, setSelected: false);
+            }
         }
+
+        private void InstantiateWallElement(GameFrame.Core.Math.Vector3 position, GameObject template)
+        {
+            var mat = Instantiate(template, objectsContainer.transform);
+
+            //mat.AddRoomElement(roomElement);
+            mat.AddComponent<BoundsCalculationBehaviour>();
+            mat.transform.position = position.ToUnity();
+            mat.SetActive(true);
+        }
+
+        private RoomType GetRoomTypeByLevelId(Guid iD)
+        {
+            Base.Core.Game.State.GameMode.LevelsByID.TryGetValue(iD, out var level);
+            if (level != null)
+            {
+                return Base.Core.Game.State.GameMode.RoomTypes[level.RoomReference];
+            }
+            return default;
+        }
+
 
 
 
@@ -253,13 +274,31 @@ namespace Assets.Scripts.Scenes.TheRoom
         //    //transform.gameObject.SetActive(true);
         //}
 
+        private void AddRoomElement(RoomElement roomElement, Boolean setSelected = true)
+        {
+            if (roomElement.Model.HasValue() && availableModels.TryGetValue(roomElement.Model, out var modelTemplate))
+            {
+                var mat = Instantiate(modelTemplate, objectsContainer.transform);
+
+                var roomElementBehaviour = mat.AddRoomElement(roomElement, this);
+
+                mat.transform.position = roomElement.Position.ToUnity();
+                mat.SetActive(true);
+
+                if (setSelected)
+                {
+                    SetSelectedElement(roomElementBehaviour);
+                }
+            }
+        }
+
         private void AddRoomElement(RoomElement roomElement, UnityEngine.Vector3 position, Boolean setSelected = true)
         {
             if (roomElement.Model.HasValue() && availableModels.TryGetValue(roomElement.Model, out var modelTemplate))
             {
                 var mat = Instantiate(modelTemplate, objectsContainer.transform);
 
-                var roomElementBehaviour = mat.AddRoomElement(roomElement);
+                var roomElementBehaviour = mat.AddRoomElement(roomElement, this);
 
                 mat.transform.position = position;
                 mat.SetActive(true);

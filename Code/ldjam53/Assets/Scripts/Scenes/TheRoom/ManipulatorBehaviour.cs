@@ -66,12 +66,14 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             theRoomBehaviour.selectedElement.transform.position = theRoomBehaviour.selectedElement.transform.position + dir;
             currentInterval = moveInterval;
+            theRoomBehaviour.selectedElement.UpdateIsPlaceable();
         }
 
         private void Rotate(Vector3 dir)
         {
             theRoomBehaviour.selectedElement.transform.Rotate(dir);
             currentInterval = moveInterval;
+            theRoomBehaviour.selectedElement.UpdateIsPlaceable();
         }
 
 
