@@ -20,10 +20,9 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public Camera sceneCamera;
         public RoomElementBehaviour selectedElement;
+        public RoomElementListBehaviour RoomElementListBehaviour;
 
         private UnityEngine.Vector3 spawn = new UnityEngine.Vector3(2, 2, 2);
-
-
         public RoomType CurrentRoomType { get; private set; }
 
 
@@ -68,6 +67,11 @@ namespace Assets.Scripts.Scenes.TheRoom
                 else
                 {
                     SetSelectedElement(default);
+
+                    if (Base.Core.Game.State.CurrentLevel.RemainingElements.Count < 1)
+                    {
+                        LevelCompleted();
+                    }
                 }
             }
         }
@@ -121,11 +125,23 @@ namespace Assets.Scripts.Scenes.TheRoom
         public void OnSlotSelected(RoomElementListSlotBehaviour slot)
         {
             Base.Core.Game.PlayButtonSound();
+            
+            var key = slot.RoomElementItem.Type;
+
+            SpawnFromKey(key);
 
             slot.RoomElementItem.Quantity--;
-            Base.Core.Game.State.CurrentLevel.RemainingElements[slot.RoomElementItem.Type]--;
 
-            SpawnFromKey(slot.RoomElementItem.Type);
+            var remainingElements = Base.Core.Game.State.CurrentLevel.RemainingElements;
+
+            remainingElements[key]--;
+
+            if (remainingElements[key] < 1)
+            {
+                remainingElements.Remove(key);
+            }
+
+            RoomElementListBehaviour.UpdateList();
         }
 
         public void BuildRoom()

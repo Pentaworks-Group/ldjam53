@@ -839,9 +839,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3197f8fb363ed964e905781d9725f7d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  template: {fileID: 1016378988}
   sceneCamera: {fileID: 414000126}
   selectedElement: {fileID: 0}
+  RoomElementListBehaviour: {fileID: 254722087}
 --- !u!114 &608277025
 MonoBehaviour:
   m_ObjectHideFlags: 0
