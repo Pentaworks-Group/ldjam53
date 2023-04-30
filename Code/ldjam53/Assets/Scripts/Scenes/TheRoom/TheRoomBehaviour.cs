@@ -18,13 +18,28 @@ namespace Assets.Scripts.Scenes.TheRoom
         private readonly Dictionary<String, GameObject> availableModels = new Dictionary<String, GameObject>();
         private GameObject objectsContainer;
 
-        public GameObject template;
         public Camera sceneCamera;
         public RoomElementBehaviour selectedElement;
-        //public GameObject cube;
+
+        private UnityEngine.Vector3 spawn = new UnityEngine.Vector3(2, 2, 2);
 
 
         public RoomType CurrentRoomType { get; private set; }
+
+
+
+        public void Awake()
+        {
+            this.objectsContainer = transform.Find("ObjectsContainer").gameObject;
+            LoadTemplates();
+        }
+
+
+        public void Start()
+        {
+            LoadCurrentRoom();
+        }
+
 
         public void Update()
         {
@@ -34,21 +49,11 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
+
         public void ToMainMenu()
         {
             Base.Core.Game.PlayButtonSound();
             Base.Core.Game.ChangeScene(SceneNames.MainMenu);
-        }
-
-        public void Awake()
-        {
-            this.objectsContainer = transform.Find("ObjectsContainer").gameObject;
-            LoadTemplates();
-        }
-
-        public void Start()
-        {
-            LoadCurrentRoom();
         }
 
 
@@ -56,18 +61,45 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             if (selectedElement == default || selectedElement.IsPlaceable)
             {
+                var level = GetCurrentLevelDefinition();
+                if (level.IsSelectionRandom)
+                {
+                    SpawnRandomFromRemainingElement();
+                } else
+                {
 
-                var nextSelected = ChooseNext();
-                AddRoomElement(nextSelected, new UnityEngine.Vector3(1, 1, 1));
+                }
+
             }
         }
 
-        public RoomElement ChooseNext()
+        public void SpawnFromKey(String key)
         {
-            List<RoomElement> elements = GetPossibleRoomElements();
-            var rndElement = elements.GetRandomEntry();
-            return rndElement;
+            var roomElementType = Base.Core.Game.State.GameMode.ElementTypes[key];
+            var roomElement = new RoomElement(roomElementType.Name)
+            {
+                Model = roomElementType.Models.GetRandomEntry(),
+                IconReference = roomElementType.IconReference,
+                Material = roomElementType.Materials.GetRandomEntry()
+                //Rotatable = roomElementType.Rotatable
+            };
+            AddRoomElement(roomElement, spawn);
         }
+
+        private void SpawnRandomFromRemainingElement()
+        {
+            var remainingElements = Base.Core.Game.State.CurrentLevel.RemainingElements;
+            List<String> elements = new List<String>(remainingElements.Keys);
+            var rndKey = elements.GetRandomEntry();
+            remainingElements[rndKey]--;
+            if (remainingElements[rndKey] < 1)
+            {
+                remainingElements.Remove(rndKey);
+            }
+            SpawnFromKey(rndKey);
+        }
+
+
 
         public void BuildRoom()
         {
@@ -79,11 +111,12 @@ namespace Assets.Scripts.Scenes.TheRoom
                 WallElements = new List<WallElement>(),
                 Name = "Cask",
                 Size = new GameFrame.Core.Math.Vector3(sizeX, sizeY, sizeZ)
-                
+
             };
-            var wall = new WallElement() {
+            var wall = new WallElement()
+            {
                 Positions = new List<GameFrame.Core.Math.Vector3>(),
-                Model = "Singleblock" 
+                Model = "Singleblock"
             };
             roomType.WallElements.Add(wall);
             //var roof = new WallElement();
@@ -120,95 +153,9 @@ namespace Assets.Scripts.Scenes.TheRoom
             writer.Close();
         }
 
-        private List<RoomElement> GetPossibleRoomElements()
-        {
-            List<RoomElement> elements = new List<RoomElement>();
-            var box = new RoomElement("BoxDefault")
-            {
-                Model = "Pack_box_edge",
-                Rotatable = true,
-                Rotation = GameFrame.Core.Math.Vector3.Zero,
-            };
-            elements.Add(box);
-
-            var longBox = new RoomElement("LongBox")
-            {
-                Model = "Pack_box_long_edge",
-                Rotatable = true,
-                Rotation = GameFrame.Core.Math.Vector3.Zero
-            };
-            elements.Add(longBox);
-
-            var broom = new RoomElement("Broom")
-            {
-                Model = "Broom_edge",
-                Rotatable = true,
-                Rotation = GameFrame.Core.Math.Vector3.Zero
-            };
-            elements.Add(broom);
-
-            var letter = new RoomElement("Letter")
-            {
-                Model = "Pack_letter_edge",
-                Rotatable = true,
-                Rotation = GameFrame.Core.Math.Vector3.Zero
-            };
-            elements.Add(letter);
-
-            return elements;
-        }
-
-        public void LoadBox()
-        {
-            var box = new RoomElement("BoxDefault")
-            {
-                Model = "Pack_box_edge",
-                Rotatable = true,
-                Rotation = GameFrame.Core.Math.Vector3.Zero,
-            };
-
-            AddRoomElement(box, new UnityEngine.Vector3(1, 1, 1));
-        }
-
-        public void LoadBoxLong()
-        {
-            var longBox = new RoomElement("LongBox")
-            {
-                Model = "Pack_box_long_edge",
-                Rotatable = true,
-                Rotation = GameFrame.Core.Math.Vector3.Zero
-            };
-
-            AddRoomElement(longBox, new UnityEngine.Vector3(1, 1, 1));
-        }
-
-        public void LoadBroom()
-        {
-            var longBox = new RoomElement("Broom")
-            {
-                Model = "Broom_edge",
-                Rotatable = true,
-                Rotation = GameFrame.Core.Math.Vector3.Zero
-            };
-
-            AddRoomElement(longBox, new UnityEngine.Vector3(1, 1, 1));
-        }
-
-        public void LoadLetter()
-        {
-            var longBox = new RoomElement("Letter")
-            {
-                Model = "Pack_letter_edge",
-                Rotatable = true,
-                Rotation = GameFrame.Core.Math.Vector3.Zero
-            };
-
-            AddRoomElement(longBox, new UnityEngine.Vector3(1, 1, 1));
-        }
-
         private void LoadCurrentRoom()
         {
-            CurrentRoomType = GetRoomTypeByLevelId(Base.Core.Game.State.CurrentLevel.ID);
+            CurrentRoomType = GetRoomTypeByLevelId();
             foreach (var wallElem in CurrentRoomType.WallElements)
             {
                 availableModels.TryGetValue(wallElem.Model, out var modelTemplate);
@@ -239,14 +186,21 @@ namespace Assets.Scripts.Scenes.TheRoom
             mat.SetActive(true);
         }
 
-        private RoomType GetRoomTypeByLevelId(Guid iD)
+        private RoomType GetRoomTypeByLevelId()
         {
-            Base.Core.Game.State.GameMode.LevelsByID.TryGetValue(iD, out var level);
+            var level = GetCurrentLevelDefinition();
             if (level != null)
             {
                 return Base.Core.Game.State.GameMode.RoomTypes[level.RoomReference];
             }
             return default;
+        }
+
+        private static LevelDefinition GetCurrentLevelDefinition()
+        {
+            Guid iD = Base.Core.Game.State.CurrentLevel.ID;
+            Base.Core.Game.State.GameMode.LevelsByID.TryGetValue(iD, out var level);
+            return level;
         }
 
 
