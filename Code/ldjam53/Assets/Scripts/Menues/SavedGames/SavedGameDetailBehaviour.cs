@@ -12,7 +12,6 @@ namespace Assets.Scripts.Scene.SaveGame
         private Text createdOn;
         private Text timeStamp;
         private Text timeElapsed;
-        private Text moneyAmount;
 
         [SerializeField]
         private GameObject container;
@@ -24,7 +23,6 @@ namespace Assets.Scripts.Scene.SaveGame
             createdOn = transform.Find("DetailsContainer/Created/Value").GetComponent<Text>();
             timeStamp = transform.Find("DetailsContainer/TimeStamp/Value").GetComponent<Text>();
             timeElapsed = transform.Find("DetailsContainer/TimeElapsed/Value").GetComponent<Text>();
-            moneyAmount = transform.Find("DetailsContainer/Money/Value").GetComponent<Text>();
             var overwriteButton = transform.Find("DetailsContainer/Buttons/Override").GetComponent<Button>();
 
             overwriteButton.gameObject.SetActive(Base.Core.Game.State != default);
@@ -36,7 +34,6 @@ namespace Assets.Scripts.Scene.SaveGame
             createdOn.text = preview.CreatedOn;
             timeStamp.text = preview.SavedOn;
             timeElapsed.text = preview.TimeElapsed;
-            moneyAmount.text = preview.Money;
 
             this.key = preview.Key;
             container.SetActive(true);

@@ -133,7 +133,8 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private void LevelCompleted()
         {
-            Debug.Log("Level Completed");
+            //Debug.Log("Level Completed");
+            Base.Core.Game.ChangeScene(SceneNames.World);
         }
 
         public void OnSlotSelected(RoomElementListSlotBehaviour slot)
