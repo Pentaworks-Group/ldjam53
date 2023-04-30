@@ -2,8 +2,7 @@ Todo:
 ----------------------------------
  Name:
  - O.W.L - Owls With Luggage
- 
- 
+  
  Bugs: 
  - 
  
@@ -15,8 +14,7 @@ Todo:
    
  GamePlay:
  - Handle items
- - Highlight Items
-     
+      
  UI: 
  - Credits
    
