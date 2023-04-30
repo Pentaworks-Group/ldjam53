@@ -49,33 +49,33 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
-
         public void ToMainMenu()
         {
             Base.Core.Game.PlayButtonSound();
             Base.Core.Game.ChangeScene(SceneNames.MainMenu);
         }
 
-
         public void PlaceSelected()
         {
             if (selectedElement == default || selectedElement.IsPlaceable)
             {
                 var level = GetCurrentLevelDefinition();
+
                 if (level.IsSelectionRandom)
                 {
                     SpawnRandomFromRemainingElement();
-                } else
+                } 
+                else
                 {
-
+                    SetSelectedElement(default);
                 }
-
             }
         }
 
         public void SpawnFromKey(String key)
         {
             var roomElementType = Base.Core.Game.State.GameMode.ElementTypes[key];
+
             var roomElement = new RoomElement(roomElementType.Name)
             {
                 Model = roomElementType.Models.GetRandomEntry(),
@@ -83,27 +83,36 @@ namespace Assets.Scripts.Scenes.TheRoom
                 Material = roomElementType.Materials.GetRandomEntry()
                 //Rotatable = roomElementType.Rotatable
             };
+
             AddRoomElement(roomElement, spawn);
         }
 
         private void SpawnRandomFromRemainingElement()
         {
-            var remainingElements = Base.Core.Game.State.CurrentLevel.RemainingElements;
-            List<String> elements = new List<String>(remainingElements.Keys);
-            var rndKey = elements.GetRandomEntry();
-            remainingElements[rndKey]--;
-            if (remainingElements[rndKey] < 1)
+            var remainingElement = Base.Core.Game.State.CurrentLevel.RemainingElements;
+
+            var randomKey = remainingElement.GetRandomKey();
+
+            var entry = remainingElement[randomKey];
+            
+            entry--;
+            
+            if (entry < 1)
             {
-                remainingElements.Remove(rndKey);
+                remainingElement.Remove(randomKey);
             }
-            SpawnFromKey(rndKey);
+
+            SpawnFromKey(randomKey);
         }
 
         public void OnSlotSelected(RoomElementListSlotBehaviour slot)
         {
             Base.Core.Game.PlayButtonSound();
 
-            // Do Stuff with slot.. e.g. Spawn & Select.
+            slot.RoomElementItem.Quantity--;
+            Base.Core.Game.State.CurrentLevel.RemainingElements[slot.RoomElementItem.Type]--;
+
+            SpawnFromKey(slot.RoomElementItem.Type);
         }
 
         public void BuildRoom()
@@ -171,10 +180,12 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
 
             AdjustCamera();
+
             if (Base.Core.Game.State.CurrentLevel.TheRoom.Elements == default)
             {
                 Base.Core.Game.State.CurrentLevel.TheRoom.Elements = new List<RoomElement>();
             }
+
             foreach (var roomElement in Base.Core.Game.State.CurrentLevel.TheRoom.Elements)
             {
                 AddRoomElement(roomElement, setSelected: false);
@@ -194,10 +205,12 @@ namespace Assets.Scripts.Scenes.TheRoom
         private RoomType GetRoomTypeByLevelId()
         {
             var level = GetCurrentLevelDefinition();
+
             if (level != null)
             {
                 return Base.Core.Game.State.GameMode.RoomTypes[level.RoomReference];
             }
+
             return default;
         }
 
@@ -207,8 +220,6 @@ namespace Assets.Scripts.Scenes.TheRoom
             Base.Core.Game.State.GameMode.LevelsByID.TryGetValue(iD, out var level);
             return level;
         }
-
-
 
 
         //private void MergeWallMeshes(List<GameObject> wallObjects)
@@ -282,7 +293,10 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             this.selectedElement = roomElementBehaviour;
 
-            this.selectedElement.SetSelected(true);
+            if (roomElementBehaviour != null)
+            {
+                roomElementBehaviour.SetSelected(true);
+            }
         }
 
         private void LoadTemplates()
@@ -314,7 +328,6 @@ namespace Assets.Scripts.Scenes.TheRoom
                 throw new Exception($"Missing '{templateContainerName}' templates!");
             }
         }
-
 
         public void AdjustCamera()
         {
