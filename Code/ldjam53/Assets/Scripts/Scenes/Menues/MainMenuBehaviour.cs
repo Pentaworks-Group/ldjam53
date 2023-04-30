@@ -6,6 +6,11 @@ namespace Assets.Scripts.Scenes.Menues
 {
     public class MainMenuBehaviour : MonoBehaviour
     {
+        public void Awake()
+        {
+            GameFrame.Base.Audio.Background.Clips = Base.Core.Game.AudioClipListMenu;
+        }
+
         public void ShowSavedGames()
         {
             Base.Core.Game.PlayButtonSound();

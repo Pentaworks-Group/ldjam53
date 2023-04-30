@@ -86,7 +86,6 @@ namespace Assets.Scripts.Core
                 GameFrame.Base.Resources.Manager.Audio.Get("Menu_2"),
                 GameFrame.Base.Resources.Manager.Audio.Get("Game_1"),
                 GameFrame.Base.Resources.Manager.Audio.Get("Game_2"),
-                GameFrame.Base.Resources.Manager.Audio.Get("Game_3"),
                 GameFrame.Base.Resources.Manager.Audio.Get("Game_4"),
                 GameFrame.Base.Resources.Manager.Audio.Get("Game_5"),
                 GameFrame.Base.Resources.Manager.Audio.Get("Game_6"),
