@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using Assets.Scripts.Constants;
+using Assets.Scripts.Core;
 using Assets.Scripts.Core.Definitions;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.Models;
@@ -17,6 +18,7 @@ namespace Assets.Scripts.Scenes.TheRoom
     {
         private readonly Dictionary<String, GameObject> availableModels = new Dictionary<String, GameObject>();
         private GameObject objectsContainer;
+        private GameState currentGameState;
 
         public Camera sceneCamera;
         public RoomElementBehaviour selectedElement;
@@ -25,11 +27,11 @@ namespace Assets.Scripts.Scenes.TheRoom
         private UnityEngine.Vector3 spawn = new UnityEngine.Vector3(2, 2, 2);
         public RoomType CurrentRoomType { get; private set; }
 
-        //private Boolean[,,] roomPlacements;
-
         public void Awake()
         {
             this.objectsContainer = transform.Find("ObjectsContainer").gameObject;
+
+            this.currentGameState = Base.Core.Game.State;
 
             LoadTemplates();
         }
@@ -44,6 +46,11 @@ namespace Assets.Scripts.Scenes.TheRoom
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 PlaceSelected();
+            }
+
+            if (Time.timeScale > 0)
+            {
+                currentGameState.CurrentLevel.ElapsedTime += Time.deltaTime;
             }
         }
 
@@ -74,7 +81,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 {
                     SetSelectedElement(default);
 
-                    if (Base.Core.Game.State.CurrentLevel.RemainingElements.Count < 1)
+                    if (currentGameState.CurrentLevel.RemainingElements.Count < 1)
                     {
                         LevelCompleted();
                     }
@@ -95,7 +102,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void SpawnFromKey(String key)
         {
-            var roomElementType = Base.Core.Game.State.GameMode.ElementTypes[key];
+            var roomElementType = currentGameState.GameMode.ElementTypes[key];
 
             var roomElement = new RoomElement(roomElementType.Name)
             {
@@ -110,7 +117,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private void SpawnRandomFromRemainingElement()
         {
-            var remainingElements = Base.Core.Game.State.CurrentLevel.RemainingElements;
+            var remainingElements = currentGameState.CurrentLevel.RemainingElements;
 
             if (remainingElements.Count > 0)
             {
@@ -135,6 +142,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private void LevelCompleted()
         {
+            currentGameState.CurrentLevel.IsCompleted = true;
             //Debug.Log("Level Completed");
             Base.Core.Game.ChangeScene(SceneNames.World);
         }
@@ -155,7 +163,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
                     slot.RoomElementItem.Quantity--;
 
-                    var remainingElements = Base.Core.Game.State.CurrentLevel.RemainingElements;
+                    var remainingElements = currentGameState.CurrentLevel.RemainingElements;
 
                     remainingElements[key]--;
 
@@ -262,12 +270,12 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             AdjustCamera();
 
-            if (Base.Core.Game.State.CurrentLevel.TheRoom.Elements == default)
+            if (currentGameState.CurrentLevel.TheRoom.Elements == default)
             {
-                Base.Core.Game.State.CurrentLevel.TheRoom.Elements = new List<RoomElement>();
+                currentGameState.CurrentLevel.TheRoom.Elements = new List<RoomElement>();
             }
 
-            foreach (var roomElement in Base.Core.Game.State.CurrentLevel.TheRoom.Elements)
+            foreach (var roomElement in currentGameState.CurrentLevel.TheRoom.Elements)
             {
                 AddRoomElement(roomElement, setSelected: false);
             }
@@ -290,16 +298,16 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             if (level != null)
             {
-                return Base.Core.Game.State.GameMode.RoomTypes[level.RoomReference];
+                return currentGameState.GameMode.RoomTypes[level.RoomReference];
             }
 
             return default;
         }
 
-        private static LevelDefinition GetCurrentLevelDefinition()
+        private LevelDefinition GetCurrentLevelDefinition()
         {
-            Guid iD = Base.Core.Game.State.CurrentLevel.ID;
-            Base.Core.Game.State.GameMode.LevelsByID.TryGetValue(iD, out var level);
+            Guid iD = currentGameState.CurrentLevel.ID;
+            currentGameState.GameMode.LevelsByID.TryGetValue(iD, out var level);
             return level;
         }
 

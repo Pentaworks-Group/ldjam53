@@ -13,7 +13,8 @@ Todo:
  - Load assets from JSON
    
  GamePlay:
- - Handle items
+ - TheRoom - Reset Level
+ 
       
  UI: 
  - Credits
@@ -30,7 +31,7 @@ Refactoring:
  
 WIP:
 ----------------------------------
- - 
+ - World - Display levels
  
 Nice to have:
 ----------------------------------
