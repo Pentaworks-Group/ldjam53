@@ -7,13 +7,25 @@
             {
                 "ID": "e19cc835-4c50-4618-b15f-79db42a7b802",
                 "Name": "There is always a first time",
-                "RoomReference": "Cask",
-                "IsSelectionRandom": false,
+                "RoomReference": "Pipe",
+                "IsSelectionRandom": true,
                 "Elements": {
-                    "Broom": 1,
-                    "BoxLong": 1,
-                    "Box": 1,
-                    "Letter": 1
+                    "Broom": 5,
+                    "BoxLong": 5,
+                    "Box": 5,
+                    "Letter": 5
+                }
+            },
+            {
+                "ID": "e19cc835-4c50-4618-b15f-79db42a7b803",
+                "Name": "Second Try",
+                "RoomReference": "Cask",
+                "IsSelectionRandom": true,
+                "Elements": {
+                    "Broom": 5,
+                    "BoxLong": 5,
+                    "Box": 5,
+                    "Letter": 5
                 }
             }
         ],
