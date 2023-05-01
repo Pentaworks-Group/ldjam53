@@ -11,6 +11,7 @@ namespace Assets.Scripts.Scenes.TheRoom
     public class RoomElementListSlotBehaviour : ListSlotBehaviour<RoomElementListItem>
     {
         private Image iconImage;
+        //private AspectRatioFitter ratioFitter;
         private TMP_Text nameText;
         private TMP_Text quantityText;
 
@@ -26,7 +27,8 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public override void RudeAwake()
         {
-            iconImage = transform.Find("Info/Icon").GetComponent<Image>();
+            iconImage = transform.Find("Info/PicContainer/Icon").GetComponent<Image>();
+            //ratioFitter = transform.Find("Info/PicContainer/Icon").GetComponent<AspectRatioFitter>();
             nameText = transform.Find("Info/NameText").GetComponent<TMP_Text>();
             quantityText = transform.Find("Info/QuantityText").GetComponent<TMP_Text>();
         }
@@ -42,6 +44,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 if (icon != null)
                 {
                     iconImage.sprite = icon;
+                    iconImage.preserveAspect = true;
                 }
             }
 

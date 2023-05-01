@@ -272,11 +272,12 @@ namespace Assets.Scripts.Scenes.TheRoom
         public void DumpCurrentRoom()
         {
             var wallPositions = GetChildrenPositions(wallContainer);
+            var size = GetSizeAndRecenter(wallPositions);
             RoomType roomType = new RoomType
             {
                 WallElements = new List<WallElement>(),
                 Name = "New",
-                Size = GetSize(wallPositions)
+                Size = size
 
             };
             var wall = new WallElement()
@@ -289,7 +290,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             DumpRoom(roomType);
         }
 
-        private GameFrame.Core.Math.Vector3 GetSize(List<GameFrame.Core.Math.Vector3> positions)
+        private GameFrame.Core.Math.Vector3 GetSizeAndRecenter(List<GameFrame.Core.Math.Vector3> positions)
         {
             if (positions.Count < 1)
             {
@@ -328,6 +329,14 @@ namespace Assets.Scripts.Scenes.TheRoom
                 {
                     maxZ = pos.Z;
                 }
+            }
+
+            for (int i = 0; i < positions.Count; i++)
+            {
+                var pos = positions[i];
+                pos.X -= minX;
+                pos.Y -= minY;
+                pos.Z -= minZ;
             }
             return new GameFrame.Core.Math.Vector3(maxX - minX, maxY - minY, maxZ - minZ);
         }
