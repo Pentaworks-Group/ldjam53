@@ -352,16 +352,21 @@ namespace Assets.Scripts.Scenes.TheRoom
                     maxZ = pos.Z;
                 }
             }
-
+            var sizeX = maxX - minX;
+            var sizeY = maxY - minY;
+            var sizeZ = maxZ - minZ;
+            var offsetX = minX + (int)(sizeX / 2);
+            var offsetZ = minZ + (int)(sizeZ / 2);
             for (int i = 0; i < positions.Count; i++)
             {
                 var pos = positions[i];
-                pos.X -= minX;
+                pos.X -= offsetX;
                 pos.Y -= minY;
-                pos.Z -= minZ;
+                pos.Z -= offsetZ;
                 positions[i] = pos;
             }
-            return new GameFrame.Core.Math.Vector3(maxX - minX, maxY - minY, maxZ - minZ);
+
+            return new GameFrame.Core.Math.Vector3(sizeX, sizeY, sizeZ);
         }
 
         private List<GameFrame.Core.Math.Vector3> GetChildrenPositions(GameObject container)
@@ -378,7 +383,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             var json = GameFrame.Core.Json.Handler.SerializePretty(room);
             var filePath = Application.streamingAssetsPath + "/room.json";
-            StreamWriter writer = new StreamWriter(filePath, true);
+            StreamWriter writer = new StreamWriter(filePath, false);
             writer.Write(json);
             writer.Close();
         }
