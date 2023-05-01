@@ -42,7 +42,7 @@ namespace Assets.Scripts.Scene.SaveGame
         {
             Base.Core.Game.PlayButtonSound();
 
-            Base.Core.Game.DeleteAll();
+            Base.Core.Game.DeleteAllSavedGames();
             UpdateList();
         }
 
