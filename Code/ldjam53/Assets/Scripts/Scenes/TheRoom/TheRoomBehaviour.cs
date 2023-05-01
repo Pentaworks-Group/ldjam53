@@ -25,6 +25,10 @@ namespace Assets.Scripts.Scenes.TheRoom
         public RoomElementBehaviour selectedElement;
         public RoomElementListBehaviour RoomElementListBehaviour;
 
+
+        public float cameraDistance = .8f; // Constant factor
+        private UnityEngine.Vector3 cameraRotation;
+
         private UnityEngine.Vector3 spawn = new UnityEngine.Vector3(2, 2, 2);
         public RoomType CurrentRoomType { get; private set; }
 
@@ -36,6 +40,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             this.currentGameState = Base.Core.Game.State;
 
             LoadTemplates();
+            cameraRotation = sceneCamera.transform.eulerAngles;
         }
 
         public void Start()
@@ -445,8 +450,8 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             Bounds b = GetBounds(this.gameObject);
 
-            float cameraDistance = .25f; // Constant factor
             UnityEngine.Vector3 objectSizes = b.max - b.min;
+            sceneCamera.transform.eulerAngles = cameraRotation;
 
             float objectSize = Mathf.Max(objectSizes.x, objectSizes.y, objectSizes.z);
 
