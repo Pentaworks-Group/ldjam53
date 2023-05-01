@@ -13,7 +13,8 @@
                     "Broom": 9,
                     "BoxLong": 3,
                     "Sword": 2,
-                    "Potion Boiler": 1
+                    "Potion Boiler": 1,
+                    "Telling Ball":  2
                 }
             },
             {
@@ -168,6 +169,13 @@
                 "IconReference": "2d_Boiler",
                 "Models": [
                     "Boiler"
+                ]
+            },
+            "Telling Ball": {
+                "Name": "Telling Ball",
+                "IconReference": "2d_EnergyBall",
+                "Models": [
+                    "EnergyBall"
                 ]
             }
 
