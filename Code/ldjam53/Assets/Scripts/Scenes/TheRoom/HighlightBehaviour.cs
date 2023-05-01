@@ -15,6 +15,8 @@ namespace Assets.Scripts.Scenes.TheRoom
         private static Vector4 notPlaceableColor = new Vector4(10 * INTENSITY, 0f * INTENSITY, 0f * INTENSITY, 1);
 
         private readonly List<Material> materials = new List<Material>();
+        private Dictionary<Material, Boolean> hadEmission = new Dictionary<Material, bool>();
+        private Dictionary<Material, Vector4> hadEmissionColor = new Dictionary<Material, Vector4>();
 
         private RoomElementBehaviour roomElementBehaviour;
 
@@ -52,12 +54,33 @@ namespace Assets.Scripts.Scenes.TheRoom
                 //that is why we need to all materials with "s"
                 materials.AddRange(new List<Material>(renderer.materials));
             }
+
+            foreach (var material in materials)
+            {
+                //Save Emission state
+                if (material.IsKeywordEnabled("_EMISSION"))
+                {
+                    /*                    if(hadEmission.ContainsKey(material))
+                                        {
+                                            hadEmission.Remove(material);
+                                            hadEmissionColor.Remove(material);
+                                        }*/
+
+                    hadEmission[material] = true;
+                    hadEmissionColor[material] = material.GetVector("_EmissionColor");
+                }
+                else
+                {
+                    hadEmission[material] = false;
+                }
+            }
         }
 
         private void EnableEmission(Vector4 emissionColor)
         {
             foreach (var material in materials)
             {
+
                 //We need to enable the EMISSION
                 material.EnableKeyword("_EMISSION");
 
@@ -70,7 +93,13 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             foreach (var material in materials)
             {
-                material.DisableKeyword("_EMISSION");
+                if(!hadEmission[material])
+                {
+                    material.DisableKeyword("_EMISSION");
+                } else
+                {
+                    material.SetVector("_EmissionColor", hadEmissionColor[material]);
+                }
             }
         }
 
