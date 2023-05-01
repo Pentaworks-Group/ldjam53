@@ -13,8 +13,10 @@ namespace Assets.Scripts.Scenes.World
     public class WorldBehaviour : MonoBehaviour
     {
         private GameState gameState;
+        
         private GameObject levelTemplate;
         private GameObject levelsContainer;
+        private GameObject owlSelection;
 
         public void OnLevelSelected(LevelBehaviour selectedLevel)
         {
@@ -27,9 +29,20 @@ namespace Assets.Scripts.Scenes.World
 
             if (level != default)
             {
+                Base.Core.Game.PlayButtonSound();
+
                 gameState.CurrentLevel = level;
                 Base.Core.Game.ChangeScene(SceneNames.TheRoom);
             }
+        }
+
+        public void OnOwlKindSelected(Boolean isEuropeanOwl)
+        {
+            gameState.IsUsingEuropeanOwls = isEuropeanOwl;
+
+            this.owlSelection.SetActive(false);
+
+            Base.Core.Game.PlayButtonSound();
         }
 
         private void LoadLevels()
@@ -111,8 +124,16 @@ namespace Assets.Scripts.Scenes.World
             {
                 this.levelTemplate = GameObject.Find("UI/Container/Templates/LevelTemplate");
                 this.levelsContainer = GameObject.Find("UI/Container/Levels");
-
+                
                 LoadLevels();
+
+                if (!gameState.IsUsingEuropeanOwls.HasValue)
+                {
+                    this.owlSelection = transform.Find("OwlSelection").gameObject;
+                    //this.owlSelection = GameObject.Find("UI/OwlSelection");
+
+                    this.owlSelection.SetActive(true);
+                }
             }
         }
     }
