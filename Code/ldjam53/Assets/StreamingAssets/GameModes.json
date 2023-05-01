@@ -15,7 +15,8 @@
                     "Box": 5,
                     "Letter": 5,
                     "Books": 5,
-                    "Egg":  5
+                    "Egg": 5,
+                    "Sword":  5
                 }
             },
             {
@@ -84,6 +85,13 @@
               "IconReference": "2d_Box",
               "Models": [
                 "Egg"
+              ]
+            },
+            "Sword": {
+              "Name": "Sword",
+              "IconReference": "2d_Broom",
+              "Models": [
+                "Sword"
               ]
             }
         },
