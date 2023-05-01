@@ -13,7 +13,8 @@
                     "Broom": 5,
                     "BoxLong": 5,
                     "Box": 5,
-                    "Letter": 5
+                    "Letter": 5,
+                    "Books":  5,
                 }
             },
             {
@@ -64,11 +65,18 @@
                 ]
             },
             "Letter": {
-                "Name": "Letterbox",
-                "IconReference": "2d_Letters",
-                "Models": [
-                    "Letterbox"
-                ]
+              "Name": "Letterbox",
+              "IconReference": "2d_Letters",
+              "Models": [
+                "Letterbox"
+              ]
+            },
+            "Books": {
+              "Name": "Books",
+              "IconReference": "2d_Box",
+              "Models": [
+                "Book_Box"
+              ]
             }
         },
         "RoomTypes": {
