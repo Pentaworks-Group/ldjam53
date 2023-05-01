@@ -10,7 +10,7 @@ namespace Assets.Scripts.Scenes.Menues
     {
         private GameObject Parent;
         private GameObject ToolTipObject;
-        public TMP_Text TextField;
+        public GameObject ToolTip;
 
         private void Awake()
         {
