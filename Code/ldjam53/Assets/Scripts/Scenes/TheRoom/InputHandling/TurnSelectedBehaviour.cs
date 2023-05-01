@@ -11,7 +11,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         public TheRoomBehaviour theRoomBehaviour;
 
 
-        private float threshhold = 0.3f;
+        private float threshhold = 5f;
 
         private float moveInterval = 0.1f;
         private float currentInterval = 0f;
@@ -68,6 +68,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             }
             if (currentInterval <= 0 && (moveX != 0 || moveZ != 0))
             {
+                Debug.Log("moveX: " + moveX + "  moveZ" + moveZ);
                 if (moveX > 0)
                 {
                     moveX = 90;
