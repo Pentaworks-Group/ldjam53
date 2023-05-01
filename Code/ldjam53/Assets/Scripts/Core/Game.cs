@@ -48,7 +48,7 @@ namespace Assets.Scripts.Core
             // Maybe add a Tutorial scene, where the user can set "skip" for the next time.
             var gameState = new GameState()
             {
-                CurrentScene = SceneNames.TheRoom,
+                CurrentScene = SceneNames.World,
                 GameMode = this.SelectedGameMode
             };
 
