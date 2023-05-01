@@ -14,7 +14,8 @@
                     "BoxLong": 5,
                     "Box": 5,
                     "Letter": 5,
-                    "Books":  5,
+                    "Books": 5,
+                    "Egg":  5
                 }
             },
             {
@@ -76,6 +77,13 @@
               "IconReference": "2d_Box",
               "Models": [
                 "Book_Box"
+              ]
+            },
+            "Egg": {
+              "Name": "Egg",
+              "IconReference": "2d_Box",
+              "Models": [
+                "Egg"
               ]
             }
         },
