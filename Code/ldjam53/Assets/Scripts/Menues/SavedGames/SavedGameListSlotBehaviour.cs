@@ -13,7 +13,6 @@ namespace Assets.Scripts.Scene.SaveGame
         private Text createdOn;
         private Text timeStamp;
         private Text timeElapsed;
-        private Text moneyAmount;
 
         public override void RudeAwake()
         {
