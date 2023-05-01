@@ -10,22 +10,23 @@
                 "RoomReference": "Pot",
                 "IsSelectionRandom": false,
                 "Elements": {
-                    "Broom": 5,
-                    "BoxLong": 5,
-                    "Box": 5,
-                    "Letter": 5,
-                    "Books": 5,
-                    "Dragons Egg": 5,
-                    "Egg": 5,
-                    "Sword": 5,
-                    "Ring": 5,
-                    "Ring Silver": 5,
-                    "Potion Bottle Red": 5,
-                    "Potion Bottle Green": 5,
-                    "Potion Bottle Blue": 5,
-                    "Potion Bottle Pink": 5,
-                    "Felix Felicis": 5,
-                    "Lunas Earrings": 5
+                  "Broom": 5,
+                  "BoxLong": 5,
+                  "Box": 5,
+                  "Letter": 5,
+                  "Books": 5,
+                  "Dragons Egg": 5,
+                  "Egg": 5,
+                  "Sword": 5,
+                  "Ring": 5,
+                  "Ring Silver": 5,
+                  "Potion Bottle Red": 5,
+                  "Potion Bottle Green": 5,
+                  "Potion Bottle Blue": 5,
+                  "Potion Bottle Pink": 5,
+                  "Felix Felicis": 5,
+                  "Lunas Earrings": 5,
+                  "Potion Boiler":  5,
                 }
             },
             {
@@ -170,6 +171,13 @@
               "IconReference": "2d_Box",
               "Models": [
                 "Flash"
+              ]
+            },
+            "Potion Boiler": {
+              "Name": "Potion Boiler",
+              "IconReference": "2d_Box",
+              "Models": [
+                "Boiler"
               ]
             }
 
