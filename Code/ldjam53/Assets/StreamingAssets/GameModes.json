@@ -24,7 +24,8 @@
                   "Potion Bottle Green": 5,
                   "Potion Bottle Blue": 5,
                   "Potion Bottle Pink": 5,
-                  "Felix Felicis":  5
+                  "Felix Felicis": 5,
+                  "Lunas Earrings": 5,
                 }
             },
             {
@@ -163,7 +164,15 @@
               "Models": [
                 "FelixFelicis"
               ]
+            },
+            "Lunas Earrings": {
+              "Name": "Lunas Earrings",
+              "IconReference": "2d_Box",
+              "Models": [
+                "Flash"
+              ]
             }
+
         },
         "RoomTypes": {
             "Test": {
