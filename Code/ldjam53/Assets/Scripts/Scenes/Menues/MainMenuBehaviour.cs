@@ -7,8 +7,6 @@ namespace Assets.Scripts.Scenes.Menues
 {
     public class MainMenuBehaviour : MonoBehaviour
     {
-        
-
         public void ShowSavedGames()
         {
             Base.Core.Game.PlayButtonSound();

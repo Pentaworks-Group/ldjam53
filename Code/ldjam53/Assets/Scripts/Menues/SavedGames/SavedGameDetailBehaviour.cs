@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-
 namespace Assets.Scripts.Scene.SaveGame
 {
     public class SavedGameDetailBehaviour : MonoBehaviour

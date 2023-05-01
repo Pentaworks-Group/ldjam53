@@ -16,9 +16,9 @@ namespace Assets.Scripts.Scenes.Credits
 
         protected override void OnStart()
         {
-            this.pageBackButton = GameObject.Find("UI/PageButtons/PageBackButton");
-            this.indexPageButton = GameObject.Find("UI/PageButtons/IndexPageButton");
-            this.pageForwardButton = GameObject.Find("UI/PageButtons/PageForwardButton");
+            this.pageBackButton = GameObject.Find("UI/Fitter/PageButtons/PageBackButton");
+            this.indexPageButton = GameObject.Find("UI/Fitter/PageButtons/IndexPageButton");
+            this.pageForwardButton = GameObject.Find("UI/Fitter/PageButtons/PageForwardButton");
 
             OpenPage(0);
         }
