@@ -15,6 +15,7 @@
                     "Box": 5,
                     "Letter": 5,
                     "Books": 5,
+                    "Dragons Egg": 5,
                     "Egg": 5,
                     "Sword": 5,
                     "Ring": 5,
@@ -82,11 +83,21 @@
                 "Book_Box"
               ]
             },
+            "Dragons Egg": {
+              "Name": "Dragons Egg",
+              "IconReference": "2d_Box",
+              "Models": [
+                "Egg"
+              ]
+            },
             "Egg": {
               "Name": "Egg",
               "IconReference": "2d_Box",
               "Models": [
                 "Egg"
+              ],
+              "Materials": [
+                "Eggshell"
               ]
             },
             "Sword": {
