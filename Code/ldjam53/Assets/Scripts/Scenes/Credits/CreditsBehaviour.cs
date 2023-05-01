@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+
+using TMPro;
 
 using UnityEngine;
 
@@ -13,15 +16,6 @@ namespace Assets.Scripts.Scenes.Credits
         private GameObject pageBackButton;
         private GameObject indexPageButton;
         private GameObject pageForwardButton;
-
-        protected override void OnStart()
-        {
-            this.pageBackButton = GameObject.Find("UI/Fitter/PageButtons/PageBackButton");
-            this.indexPageButton = GameObject.Find("UI/Fitter/PageButtons/IndexPageButton");
-            this.pageForwardButton = GameObject.Find("UI/Fitter/PageButtons/PageForwardButton");
-
-            OpenPage(0);
-        }
 
         public void OpenPage(PageBehaviour pageBehaviour)
         {
@@ -63,6 +57,15 @@ namespace Assets.Scripts.Scenes.Credits
         public void OnPreviousPageClicked()
         {
             OpenPage(--this.currentPageIndex);
+        }
+
+        protected override void OnStart()
+        {
+            this.pageBackButton = GameObject.Find("UI/Fitter/PageButtons/PageBackButton");
+            this.indexPageButton = GameObject.Find("UI/Fitter/PageButtons/IndexPageButton");
+            this.pageForwardButton = GameObject.Find("UI/Fitter/PageButtons/PageForwardButton");
+
+            OpenPage(0);
         }
     }
 }
