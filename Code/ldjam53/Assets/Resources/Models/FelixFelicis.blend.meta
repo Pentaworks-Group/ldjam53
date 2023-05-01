@@ -13,7 +13,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Potion
-    second: {fileID: 2100000, guid: 1ea38b5dd5fecdf448dec80c00702123, type: 2}
+    second: {fileID: 2100000, guid: b5e5eb4df77a79547b409f3d28c4db82, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
