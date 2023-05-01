@@ -12,13 +12,13 @@ namespace Assets.Scripts.Scene.SaveGame
     {
         private Text createdOn;
         private Text timeStamp;
-        private Text timeElapsed;
+        private Text completedLevels;
 
         public override void RudeAwake()
         {
             createdOn = transform.Find("SlotContainer/Info/Created").GetComponent<Text>();
             timeStamp = transform.Find("SlotContainer/Info/TimeStamp").GetComponent<Text>();
-            timeElapsed = transform.Find("SlotContainer/Info/TimeElapsed").GetComponent<Text>();
+            completedLevels = transform.Find("SlotContainer/Info/CompletedLevels").GetComponent<Text>();
         }
 
         public SavedGamedPreviewImpl GetSavedGamedPreview()
@@ -37,7 +37,7 @@ namespace Assets.Scripts.Scene.SaveGame
 
             createdOn.text = savedGame.CreatedOn;
             timeStamp.text = savedGame.SavedOn;
-            timeElapsed.text = savedGame.TimeElapsed;
+            completedLevels.text = savedGame.CompletedLevelsCount;
         }
 
         public void LoadGame()

@@ -11,7 +11,6 @@ namespace Assets.Scripts.Core
         public GameMode GameMode { get; set; }
         public Level CurrentLevel { get; set; }
         public List<Level> CompletedLevels { get; set; } = new List<Level>();
-
-        public Boolean? IsUsingEuropeanOwls { get; set; }
+        public String SelectedOwlType { get; set; }
     }
 }

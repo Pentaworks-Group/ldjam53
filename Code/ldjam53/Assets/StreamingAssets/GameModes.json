@@ -10,17 +10,20 @@
                 "RoomReference": "Cask",
                 "IsSelectionRandom": false,
                 "Elements": {
-                    "Broom": 5,
-                    "BoxLong": 5,
-                    "Box": 5,
-                    "Letter": 5,
-                    "Books": 5,
-                    "Dragons Egg": 5,
-                    "Egg": 5,
-                    "Sword": 5,
-                    "Ring": 5,
-                    "Ring Silver": 5,
-                    "Potion Bottle":  5
+                  "Broom": 5,
+                  "BoxLong": 5,
+                  "Box": 5,
+                  "Letter": 5,
+                  "Books": 5,
+                  "Dragons Egg": 5,
+                  "Egg": 5,
+                  "Sword": 5,
+                  "Ring": 5,
+                  "Ring Silver": 5,
+                  "Potion Bottle Red": 5,
+                  "Potion Bottle Green": 5,
+                  "Potion Bottle Blue": 5,
+                  "Potion Bottle Pink": 5
                 }
             },
             {
@@ -125,11 +128,32 @@
                 "Silver"
               ]
             },
-            "Potion Bottle": {
-              "Name": "Potion Bottle",
+            "Potion Bottle Red": {
+              "Name": "Potion Bottle Red",
               "IconReference": "2d_Box",
               "Models": [
-                "Bottle"
+                "BottleRed"
+              ]
+            },
+            "Potion Bottle Green": {
+              "Name": "Potion Bottle Green",
+              "IconReference": "2d_Box",
+              "Models": [
+                "BottleGreen"
+              ]
+            },
+            "Potion Bottle Blue": {
+              "Name": "Potion Bottle Blue",
+              "IconReference": "2d_Box",
+              "Models": [
+                "BottleBlue"
+              ]
+            },
+            "Potion Bottle Pink": {
+              "Name": "Potion Bottle Pink",
+              "IconReference": "2d_Box",
+              "Models": [
+                "BottlePink"
               ]
             }
         },
