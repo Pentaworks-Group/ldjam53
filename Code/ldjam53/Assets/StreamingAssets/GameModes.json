@@ -26,6 +26,7 @@
                   "Potion Bottle Pink": 5,
                   "Felix Felicis": 5,
                   "Lunas Earrings": 5,
+                  "Potion Boiler":  5,
                 }
             },
             {
@@ -170,6 +171,13 @@
               "IconReference": "2d_Box",
               "Models": [
                 "Flash"
+              ]
+            },
+            "Potion Boiler": {
+              "Name": "Potion Boiler",
+              "IconReference": "2d_Box",
+              "Models": [
+                "Boiler"
               ]
             }
 
