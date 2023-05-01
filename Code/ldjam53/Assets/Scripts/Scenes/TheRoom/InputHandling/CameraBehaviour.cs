@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Base;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 {
@@ -36,9 +37,11 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             //    {
             //        panTimeout -= 1;
             //    }
-
-            bool zoomChanged = ZoomHandling();
-            bool positionChanged = MoveHandling();
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                bool zoomChanged = ZoomHandling();
+                bool positionChanged = MoveHandling();
+            }
             //    if (zoomChanged || positionChanged)
             //    {
             //        UpdateFarmButton();
