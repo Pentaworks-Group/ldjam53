@@ -70,13 +70,34 @@ namespace Assets.Scripts.Scenes.TheRoom
             Base.Core.Game.ChangeScene(SceneNames.MainMenu);
         }
 
+        public void DeleteSelected()
+        {
+            if (selectedElement != default)
+            {
+                var key = selectedElement.Element.ElementTypeKey;
+                currentGameState.CurrentLevel.RemainingElements[key]++;
+                Destroy(selectedElement.gameObject);
+                SetSelectedElement(default);
+            }
+        }
+
         public void PlaceSelected()
         {
-            if (selectedElement == default || selectedElement.IsPlaceable)
+            if (selectedElement == default)
             {
                 var level = GetCurrentLevelDefinition();
+                if (level.IsSelectionRandom)
+                {
+                    SpawnRandomFromRemainingElement();
+                    Base.Core.Game.PlayButtonSound();
+                }
+                return;
+            }
+            if (selectedElement.IsPlaceable)
+            {
                 RoomElementToCurrentRoom(selectedElement);
 
+                var level = GetCurrentLevelDefinition();
                 if (level.IsSelectionRandom)
                 {
                     SpawnRandomFromRemainingElement();
@@ -125,8 +146,9 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             var roomElementType = currentGameState.GameMode.ElementTypes[key];
 
-            var roomElement = new RoomElement(roomElementType.Name)
+            var roomElement = new RoomElement(key)
             {
+                Name = roomElementType.Name,
                 Model = roomElementType.Models.GetRandomEntry(),
                 IconReference = roomElementType.IconReference,
                 Material = roomElementType.Materials.GetRandomEntry()
@@ -365,7 +387,8 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             availableModels.TryGetValue("Wall", out var modelTemplate);
             var wall = InstantiateWallElement(spawn.ToFrame(), modelTemplate);
-            RoomElement roomElement = new RoomElement("wall");
+            RoomElement roomElement = new RoomElement("Wall");
+            roomElement.Name = "Wall";
             var roomElementBehaviour = wall.AddRoomElement(roomElement, this);
             roomElementBehaviour.DisableChecks = true;
             SetSelectedElement(roomElementBehaviour);
@@ -530,7 +553,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void AdjustCamera()
         {
-            Bounds b = GetBounds(this.gameObject);
+            Bounds b = GetBounds(wallContainer);
 
             UnityEngine.Vector3 objectSizes = b.max - b.min;
             sceneCamera.transform.eulerAngles = cameraRotation;

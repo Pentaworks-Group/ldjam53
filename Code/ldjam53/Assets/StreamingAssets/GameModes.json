@@ -1,44 +1,34 @@
 [
 
     {
-        "Name": "Test",
-        "Description": "Test game mode 1",
+        "Name": "O.W.L.E.D.",
+        "Description": "Go and deliver then all",
         "Levels": [
+            {
+                "ID": "11111111-1111-1111-1111-79db42a7b803",
+                "Name": "tata",
+                "RoomReference": "Cask",
+                "IsSelectionRandom": false,
+                "Elements": {
+                    "Broom": 9,
+                    "BoxLong": 3,
+                    "Sword": 2,
+                    "Potion Boiler": 1
+                }
+            },
             {
                 "ID": "e19cc835-4c50-4618-b15f-79db42a7b802",
                 "Name": "There is always a first time",
                 "RoomReference": "Pot",
                 "IsSelectionRandom": false,
                 "Elements": {
-                  "Broom": 5,
-                  "BoxLong": 5,
-                  "Box": 5,
-                  "Letter": 5,
-                  "Books": 5,
-                  "Dragons Egg": 5,
-                  "Egg": 5,
-                  "Sword": 5,
-                  "Ring": 5,
-                  "Ring Silver": 5,
-                  "Potion Bottle Red": 5,
-                  "Potion Bottle Green": 5,
-                  "Potion Bottle Blue": 5,
-                  "Potion Bottle Pink": 5,
-                  "Felix Felicis": 5,
-                  "Lunas Earrings": 5,
-                  "Potion Boiler":  5,
-                }
-            },
-            {
-                "ID": "11111111-1111-1111-1111-79db42a7b803",
-                "Name": "tata",
-                "RoomReference": "Test",
-                "IsSelectionRandom": false,
-                "Elements": {
-                    "Broom": 3,
-                    "BoxLong": 3,
-                    "Box": 3,
-                    "Letter": 3
+                    "Dragons Egg": 1,
+                    "Ring": 1,
+                    "Ring Silver": 2,
+                    "Potion Bottle Red": 1,
+                    "Potion Bottle Green": 1,
+                    "Potion Bottle Blue": 1,
+                    "Felix Felicis": 1
                 }
             },
             {
@@ -76,109 +66,109 @@
                     "Longbox"
                 ]
             },
-            "Letter": {
-              "Name": "Letterbox",
-              "IconReference": "2d_Letters",
-              "Models": [
-                "Letterbox"
-              ]
+            "LetterBox": {
+                "Name": "Letterbox",
+                "IconReference": "2d_Letters",
+                "Models": [
+                    "Letterbox"
+                ]
             },
             "Books": {
-              "Name": "Books",
-              "IconReference": "2d_Books",
-              "Models": [
-                "Book_Box"
-              ]
+                "Name": "Books",
+                "IconReference": "2d_Books",
+                "Models": [
+                    "Book_Box"
+                ]
             },
             "Dragons Egg": {
-              "Name": "Dragons Egg",
-              "IconReference": "2d_DragonEgg",
-              "Models": [
-                "Egg"
-              ]
+                "Name": "Dragons Egg",
+                "IconReference": "2d_DragonEgg",
+                "Models": [
+                    "Egg"
+                ]
             },
             "Egg": {
-              "Name": "Egg",
-              "IconReference": "2d_Egg",
-              "Models": [
-                "Egg"
-              ],
-              "Materials": [
-                "Eggshell"
-              ]
+                "Name": "Egg",
+                "IconReference": "2d_Egg",
+                "Models": [
+                    "Egg"
+                ],
+                "Materials": [
+                    "Eggshell"
+                ]
             },
             "Sword": {
-              "Name": "Sword",
-              "IconReference": "2d_Sword",
-              "Models": [
-                "Sword"
-              ]
+                "Name": "Sword",
+                "IconReference": "2d_Sword",
+                "Models": [
+                    "Sword"
+                ]
             },
             "Ring": {
-              "Name": "Ring",
-              "IconReference": "2d_Ring",
-              "Models": [
-                "Ring"
-              ]
+                "Name": "Ring",
+                "IconReference": "2d_Ring",
+                "Models": [
+                    "Ring"
+                ]
             },
             "Ring Silver": {
-              "Name": "Ring Silver",
-              "IconReference": "2d_RingSilver",
-              "Models": [
-                "Ring"
-              ],
-              "Materials": [
-                "Silver"
-              ]
+                "Name": "Ring Silver",
+                "IconReference": "2d_RingSilver",
+                "Models": [
+                    "Ring"
+                ],
+                "Materials": [
+                    "Silver"
+                ]
             },
             "Potion Bottle Red": {
-              "Name": "Potion Bottle Red",
-              "IconReference": "2d_PotionRed",
-              "Models": [
-                "BottleRed"
-              ]
+                "Name": "Potion Bottle Red",
+                "IconReference": "2d_PotionRed",
+                "Models": [
+                    "BottleRed"
+                ]
             },
             "Potion Bottle Green": {
-              "Name": "Potion Bottle Green",
-              "IconReference": "2d_PotionGreen",
-              "Models": [
-                "BottleGreen"
-              ]
+                "Name": "Potion Bottle Green",
+                "IconReference": "2d_PotionGreen",
+                "Models": [
+                    "BottleGreen"
+                ]
             },
             "Potion Bottle Blue": {
-              "Name": "Potion Bottle Blue",
-              "IconReference": "2d_PotionBlue",
-              "Models": [
-                "BottleBlue"
-              ]
+                "Name": "Potion Bottle Blue",
+                "IconReference": "2d_PotionBlue",
+                "Models": [
+                    "BottleBlue"
+                ]
             },
             "Potion Bottle Pink": {
-              "Name": "Potion Bottle Pink",
-              "IconReference": "2d_PotionPink",
-              "Models": [
-                "BottlePink"
-              ]
+                "Name": "Potion Bottle Pink",
+                "IconReference": "2d_PotionPink",
+                "Models": [
+                    "BottlePink"
+                ]
             },
             "Felix Felicis": {
-              "Name": "Felix Felicis",
-              "IconReference": "2d_FelixFelicis",
-              "Models": [
-                "FelixFelicis"
-              ]
+                "Name": "Felix Felicis",
+                "IconReference": "2d_FelixFelicis",
+                "Models": [
+                    "FelixFelicis"
+                ]
             },
             "Lunas Earrings": {
-              "Name": "Lunas Earrings",
-              "IconReference": "2d_Flash",
-              "Models": [
-                "Flash"
-              ]
+                "Name": "Lunas Earrings",
+                "IconReference": "2d_Flash",
+                "Models": [
+                    "Flash"
+                ]
             },
             "Potion Boiler": {
-              "Name": "Potion Boiler",
-              "IconReference": "2d_Boiler",
-              "Models": [
-                "Boiler"
-              ]
+                "Name": "Potion Boiler",
+                "IconReference": "2d_Boiler",
+                "Models": [
+                    "Boiler"
+                ]
             }
 
         },

@@ -6,11 +6,12 @@ namespace Assets.Scripts.Models
 {
     public class RoomElement
     {
-        public RoomElement(String name)
+        public RoomElement(String key)
         {
-            this.Name = name;
+            this.ElementTypeKey = key;
         }
 
+        public String ElementTypeKey { get; set; }
         public String Name { get; set; }
         public String Material { get; set; }
         public String Model { get; set; }

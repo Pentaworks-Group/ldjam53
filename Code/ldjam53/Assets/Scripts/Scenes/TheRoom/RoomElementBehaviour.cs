@@ -13,7 +13,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         private HighlightBehaviour highlightBehaviour;
         private TheRoomBehaviour theRoomBehaviour;
 
-        private Renderer renderer;
+        private Renderer rendererCustom;
         public bool DisableChecks { get; set; } = false;
 
         private RoomElement element;
@@ -44,10 +44,10 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void Awake()
         {
-            renderer = transform.GetComponent<Renderer>();
-            if (renderer == null)
+            rendererCustom = transform.GetComponent<Renderer>();
+            if (rendererCustom == null)
             {
-                renderer = transform.GetChild(0).GetComponent<Renderer>();
+                rendererCustom = transform.GetChild(0).GetComponent<Renderer>();
             }
         }
 
@@ -106,7 +106,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private bool IsInBound()
         {
-            var center = renderer.bounds.center;
+            var center = rendererCustom.bounds.center;
             center = new Vector3(Mathf.RoundToInt(center.x), Mathf.RoundToInt(center.y), Mathf.RoundToInt(center.z));
             List<GameFrame.Core.Math.Vector3> xList = new List<GameFrame.Core.Math.Vector3>();
             List<GameFrame.Core.Math.Vector3> yList = new List<GameFrame.Core.Math.Vector3>();
