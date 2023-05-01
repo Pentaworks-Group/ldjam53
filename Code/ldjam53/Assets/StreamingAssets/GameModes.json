@@ -20,6 +20,7 @@
                     "Sword": 5,
                     "Ring": 5,
                     "Ring Silver": 5,
+                    "Potion Bottle":  5
                 }
             },
             {
@@ -122,6 +123,13 @@
               ],
               "Materials": [
                 "Silver"
+              ]
+            },
+            "Potion Bottle": {
+              "Name": "Potion Bottle",
+              "Icon Reference": "2d_Box",
+              "Models": [
+                "Bottle"
               ]
             }
         },
