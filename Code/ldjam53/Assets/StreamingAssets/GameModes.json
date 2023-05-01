@@ -127,7 +127,7 @@
             },
             "Potion Bottle": {
               "Name": "Potion Bottle",
-              "Icon Reference": "2d_Box",
+              "IconReference": "2d_Box",
               "Models": [
                 "Bottle"
               ]
