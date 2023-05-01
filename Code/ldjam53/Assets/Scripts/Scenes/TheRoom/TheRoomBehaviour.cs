@@ -18,6 +18,7 @@ namespace Assets.Scripts.Scenes.TheRoom
     {
         private readonly Dictionary<String, GameObject> availableModels = new Dictionary<String, GameObject>();
         private GameObject objectsContainer;
+        private GameObject wallContainer;
         private GameState currentGameState;
 
         public Camera sceneCamera;
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         public void Awake()
         {
             this.objectsContainer = transform.Find("ObjectsContainer").gameObject;
+            this.wallContainer = transform.Find("WallContainer").gameObject;
 
             this.currentGameState = Base.Core.Game.State;
 
@@ -198,6 +200,18 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
+        public void ResetRoom()
+        {
+            currentGameState.CurrentLevel.TheRoom.Elements.Clear();
+            var levelDefinition = GetCurrentLevelDefinition();
+            currentGameState.CurrentLevel.RemainingElements = new Dictionary<String, Int32>(levelDefinition.Elements);
+            foreach (Transform child in objectsContainer.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+
+
         public void BuildRoom()
         {
             int sizeX = 12;
@@ -300,7 +314,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private void InstantiateWallElement(GameFrame.Core.Math.Vector3 position, GameObject template)
         {
-            var mat = Instantiate(template, objectsContainer.transform);
+            var mat = Instantiate(template, wallContainer.transform);
 
             //mat.AddRoomElement(roomElement);
             mat.AddComponent<BoundsCalculationBehaviour>();
