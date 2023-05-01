@@ -269,6 +269,79 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
+        public void DumpCurrentRoom()
+        {
+            var wallPositions = GetChildrenPositions(wallContainer);
+            RoomType roomType = new RoomType
+            {
+                WallElements = new List<WallElement>(),
+                Name = "New",
+                Size = GetSize(wallPositions)
+
+            };
+            var wall = new WallElement()
+            {
+                Positions = new List<GameFrame.Core.Math.Vector3>(),
+                Model = "Wall"
+            };
+            roomType.WallElements.Add(wall);
+            wall.Positions.AddRange(wallPositions);
+            DumpRoom(roomType);
+        }
+
+        private GameFrame.Core.Math.Vector3 GetSize(List<GameFrame.Core.Math.Vector3> positions)
+        {
+            if (positions.Count < 1)
+            {
+                return new GameFrame.Core.Math.Vector3(0, 0, 0);
+            }
+            var p = positions[0];
+            float minX = p.X;
+            float maxX = p.X;
+            float minY = p.Y;
+            float maxY = p.Y;
+            float minZ = p.Z;
+            float maxZ = p.Z;
+
+            foreach (var pos in positions)
+            {
+                if (pos.X < minX)
+                {
+                    minX = pos.X;
+                } else if (pos.X > maxX)
+                {
+                    maxX = pos.X;
+                }
+                if (pos.Y < minY)
+                {
+                    minY = pos.Y;
+                }
+                else if (pos.Y > maxY)
+                {
+                    maxY = pos.Y;
+                }
+                if (pos.Z < minZ)
+                {
+                    minZ = pos.Z;
+                }
+                else if (pos.Z > maxZ)
+                {
+                    maxZ = pos.Z;
+                }
+            }
+            return new GameFrame.Core.Math.Vector3(maxX - minX, maxY - minY, maxZ - minZ);
+        }
+
+        private List<GameFrame.Core.Math.Vector3> GetChildrenPositions(GameObject container)
+        {
+            var positions = new List<GameFrame.Core.Math.Vector3> ();
+            foreach (Transform child in container.transform)
+            {
+                positions.Add(child.position.ToFrame());
+            }
+            return positions;
+        }
+
         private void DumpRoom(RoomType room)
         {
             var json = GameFrame.Core.Json.Handler.SerializePretty(room);
@@ -280,14 +353,12 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void SpawnTest()
         {
-            var roomElement = new RoomElement("Longbox")
-            {
-                Model = "Longbox",
-                IconReference = "2d_Longbox"
-                //Rotatable = roomElementType.Rotatable
-            };
-
-            AddRoomElement(roomElement, spawn);
+            availableModels.TryGetValue("Wall", out var modelTemplate);
+            var wall = InstantiateWallElement(spawn.ToFrame(), modelTemplate);
+            RoomElement roomElement = new RoomElement("wall");
+            var roomElementBehaviour = wall.AddRoomElement(roomElement, this);
+            roomElementBehaviour.DisableChecks = true;
+            SetSelectedElement(roomElementBehaviour);
         }
 
         private void LoadCurrentRoom()
@@ -317,7 +388,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
-        private void InstantiateWallElement(GameFrame.Core.Math.Vector3 position, GameObject template)
+        private GameObject InstantiateWallElement(GameFrame.Core.Math.Vector3 position, GameObject template)
         {
             var mat = Instantiate(template, wallContainer.transform);
 
@@ -326,6 +397,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             mat.transform.position = position.ToUnity();
             mat.SetActive(true);
             //roomPlacements[(int)position.X, (int)position.Y, (int)position.Z] = true;
+            return mat;
         }
 
         private RoomType GetRoomTypeByLevelId()
