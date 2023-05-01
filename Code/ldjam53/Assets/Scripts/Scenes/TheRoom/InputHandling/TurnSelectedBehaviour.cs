@@ -68,7 +68,6 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             }
             if (currentInterval <= 0 && (moveX != 0 || moveZ != 0))
             {
-                Debug.Log("moveX: " + moveX + "  moveZ" + moveZ);
                 if (moveX > 0)
                 {
                     moveX = 90;

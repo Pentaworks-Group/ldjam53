@@ -262,15 +262,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 1646447453}
     m_Modifications:
     - target: {fileID: 1055190752250365509, guid: e09e34ffd5b4c04408f3b7160d0a1ae8, type: 3}
-      propertyPath: m_SizeDelta.y
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1243202772121479074, guid: e09e34ffd5b4c04408f3b7160d0a1ae8, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3075327087938611109, guid: e09e34ffd5b4c04408f3b7160d0a1ae8, type: 3}
-      propertyPath: m_IsActive
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3190420073446597849, guid: e09e34ffd5b4c04408f3b7160d0a1ae8, type: 3}
@@ -363,10 +359,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3486505891877595947, guid: e09e34ffd5b4c04408f3b7160d0a1ae8, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -37.69662
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4480375355588404965, guid: e09e34ffd5b4c04408f3b7160d0a1ae8, type: 3}
-      propertyPath: m_SizeDelta.y
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

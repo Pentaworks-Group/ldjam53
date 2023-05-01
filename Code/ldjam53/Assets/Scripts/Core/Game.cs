@@ -32,7 +32,7 @@ namespace Assets.Scripts.Core
 
         public GameMode SelectedGameMode { get; set; }
 
-        public bool LockCameraMovement { get; set; } = false;
+        //public bool LockCameraMovement { get; set; } = false;
 
         public void PlayButtonSound()
         {

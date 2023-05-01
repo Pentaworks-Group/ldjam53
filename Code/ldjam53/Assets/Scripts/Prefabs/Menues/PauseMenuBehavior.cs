@@ -83,16 +83,16 @@ public class PauseMenuBehavior : MonoBehaviour
         }
         else
         {
-            if (!Core.Game.LockCameraMovement)
-            {
-                this.PauseToggled.Invoke(true);
+            //    if (!Core.Game.LockCameraMovement)
+            //    {
+            this.PauseToggled.Invoke(true);
                 foreach (GameObject gameObject in ObjectsToHide)
                 {
                     gameObject.SetActive(false);
                 }
                 Show();
                 Core.Game.PlayButtonSound();
-            }
+            //}
 
         }
     }
@@ -107,7 +107,7 @@ public class PauseMenuBehavior : MonoBehaviour
     public void Hide()
     {
         menuToggle.SetActive(false);
-        Core.Game.LockCameraMovement = false;
+        //Core.Game.LockCameraMovement = false;
 
         Time.timeScale = 1;
 
@@ -121,7 +121,7 @@ public class PauseMenuBehavior : MonoBehaviour
         SetVisible(pauseMenu: true);
 
         menuToggle.SetActive(true);
-        Core.Game.LockCameraMovement = true;
+        //Core.Game.LockCameraMovement = true;
     }
 
     public void OnBackButtonClicked()
@@ -169,7 +169,7 @@ public class PauseMenuBehavior : MonoBehaviour
         Core.Game.PlayButtonSound();
         Time.timeScale = 1;
 
-        Core.Game.LockCameraMovement = false;
+        //Core.Game.LockCameraMovement = false;
         Core.Game.Stop();
         Core.Game.ChangeScene(SceneNames.MainMenu);
 
