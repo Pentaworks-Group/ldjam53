@@ -13,11 +13,11 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private static Vector4 selectedColor = new Vector4(1 * INTENSITY, 0.4f * INTENSITY, 0.7f * INTENSITY, 1);
         private static Vector4 notPlaceableColor = new Vector4(10 * INTENSITY, 0f * INTENSITY, 0f * INTENSITY, 1);
-        
+
         private readonly List<Material> materials = new List<Material>();
-                
+
         private RoomElementBehaviour roomElementBehaviour;
-        
+
         public void SetElement(RoomElementBehaviour roomElementBehaviour)
         {
             if (roomElementBehaviour == default)
@@ -44,6 +44,16 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
+        public void ReloadRenderers()
+        {
+            foreach (var renderer in GetComponentsInChildren<Renderer>())
+            {
+                //A single child-object might have mutliple materials on it
+                //that is why we need to all materials with "s"
+                materials.AddRange(new List<Material>(renderer.materials));
+            }
+        }
+
         private void EnableEmission(Vector4 emissionColor)
         {
             foreach (var material in materials)
@@ -61,16 +71,6 @@ namespace Assets.Scripts.Scenes.TheRoom
             foreach (var material in materials)
             {
                 material.DisableKeyword("_EMISSION");
-            }
-        }
-
-        private void Awake()
-        {
-            foreach (var renderer in GetComponentsInChildren<Renderer>())
-            {
-                //A single child-object might have mutliple materials on it
-                //that is why we need to all materials with "s"
-                materials.AddRange(new List<Material>(renderer.materials));
             }
         }
 

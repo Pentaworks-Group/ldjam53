@@ -342,20 +342,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private void AddRoomElement(RoomElement roomElement, Boolean setSelected = true)
         {
-            if (roomElement.Model.HasValue() && availableModels.TryGetValue(roomElement.Model, out var modelTemplate))
-            {
-                var mat = Instantiate(modelTemplate, objectsContainer.transform);
-
-                var roomElementBehaviour = mat.AddRoomElement(roomElement, this);
-
-                mat.transform.position = roomElement.Position.ToUnity();
-                mat.SetActive(true);
-
-                if (setSelected)
-                {
-                    SetSelectedElement(roomElementBehaviour);
-                }
-            }
+            AddRoomElement(roomElement, roomElement.Position.ToUnity(), setSelected);
         }
 
         private void AddRoomElement(RoomElement roomElement, UnityEngine.Vector3 position, Boolean setSelected = true)
@@ -365,6 +352,14 @@ namespace Assets.Scripts.Scenes.TheRoom
                 var mat = Instantiate(modelTemplate, objectsContainer.transform);
 
                 var roomElementBehaviour = mat.AddRoomElement(roomElement, this);
+
+                if(!string.IsNullOrEmpty(roomElement.Material))
+                {
+                    var material = GameFrame.Base.Resources.Manager.Materials.Get(roomElement.Material);
+                    mat.GetComponent<Renderer>().material = material;
+                }
+
+                roomElementBehaviour.HighlightBehaviour.ReloadRenderers();
 
                 mat.transform.position = position;
                 mat.SetActive(true);

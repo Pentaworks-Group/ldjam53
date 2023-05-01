@@ -29,6 +29,14 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
+        public HighlightBehaviour HighlightBehaviour
+        {
+            get
+            {
+                return highlightBehaviour;
+            }
+        }
+
         public void SetElement(RoomElement roomElement, TheRoomBehaviour theRoomBehaviour)
         {
             if (roomElement == default)
