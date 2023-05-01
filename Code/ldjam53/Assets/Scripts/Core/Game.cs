@@ -16,6 +16,8 @@ namespace Assets.Scripts.Core
         public List<AudioClip> AudioClipListMenu { get; set; }
         public List<AudioClip> AudioClipListGame { get; set; }
 
+        public List<AudioClip> EffectsClipList { get; set; }
+
         private readonly IList<GameMode> availableGameModes = new List<GameMode>();
         public IList<GameMode> AvailableGameModes
         {
@@ -87,6 +89,20 @@ namespace Assets.Scripts.Core
                 GameFrame.Base.Resources.Manager.Audio.Get("Game_4"),
                 GameFrame.Base.Resources.Manager.Audio.Get("Game_5"),
                 GameFrame.Base.Resources.Manager.Audio.Get("Game_6"),
+            };
+
+            EffectsClipList = new List<AudioClip>()
+            {
+                GameFrame.Base.Resources.Manager.Audio.Get("Owl_1"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Owl_2"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Owl_3"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Owl_4"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Owl_5"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Owl_6"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Owl_7"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Owl_8"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Owl_9"),
+                GameFrame.Base.Resources.Manager.Audio.Get("Owl_10"),
             };
 
             GameFrame.Base.Audio.Background.Play(AudioClipListMenu);

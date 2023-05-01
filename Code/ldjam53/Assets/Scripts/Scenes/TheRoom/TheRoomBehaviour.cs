@@ -32,6 +32,9 @@ namespace Assets.Scripts.Scenes.TheRoom
         private UnityEngine.Vector3 spawn = new UnityEngine.Vector3(2, 2, 2);
         public RoomType CurrentRoomType { get; private set; }
 
+        //Random Ambient Sounds
+        private float nextSoundEffectTime = 0;
+
         public void Awake()
         {
             this.objectsContainer = transform.Find("ObjectsContainer").gameObject;
@@ -62,6 +65,8 @@ namespace Assets.Scripts.Scenes.TheRoom
                     currentGameState.CurrentLevel.ElapsedTime += Time.deltaTime;
                 }
             }
+
+            PlayRandomEffectSound();
         }
 
         public void ToMainMenu()
@@ -610,6 +615,22 @@ namespace Assets.Scripts.Scenes.TheRoom
             return b;
         }
 
+        private void PlayRandomEffectSound()
+        {
+            if (currentGameState.CurrentLevel.ElapsedTime > nextSoundEffectTime && nextSoundEffectTime != 0)
+            {
+                GameFrame.Base.Audio.Effects.Play(Base.Core.Game.EffectsClipList.GetRandomEntry());
+                double randomNumber = UnityEngine.Random.value;
+
+                nextSoundEffectTime = (float)(randomNumber * 30.0 + 5.0 + currentGameState.CurrentLevel.ElapsedTime);
+            }
+            else if (nextSoundEffectTime == 0)
+            {
+                double randomNumber = UnityEngine.Random.value;
+
+                nextSoundEffectTime = (float)(randomNumber * 30.0 + 5.0 + currentGameState.CurrentLevel.ElapsedTime);
+            }
+        }
 
 
     }
