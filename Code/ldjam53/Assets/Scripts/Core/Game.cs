@@ -48,11 +48,9 @@ namespace Assets.Scripts.Core
             // Maybe add a Tutorial scene, where the user can set "skip" for the next time.
             var gameState = new GameState()
             {
-                CurrentScene = SceneNames.TheRoom,
+                CurrentScene = SceneNames.World,
                 GameMode = this.SelectedGameMode
             };
-
-            GenerateLevel(gameState);
 
             return gameState;
         }
@@ -93,39 +91,6 @@ namespace Assets.Scripts.Core
 
             GameFrame.Base.Audio.Background.Play(AudioClipListMenu);
             LoadGameSettings();
-        }
-
-        private void GenerateLevel(GameState gameState)
-        {
-            if (gameState.GameMode.Levels.Count > 0)
-            {
-                var levelDefinition = gameState.GameMode.Levels.FirstOrDefault();
-
-                var level = new Models.Level()
-                {
-                    ID = levelDefinition.ID,
-                    RemainingElements = GenerateRemainingElements(levelDefinition),
-                    TheRoom = new Models.Room()
-                };
-
-                gameState.CurrentLevel = level;
-            }
-            else
-            {
-                throw new System.Exception("Failed to generate Level from LevelDefinition!");
-            }
-        }
-
-        private Dictionary<String, Int32> GenerateRemainingElements(LevelDefinition levelDefinition)
-        {
-            var remainingElements = new Dictionary<String, Int32>();
-
-            foreach (var item in levelDefinition.Elements)
-            {
-                remainingElements[item.Key] = item.Value;
-            }
-
-            return remainingElements;
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
