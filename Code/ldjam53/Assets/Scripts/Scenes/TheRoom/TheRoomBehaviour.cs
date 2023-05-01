@@ -50,7 +50,10 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             if (Time.timeScale > 0)
             {
-                currentGameState.CurrentLevel.ElapsedTime += Time.deltaTime;
+                if (currentGameState.CurrentLevel != default)
+                {
+                    currentGameState.CurrentLevel.ElapsedTime += Time.deltaTime;
+                }
             }
         }
 
@@ -64,18 +67,13 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             if (selectedElement == default || selectedElement.IsPlaceable)
             {
-                Base.Core.Game.PlayButtonSound();
-
                 var level = GetCurrentLevelDefinition();
-
-                //if (selectedElement != default)
-                //{
-                //    roomPlacements[(int)selectedElement.transform.position.x, (int)selectedElement.transform.position.y, (int)selectedElement.transform.position.z] = true;
-                //}
 
                 if (level.IsSelectionRandom)
                 {
                     SpawnRandomFromRemainingElement();
+
+                    Base.Core.Game.PlayButtonSound();
                 }
                 else
                 {
@@ -85,6 +83,10 @@ namespace Assets.Scripts.Scenes.TheRoom
                     {
                         LevelCompleted();
                     }
+                    else
+                    {
+                        Base.Core.Game.PlayButtonSound();
+                    }
                 }
             }
             else
@@ -92,13 +94,6 @@ namespace Assets.Scripts.Scenes.TheRoom
                 GameFrame.Base.Audio.Effects.Play("Error");
             }
         }
-
-        //public bool IsInEmptySpace(UnityEngine.Vector3 position)
-        //{
-        //    //Debug.Log("IsInEmptySpace set to true");
-        //    //return true;
-        //    return !roomPlacements[(int)position.x, (int)position.y, (int)position.z];
-        //}
 
         public void SpawnFromKey(String key)
         {
@@ -143,7 +138,10 @@ namespace Assets.Scripts.Scenes.TheRoom
         private void LevelCompleted()
         {
             currentGameState.CurrentLevel.IsCompleted = true;
-            //Debug.Log("Level Completed");
+            currentGameState.CompletedLevels.Add(currentGameState.CurrentLevel);
+            currentGameState.CurrentLevel = default;
+            
+            GameFrame.Base.Audio.Effects.Play("LevelCompleted");
             Base.Core.Game.ChangeScene(SceneNames.World);
         }
 
