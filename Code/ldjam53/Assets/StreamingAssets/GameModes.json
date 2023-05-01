@@ -23,7 +23,8 @@
                   "Potion Bottle Red": 5,
                   "Potion Bottle Green": 5,
                   "Potion Bottle Blue": 5,
-                  "Potion Bottle Pink": 5
+                  "Potion Bottle Pink": 5,
+                  "Felix Felicis":  5
                 }
             },
             {
@@ -154,6 +155,13 @@
               "IconReference": "2d_Box",
               "Models": [
                 "BottlePink"
+              ]
+            },
+            "Felix Felicis": {
+              "Name": "Felix Felicis",
+              "IconReference": "2d_Box",
+              "Models": [
+                "FelixFelicis"
               ]
             }
         },
