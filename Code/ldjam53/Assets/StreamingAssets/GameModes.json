@@ -85,21 +85,21 @@
             },
             "Books": {
               "Name": "Books",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_Books",
               "Models": [
                 "Book_Box"
               ]
             },
             "Dragons Egg": {
               "Name": "Dragons Egg",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_DragonEgg",
               "Models": [
                 "Egg"
               ]
             },
             "Egg": {
               "Name": "Egg",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_Egg",
               "Models": [
                 "Egg"
               ],
@@ -109,21 +109,21 @@
             },
             "Sword": {
               "Name": "Sword",
-              "IconReference": "2d_Broom",
+              "IconReference": "2d_Sword",
               "Models": [
                 "Sword"
               ]
             },
             "Ring": {
               "Name": "Ring",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_Ring",
               "Models": [
                 "Ring"
               ]
             },
             "Ring Silver": {
               "Name": "Ring Silver",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_RingSilver",
               "Models": [
                 "Ring"
               ],
@@ -133,49 +133,49 @@
             },
             "Potion Bottle Red": {
               "Name": "Potion Bottle Red",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_PotionRed",
               "Models": [
                 "BottleRed"
               ]
             },
             "Potion Bottle Green": {
               "Name": "Potion Bottle Green",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_PotionGreen",
               "Models": [
                 "BottleGreen"
               ]
             },
             "Potion Bottle Blue": {
               "Name": "Potion Bottle Blue",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_PotionBlue",
               "Models": [
                 "BottleBlue"
               ]
             },
             "Potion Bottle Pink": {
               "Name": "Potion Bottle Pink",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_PotionPink",
               "Models": [
                 "BottlePink"
               ]
             },
             "Felix Felicis": {
               "Name": "Felix Felicis",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_FelixFelicis",
               "Models": [
                 "FelixFelicis"
               ]
             },
             "Lunas Earrings": {
               "Name": "Lunas Earrings",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_Flash",
               "Models": [
                 "Flash"
               ]
             },
             "Potion Boiler": {
               "Name": "Potion Boiler",
-              "IconReference": "2d_Box",
+              "IconReference": "2d_Boiler",
               "Models": [
                 "Boiler"
               ]
