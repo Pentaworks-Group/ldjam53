@@ -2,10 +2,8 @@
 
 using UnityEngine;
 
-namespace Assets.Scripts.Scenes.TheRoom
+namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 {
-
-
     public class CameraBehaviour : MonoBehaviour
     {
         public Camera cam;
