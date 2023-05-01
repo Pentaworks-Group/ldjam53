@@ -1,6 +1,7 @@
 using Assets.Scripts.Constants;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Scenes.Menues
 {
@@ -55,7 +56,10 @@ namespace Assets.Scripts.Scenes.Menues
 
         private void Awake()
         {
-            //GameObject.Find("UI/QuitButton").SetActive(Base.Core.Game.IsFileAccessPossible);
+            if (GameObject.Find("UI/Fitter/Quit").TryGetComponent(out Button quitButton))
+            {
+                quitButton.interactable = Base.Core.Game.IsFileAccessPossible;
+            }
 
             GameFrame.Base.Audio.Background.ReplaceClips(Base.Core.Game.AudioClipListMenu);
         }
