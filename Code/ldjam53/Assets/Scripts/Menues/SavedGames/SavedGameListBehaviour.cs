@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Assets.Scripts.Core;
-
 using GameFrame.Core.UI.List;
 
 using UnityEngine.UI;
@@ -28,14 +26,14 @@ namespace Assets.Scripts.Scene.SaveGame
 
             if (!Assets.Scripts.Base.Core.Game.IsFileAccessPossible)
             {
-                SaveNewButton.interactable = savedGames.Count >= 5;
+                SaveNewButton.interactable = savedGames.Count < 5;
             }
 
             if (DeleteAllButton != null)
             {
                 DeleteAllButton.interactable = savedGames.Count > 0;
-            }           
-                
+            }
+
         }
 
         public void OnDeleteAll()
