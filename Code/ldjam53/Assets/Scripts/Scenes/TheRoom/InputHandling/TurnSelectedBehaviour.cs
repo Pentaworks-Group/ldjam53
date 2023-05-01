@@ -8,7 +8,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
     public class TurnSelectedBehaviour : MonoBehaviour
     {
         public Camera cam;
-        public TheRoomBehaviour TheRoomBehaviour;
+        public TheRoomBehaviour theRoomBehaviour;
 
 
         private float threshhold = 0.3f;
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         void Update()
         {
 
-            var selected = TheRoomBehaviour.selectedElement;
+            var selected = theRoomBehaviour.selectedElement;
             if (selected != default && !EventSystem.current.IsPointerOverGameObject())
             {
                 HorizontalMovment(selected);
@@ -86,6 +86,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 }
                 selected.transform.Rotate(GetRotationVector(moveX, moveZ), Space.World);
                 currentInterval = moveInterval;
+                selected.UpdateIsPlaceable();
             }
             else
             {
@@ -174,8 +175,8 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 {
                     rotationVector = new Vector3(0, 0, vertical);
                 }
-                Debug.Log(camAngle);
                 selected.transform.Rotate(rotationVector, Space.World);
+                selected.UpdateIsPlaceable();
             }
         }
     }

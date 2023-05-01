@@ -87,6 +87,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 correctedVector = new Vector3(Mathf.RoundToInt(correctedVector.x), 0, Mathf.RoundToInt(correctedVector.z));
                 selected.transform.position += correctedVector;
                 currentInterval = moveInterval;
+                selected.UpdateIsPlaceable();
             } else
             {
                 currentInterval -= Time.deltaTime;
@@ -156,6 +157,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                     vertical = -1;
                 }
                 selected.transform.position += new Vector3(0, vertical, 0);
+                selected.UpdateIsPlaceable();
             }
         }
     }
