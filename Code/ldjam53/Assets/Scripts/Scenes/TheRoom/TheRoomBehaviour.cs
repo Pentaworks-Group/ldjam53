@@ -337,6 +337,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 pos.X -= minX;
                 pos.Y -= minY;
                 pos.Z -= minZ;
+                positions[i] = pos;
             }
             return new GameFrame.Core.Math.Vector3(maxX - minX, maxY - minY, maxZ - minZ);
         }

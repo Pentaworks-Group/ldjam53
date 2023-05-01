@@ -45,6 +45,10 @@ namespace Assets.Scripts.Scenes.TheRoom
         public void Awake()
         {
             renderer = transform.GetComponent<Renderer>();
+            if (renderer == null)
+            {
+                renderer = transform.GetChild(0).GetComponent<Renderer>();
+            }
         }
 
         public void SetElement(RoomElement roomElement, TheRoomBehaviour theRoomBehaviour)
@@ -103,7 +107,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         private bool IsInBound()
         {
             var center = renderer.bounds.center;
-            center = new Vector3(Mathf.RoundToInt(center.x), Mathf.RoundToInt(center.y), Mathf.RoundToInt(center.z) );
+            center = new Vector3(Mathf.RoundToInt(center.x), Mathf.RoundToInt(center.y), Mathf.RoundToInt(center.z));
             List<GameFrame.Core.Math.Vector3> xList = new List<GameFrame.Core.Math.Vector3>();
             List<GameFrame.Core.Math.Vector3> yList = new List<GameFrame.Core.Math.Vector3>();
             List<GameFrame.Core.Math.Vector3> zList = new List<GameFrame.Core.Math.Vector3>();
@@ -134,7 +138,8 @@ namespace Assets.Scripts.Scenes.TheRoom
                     if (pos.X < center.x)
                     {
                         low = true;
-                    } else if (pos.X > center.x)
+                    }
+                    else if (pos.X > center.x)
                     {
                         high = true;
                     }
@@ -200,7 +205,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 if (this.element.Selected)
                 {
                     bool inBound = IsInBound();
-                    Debug.Log("In bound: " + inBound);
+                    //Debug.Log("In bound: " + inBound);
                     this.isPlaceable = hasNoCollisions && inBound; // && theRoomBehaviour.IsInEmptySpace(transform.position)
                 }
 
