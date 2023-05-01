@@ -13,6 +13,7 @@ namespace Assets.Scripts.Scene.SaveGame
     public class SavedGameListBehaviour : ListContainerBehaviour<KeyValuePair<String, SavedGamedPreviewImpl>>
     {
         public Button SaveNewButton;
+        public Button DeleteAllButton;
 
         public override void CustomStart()
         {
@@ -27,15 +28,22 @@ namespace Assets.Scripts.Scene.SaveGame
 
             if (!Assets.Scripts.Base.Core.Game.IsFileAccessPossible)
             {
-                if (savedGames.Count >= 5)
-                {
-                    SaveNewButton.interactable = false;
-                }
-                else
-                {
-                    SaveNewButton.interactable = true;
-                }
+                SaveNewButton.interactable = savedGames.Count >= 5;
             }
+
+            if (DeleteAllButton != null)
+            {
+                DeleteAllButton.interactable = savedGames.Count > 0;
+            }           
+                
+        }
+
+        public void OnDeleteAll()
+        {
+            Base.Core.Game.PlayButtonSound();
+
+            Base.Core.Game.DeleteAll();
+            UpdateList();
         }
 
         public void SaveGame()
