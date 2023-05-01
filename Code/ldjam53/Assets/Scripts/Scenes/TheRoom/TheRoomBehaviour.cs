@@ -95,6 +95,15 @@ namespace Assets.Scripts.Scenes.TheRoom
             }
         }
 
+        public void MoveSelectedToSpawn()
+        {
+            if (selectedElement != default)
+            {
+                selectedElement.transform.position = spawn;
+                selectedElement.UpdateIsPlaceable();
+            }
+        }
+
         public void SpawnFromKey(String key)
         {
             var roomElementType = currentGameState.GameMode.ElementTypes[key];
@@ -140,7 +149,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             currentGameState.CurrentLevel.IsCompleted = true;
             currentGameState.CompletedLevels.Add(currentGameState.CurrentLevel);
             currentGameState.CurrentLevel = default;
-            
+
             GameFrame.Base.Audio.Effects.Play("LevelCompleted");
             Base.Core.Game.ChangeScene(SceneNames.World);
         }

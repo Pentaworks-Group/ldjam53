@@ -23,33 +23,58 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         private Image selectedImage;
 
+        public void Update()
+        {
+            ShortkeyForMenues();
+        }
+
+        private void ShortkeyForMenues()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                OnMoveSelectedImagePressed();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                OnTurnSelectedImagePressed();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                OnMoveCamImagePressed();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                OnTurnCamImagePressed();
+            }
+        }
+
         public void OnMoveSelectedImagePressed()
         {
-            DeselectIfAlreadySelected(MoveSelectedImage);
-            moveSelectedBehaviour.enabled = true;
+            DeselectIfAlreadySelected(MoveSelectedImage, moveSelectedBehaviour);
         }
 
         public void OnTurnSelectedImagePressed()
         {
-            DeselectIfAlreadySelected(TurnSelectedImage);
-            turnSelectedBehaviour.enabled = true;
+            DeselectIfAlreadySelected(TurnSelectedImage, turnSelectedBehaviour);
         }
 
         public void OnMoveCamImagePressed()
         {
-            DeselectIfAlreadySelected(MoveCamImage);
-            moveCamBehaviour.enabled = true;
+            DeselectIfAlreadySelected(MoveCamImage, moveCamBehaviour);
         }
 
         public void OnTurnCamImagePressed()
         {
-            DeselectIfAlreadySelected(TurnCamImage);
-            turnCamBehaviour.enabled = true;
+            DeselectIfAlreadySelected(TurnCamImage, turnCamBehaviour);
         }
 
 
-        private void DeselectIfAlreadySelected(Image Image)
+        private void DeselectIfAlreadySelected(Image Image, Behaviour selectedBehaviour)
         {
+            moveSelectedBehaviour.enabled = false;
+            turnSelectedBehaviour.enabled = false;
+            moveCamBehaviour.enabled = false;
+            turnCamBehaviour.enabled = false;
             if (Image == selectedImage)
             {
                 selectedImage.enabled = false;
@@ -65,11 +90,8 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 selectedImage = Image;
                 selectedImage.enabled = true;
                 cameraBehaviour.enabled = false;
+                selectedBehaviour.enabled = true;
             }
-            moveSelectedBehaviour.enabled = false;
-            turnSelectedBehaviour.enabled = false;
-            moveCamBehaviour.enabled = false;
-            turnCamBehaviour.enabled = false;
         }
     }
 }
