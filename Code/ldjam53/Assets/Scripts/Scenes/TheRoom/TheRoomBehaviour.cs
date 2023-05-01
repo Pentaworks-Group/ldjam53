@@ -324,12 +324,12 @@ namespace Assets.Scripts.Scenes.TheRoom
                 return new GameFrame.Core.Math.Vector3(0, 0, 0);
             }
             var p = positions[0];
-            float minX = p.X;
-            float maxX = p.X;
-            float minY = p.Y;
-            float maxY = p.Y;
-            float minZ = p.Z;
-            float maxZ = p.Z;
+            float minX = Int32.MaxValue;
+            float maxX = Int32.MinValue;
+            float minY = Int32.MaxValue;
+            float maxY = Int32.MinValue;
+            float minZ = Int32.MaxValue;
+            float maxZ = Int32.MinValue;
 
             foreach (var pos in positions)
             {
@@ -365,9 +365,9 @@ namespace Assets.Scripts.Scenes.TheRoom
             for (int i = 0; i < positions.Count; i++)
             {
                 var pos = positions[i];
-                pos.X -= offsetX;
-                pos.Y -= minY;
-                pos.Z -= offsetZ;
+                pos.X = Mathf.RoundToInt(pos.X - offsetX);
+                pos.Y = Mathf.RoundToInt(pos.Y -minY);
+                pos.Z = Mathf.RoundToInt(pos.Z -offsetZ);
                 positions[i] = pos;
             }
 
@@ -395,8 +395,13 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void SpawnTest()
         {
+            var position = spawn.ToFrame();
+            if (selectedElement != default)
+            {
+                position = selectedElement.transform.position.ToFrame();
+            }
             availableModels.TryGetValue("Wall", out var modelTemplate);
-            var wall = InstantiateWallElement(spawn.ToFrame(), modelTemplate);
+            var wall = InstantiateWallElement(position, modelTemplate);
             RoomElement roomElement = new RoomElement("Wall");
             roomElement.Name = "Wall";
             var roomElementBehaviour = wall.AddRoomElement(roomElement, this);
@@ -407,7 +412,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         private void LoadCurrentRoom()
         {
             CurrentRoomType = GetRoomTypeByLevelId();
-            spawn = new UnityEngine.Vector3(CurrentRoomType.Size.X / 2, CurrentRoomType.Size.Y + 1, CurrentRoomType.Size.Z / 2);
+            spawn = new UnityEngine.Vector3(0, CurrentRoomType.Size.Y + 1, 0);
             //roomPlacements = new Boolean[(int)CurrentRoomType.Size.X, (int)CurrentRoomType.Size.Y, (int)CurrentRoomType.Size.Z];
             foreach (var wallElem in CurrentRoomType.WallElements)
             {
