@@ -55,7 +55,7 @@ namespace Assets.Scripts.Scenes.Menues
 
         private void Awake()
         {
-            GameObject.Find("UI/QuitButton").SetActive(Base.Core.Game.IsFileAccessPossible);
+            //GameObject.Find("UI/QuitButton").SetActive(Base.Core.Game.IsFileAccessPossible);
 
             GameFrame.Base.Audio.Background.ReplaceClips(Base.Core.Game.AudioClipListMenu);
         }
