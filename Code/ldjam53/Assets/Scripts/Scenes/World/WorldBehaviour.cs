@@ -1,6 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
+using Assets.Scripts.Constants;
 using Assets.Scripts.Core;
+using Assets.Scripts.Core.Definitions;
 
 using UnityEngine;
 
@@ -14,7 +18,18 @@ namespace Assets.Scripts.Scenes.World
 
         public void OnLevelSelected(LevelBehaviour selectedLevel)
         {
-            Debug.Log($"Selected {selectedLevel.LevelDefinition.Name}");
+            var level = selectedLevel.Level;
+
+            if (level == default)
+            {
+                level = GenerateLevel(selectedLevel.LevelDefinition);
+            }
+
+            if (level != default)
+            {
+                gameState.CurrentLevel = level;
+                Base.Core.Game.ChangeScene(SceneNames.TheRoom);
+            }
         }
 
         private void LoadLevels()
@@ -63,6 +78,24 @@ namespace Assets.Scripts.Scenes.World
                     }
                 }
             }
+        }
+
+
+        private Models.Level GenerateLevel(LevelDefinition levelDefinition)
+        {
+            if (levelDefinition != default)
+            {
+                var level = new Models.Level()
+                {
+                    ID = levelDefinition.ID,
+                    RemainingElements = new Dictionary<String, Int32>(levelDefinition.Elements),
+                    TheRoom = new Models.Room()
+                };
+
+                return level;
+            }
+
+            return default;
         }
 
         private void Awake()
