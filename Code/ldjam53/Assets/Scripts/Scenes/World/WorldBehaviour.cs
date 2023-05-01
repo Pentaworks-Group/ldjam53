@@ -6,6 +6,8 @@ using Assets.Scripts.Constants;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Definitions;
 
+using GameFrame.Core.Extensions;
+
 using UnityEngine;
 
 namespace Assets.Scripts.Scenes.World
@@ -36,9 +38,9 @@ namespace Assets.Scripts.Scenes.World
             }
         }
 
-        public void OnOwlKindSelected(Boolean isEuropeanOwl)
+        public void OnOwlKindSelected(String owlType)
         {
-            gameState.IsUsingEuropeanOwls = isEuropeanOwl;
+            gameState.SelectedOwlType = owlType;
 
             this.owlSelection.SetActive(false);
 
@@ -127,7 +129,7 @@ namespace Assets.Scripts.Scenes.World
                 
                 LoadLevels();
 
-                if (!gameState.IsUsingEuropeanOwls.HasValue)
+                if (!gameState.SelectedOwlType.HasValue())
                 {
                     this.owlSelection = transform.Find("OwlSelection").gameObject;
                     //this.owlSelection = GameObject.Find("UI/OwlSelection");

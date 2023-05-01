@@ -1415,7 +1415,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849340443900071137, guid: 28b444f801ae2654faf5606c5cdbf323, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8849340443900071137, guid: 28b444f801ae2654faf5606c5cdbf323, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1428,6 +1428,10 @@ PrefabInstance:
     - target: {fileID: 8849340443900071137, guid: 28b444f801ae2654faf5606c5cdbf323, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Assets.Scripts.Scenes.World.WorldBehaviour, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8849340443900071137, guid: 28b444f801ae2654faf5606c5cdbf323, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: African
       objectReference: {fileID: 0}
     - target: {fileID: 8849340443900071137, guid: 28b444f801ae2654faf5606c5cdbf323, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -1738,7 +1742,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849340443900071137, guid: 28b444f801ae2654faf5606c5cdbf323, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8849340443900071137, guid: 28b444f801ae2654faf5606c5cdbf323, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1755,6 +1759,10 @@ PrefabInstance:
     - target: {fileID: 8849340443900071137, guid: 28b444f801ae2654faf5606c5cdbf323, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8849340443900071137, guid: 28b444f801ae2654faf5606c5cdbf323, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: European
       objectReference: {fileID: 0}
     - target: {fileID: 8849340443900071137, guid: 28b444f801ae2654faf5606c5cdbf323, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

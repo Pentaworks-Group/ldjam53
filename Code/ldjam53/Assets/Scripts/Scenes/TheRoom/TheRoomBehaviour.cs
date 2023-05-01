@@ -68,6 +68,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             if (selectedElement == default || selectedElement.IsPlaceable)
             {
                 var level = GetCurrentLevelDefinition();
+                RoomElementToCurrentRoom(selectedElement);
 
                 if (level.IsSelectionRandom)
                 {
@@ -93,6 +94,15 @@ namespace Assets.Scripts.Scenes.TheRoom
             {
                 GameFrame.Base.Audio.Effects.Play("Error");
             }
+        }
+
+        private void RoomElementToCurrentRoom(RoomElementBehaviour roomElementBehaviour)
+        {
+            RoomElement roomElement = roomElementBehaviour.Element;
+            roomElement.Position = roomElementBehaviour.transform.position.ToFrame();
+            roomElement.Rotation = roomElementBehaviour.transform.eulerAngles.ToFrame();
+            Debug.Log(roomElement);
+            currentGameState.CurrentLevel.TheRoom.Elements.Add(roomElement);
         }
 
         public void MoveSelectedToSpawn()
@@ -362,6 +372,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 roomElementBehaviour.HighlightBehaviour.ReloadRenderers();
 
                 mat.transform.position = position;
+                mat.transform.eulerAngles = roomElement.Rotation.ToUnity();
                 mat.SetActive(true);
 
                 if (setSelected)
