@@ -23,11 +23,12 @@ namespace Assets.Scripts.Scenes.World
             {
                 var isUnlocked = true;
 
-                var currentRotation = 0;
+                var currentRotation = 180;
 
                 var anglePerItem = 360 / this.gameState.GameMode.Levels.Count;
 
-                var radius = -400f;
+                var radius = .5f;
+                var buttonHalfSize = .5f / (Mathf.Sqrt(this.gameState.GameMode.Levels.Count)); 
 
                 foreach (var levelDefinition in this.gameState.GameMode.Levels)
                 {
@@ -40,8 +41,8 @@ namespace Assets.Scripts.Scenes.World
                         var cosX = Mathf.Cos(radian);
                         var sinZ = Mathf.Sin(radian);
 
-                        var x = radius * cosX;
-                        var y = radius * sinZ;
+                        var x = radius * cosX + .5f;
+                        var y = radius * sinZ + .5f;
 
                         var completedLevel = gameState.CompletedLevels.FirstOrDefault(l => l.ID == levelDefinition.ID);
 
@@ -52,12 +53,16 @@ namespace Assets.Scripts.Scenes.World
                             isUnlocked = false;
                         }
 
-                        var newPosition = new Vector3(x, y, 0);
+                        var anchorMin = new Vector2(x - buttonHalfSize, y - buttonHalfSize);
+                        var anchorMax = new Vector2(x + buttonHalfSize, y + buttonHalfSize);
 
                         currentRotation -= anglePerItem;
 
                         levelBehaviour.gameObject.SetActive(true);
-                        levelBehaviour.gameObject.transform.Translate(newPosition, Space.Self);
+                        var rect = levelBehaviour.gameObject.GetComponent<RectTransform>();
+                        rect.anchorMin = anchorMin;
+                        rect.anchorMax = anchorMax;
+                        //levelBehaviour.gameObject.transform.Translate(newPosition, Space.Self);
 
                         levelBehaviour.UpdateUI();
                     }
