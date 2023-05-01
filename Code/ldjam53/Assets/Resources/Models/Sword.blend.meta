@@ -9,6 +9,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Blade
     second: {fileID: 2100000, guid: 47e5c3d8a4022494cbe454f6076d573e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Handle
+    second: {fileID: 2100000, guid: dbe71659d915ac94baaccac59c4be478, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
