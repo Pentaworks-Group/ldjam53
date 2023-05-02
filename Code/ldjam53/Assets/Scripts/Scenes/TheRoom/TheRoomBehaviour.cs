@@ -25,7 +25,6 @@ namespace Assets.Scripts.Scenes.TheRoom
         public RoomElementBehaviour selectedElement;
         public RoomElementListBehaviour RoomElementListBehaviour;
 
-
         public float cameraDistance = .8f; // Constant factor
         private UnityEngine.Vector3 cameraRotation;
 
@@ -60,7 +59,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
             if (Time.timeScale > 0)
             {
-                if (currentGameState.CurrentLevel != default)
+                if (currentGameState?.CurrentLevel != default)
                 {
                     currentGameState.CurrentLevel.ElapsedTime += Time.deltaTime;
                 }
