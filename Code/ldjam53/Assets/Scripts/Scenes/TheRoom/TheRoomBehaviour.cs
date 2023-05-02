@@ -30,6 +30,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private UnityEngine.Vector3 spawn = new UnityEngine.Vector3(2, 2, 2);
         public RoomType CurrentRoomType { get; private set; }
+        public Dictionary<String, Int32> RemainingElements { get; set; }
 
         //Random Ambient Sounds
         private float nextSoundEffectTime = 0;
@@ -68,6 +69,8 @@ namespace Assets.Scripts.Scenes.TheRoom
             PlayRandomEffectSound();
         }
 
+
+
         public void ToMainMenu()
         {
             Base.Core.Game.PlayButtonSound();
@@ -79,7 +82,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             if (selectedElement != default)
             {
                 var key = selectedElement.Element.ElementTypeKey;
-                currentGameState.CurrentLevel.RemainingElements[key]++;
+                RemainingElements[key]++;
                 Destroy(selectedElement.gameObject);
                 SetSelectedElement(default);
             }
@@ -112,7 +115,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 {
                     SetSelectedElement(default);
 
-                    if (currentGameState.CurrentLevel.RemainingElements.Count < 1)
+                    if (RemainingElements.Count < 1)
                     {
                         LevelCompleted();
                     }
@@ -162,20 +165,25 @@ namespace Assets.Scripts.Scenes.TheRoom
             AddRoomElement(roomElement, spawn);
         }
 
+        private void PopulateRemainingElements()
+        {
+            var levelDefinition = GetCurrentLevelDefinition();
+            RemainingElements = new Dictionary<String, Int32>(levelDefinition.Elements);
+            foreach (var element in currentGameState.CurrentLevel.TheRoom.Elements)
+            {
+                DecreaseKeyFromRemainingElements(element.ElementTypeKey);
+            }
+
+            RoomElementListBehaviour.UpdateList();
+        }
+
         private void SpawnRandomFromRemainingElement()
         {
-            var remainingElements = currentGameState.CurrentLevel.RemainingElements;
 
-            if (remainingElements.Count > 0)
+            if (RemainingElements.Count > 0)
             {
-                var randomKey = remainingElements.GetRandomKey();
-
-                remainingElements[randomKey]--;
-
-                if (remainingElements[randomKey] < 1)
-                {
-                    remainingElements.Remove(randomKey);
-                }
+                var randomKey = RemainingElements.GetRandomKey();
+                DecreaseKeyFromRemainingElements(randomKey);
 
                 SpawnFromKey(randomKey);
 
@@ -184,6 +192,16 @@ namespace Assets.Scripts.Scenes.TheRoom
             else
             {
                 LevelCompleted();
+            }
+        }
+
+        private void DecreaseKeyFromRemainingElements(String randomKey)
+        {
+            RemainingElements[randomKey]--;
+
+            if (RemainingElements[randomKey] < 1)
+            {
+                RemainingElements.Remove(randomKey);
             }
         }
 
@@ -213,14 +231,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
                     slot.RoomElementItem.Quantity--;
 
-                    var remainingElements = currentGameState.CurrentLevel.RemainingElements;
-
-                    remainingElements[key]--;
-
-                    if (remainingElements[key] < 1)
-                    {
-                        remainingElements.Remove(key);
-                    }
+                    DecreaseKeyFromRemainingElements(key);
 
                     RoomElementListBehaviour.UpdateList();
                 }
@@ -235,7 +246,7 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             currentGameState.CurrentLevel.TheRoom.Elements.Clear();
             var levelDefinition = GetCurrentLevelDefinition();
-            currentGameState.CurrentLevel.RemainingElements = new Dictionary<String, Int32>(levelDefinition.Elements);
+            RemainingElements = new Dictionary<String, Int32>(levelDefinition.Elements);
             foreach (Transform child in objectsContainer.transform)
             {
                 GameObject.Destroy(child.gameObject);
@@ -335,7 +346,8 @@ namespace Assets.Scripts.Scenes.TheRoom
                 if (pos.X < minX)
                 {
                     minX = pos.X;
-                } else if (pos.X > maxX)
+                }
+                if (pos.X > maxX)
                 {
                     maxX = pos.X;
                 }
@@ -343,7 +355,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 {
                     minY = pos.Y;
                 }
-                else if (pos.Y > maxY)
+                if (pos.Y > maxY)
                 {
                     maxY = pos.Y;
                 }
@@ -351,7 +363,7 @@ namespace Assets.Scripts.Scenes.TheRoom
                 {
                     minZ = pos.Z;
                 }
-                else if (pos.Z > maxZ)
+                if (pos.Z > maxZ)
                 {
                     maxZ = pos.Z;
                 }
@@ -365,8 +377,8 @@ namespace Assets.Scripts.Scenes.TheRoom
             {
                 var pos = positions[i];
                 pos.X = Mathf.RoundToInt(pos.X - offsetX);
-                pos.Y = Mathf.RoundToInt(pos.Y -minY);
-                pos.Z = Mathf.RoundToInt(pos.Z -offsetZ);
+                pos.Y = Mathf.RoundToInt(pos.Y - minY);
+                pos.Z = Mathf.RoundToInt(pos.Z - offsetZ);
                 positions[i] = pos;
             }
 
@@ -375,7 +387,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private List<GameFrame.Core.Math.Vector3> GetChildrenPositions(GameObject container)
         {
-            var positions = new List<GameFrame.Core.Math.Vector3> ();
+            var positions = new List<GameFrame.Core.Math.Vector3>();
             foreach (Transform child in container.transform)
             {
                 positions.Add(child.position.ToFrame());
@@ -383,8 +395,22 @@ namespace Assets.Scripts.Scenes.TheRoom
             return positions;
         }
 
+        private List<GameFrame.Core.Math.Vector3> RemoveDuplicates(List<GameFrame.Core.Math.Vector3> positions)
+        {
+            var positionSet = new HashSet<GameFrame.Core.Math.Vector3>();
+            foreach (var position in positions)
+            {
+                positionSet.Add(position);
+            }
+            return new List<GameFrame.Core.Math.Vector3>(positions);
+        }
+
         private void DumpRoom(RoomType room)
         {
+            foreach (var wallElement in room.WallElements)
+            {
+                wallElement.Positions = RemoveDuplicates(wallElement.Positions);
+            }
             var json = GameFrame.Core.Json.Handler.SerializePretty(room);
             var filePath = Application.streamingAssetsPath + "/room.json";
             StreamWriter writer = new StreamWriter(filePath, false);
@@ -394,19 +420,21 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         public void SpawnTest()
         {
-            var position = spawn.ToFrame();
+            var position = spawn;
             if (selectedElement != default)
             {
-                position = selectedElement.transform.position.ToFrame();
+                position = selectedElement.transform.position;
             }
             availableModels.TryGetValue("Wall", out var modelTemplate);
-            var wall = InstantiateWallElement(position, modelTemplate);
+            var wall = InstantiateWallElement(position.ToFrame(), modelTemplate);
             RoomElement roomElement = new RoomElement("Wall");
             roomElement.Name = "Wall";
             var roomElementBehaviour = wall.AddRoomElement(roomElement, this);
             roomElementBehaviour.DisableChecks = true;
             SetSelectedElement(roomElementBehaviour);
+
         }
+
 
         private void LoadCurrentRoom()
         {
@@ -433,6 +461,7 @@ namespace Assets.Scripts.Scenes.TheRoom
             {
                 AddRoomElement(roomElement, setSelected: false);
             }
+            PopulateRemainingElements();
         }
 
         private GameObject InstantiateWallElement(GameFrame.Core.Math.Vector3 position, GameObject template)
@@ -501,7 +530,7 @@ namespace Assets.Scripts.Scenes.TheRoom
 
                 var roomElementBehaviour = mat.AddRoomElement(roomElement, this);
 
-                if(!string.IsNullOrEmpty(roomElement.Material))
+                if (!string.IsNullOrEmpty(roomElement.Material))
                 {
                     var material = GameFrame.Base.Resources.Manager.Materials.Get(roomElement.Material);
                     mat.GetComponent<Renderer>().material = material;

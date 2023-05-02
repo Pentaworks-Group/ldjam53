@@ -108,7 +108,6 @@ namespace Assets.Scripts.Scenes.World
                 var level = new Models.Level()
                 {
                     ID = levelDefinition.ID,
-                    RemainingElements = new Dictionary<String, Int32>(levelDefinition.Elements),
                     TheRoom = new Models.Room()
                 };
 

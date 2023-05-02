@@ -10,6 +10,8 @@ namespace Assets.Scripts.Scenes.TheRoom
 {
     public class RoomElementListBehaviour : ListContainerBehaviour<RoomElementListItem>
     {
+        public TheRoomBehaviour theRoomBehaviour;
+
         public override void CustomStart()
         {
             UpdateList();
@@ -19,9 +21,9 @@ namespace Assets.Scripts.Scenes.TheRoom
         {
             var items = new Dictionary<String, RoomElementListItem>();
 
-            if (Base.Core.Game?.State?.CurrentLevel?.RemainingElements?.Count > 0)
+            if (theRoomBehaviour.RemainingElements?.Count > 0)
             {
-                foreach (var item in Base.Core.Game.State.CurrentLevel.RemainingElements)
+                foreach (var item in theRoomBehaviour.RemainingElements)
                 {
                     if (!items.TryGetValue(item.Key, out var listItem))
                     {
