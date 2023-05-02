@@ -124,14 +124,16 @@ namespace Assets.Scripts.Scenes.World
 
             if (this.gameState != default)
             {
-                this.levelTemplate = GameObject.Find("UI/Container/Templates/LevelTemplate");
-                this.levelsContainer = GameObject.Find("UI/Container/Levels");
+                this.levelTemplate = GameObject.Find("UI/Fitter/Container/Templates/LevelTemplate");
+                this.levelsContainer = GameObject.Find("UI/Fitter/Container/Levels");
+                //this.levelTemplate = GameObject.Find("UI/Container/Templates/LevelTemplate");
+                //this.levelsContainer = GameObject.Find("UI/Container/Levels");
                 
                 LoadLevels();
 
                 if (!gameState.SelectedOwlType.HasValue())
                 {
-                    this.owlSelection = transform.Find("OwlSelection").gameObject;
+                    this.owlSelection = GameObject.Find("UI/Fitter/OwlSelection");
                     //this.owlSelection = GameObject.Find("UI/OwlSelection");
 
                     this.owlSelection.SetActive(true);
