@@ -1,4 +1,3 @@
-
 # About
 Deliveries are stressful - especially if you have to pack all stuff into a small container.
 
@@ -12,6 +11,8 @@ Place all items inside the container by selecting the desired item, then move it
 Once all items are placed inside the container, the package is sent off - and you can (must) start packing the next delivery.
 
 You can replay a level as often as you like.
+
+**There is also a Tutorial ingame - be sure to check it out!**
 
 # Movement
 
