@@ -621,21 +621,22 @@ namespace Assets.Scripts.Scenes.TheRoom
 
         private void PlayRandomEffectSound()
         {
-            if (currentGameState.CurrentLevel.ElapsedTime > nextSoundEffectTime && nextSoundEffectTime != 0)
+            if (currentGameState.CurrentLevel != default)
             {
-                GameFrame.Base.Audio.Effects.Play(Base.Core.Game.EffectsClipList.GetRandomEntry());
-                double randomNumber = UnityEngine.Random.value;
+                if (currentGameState.CurrentLevel.ElapsedTime > nextSoundEffectTime && nextSoundEffectTime != 0)
+                {
+                    GameFrame.Base.Audio.Effects.Play(Base.Core.Game.EffectsClipList.GetRandomEntry());
+                    double randomNumber = UnityEngine.Random.value;
 
-                nextSoundEffectTime = (float)(randomNumber * 30.0 + 5.0 + currentGameState.CurrentLevel.ElapsedTime);
-            }
-            else if (nextSoundEffectTime == 0)
-            {
-                double randomNumber = UnityEngine.Random.value;
+                    nextSoundEffectTime = (float)(randomNumber * 30.0 + 5.0 + currentGameState.CurrentLevel.ElapsedTime);
+                }
+                else if (nextSoundEffectTime == 0)
+                {
+                    double randomNumber = UnityEngine.Random.value;
 
-                nextSoundEffectTime = (float)(randomNumber * 30.0 + 5.0 + currentGameState.CurrentLevel.ElapsedTime);
+                    nextSoundEffectTime = (float)(randomNumber * 30.0 + 5.0 + currentGameState.CurrentLevel.ElapsedTime);
+                }
             }
         }
-
-
     }
 }
