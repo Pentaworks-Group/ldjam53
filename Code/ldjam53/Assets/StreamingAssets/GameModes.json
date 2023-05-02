@@ -48,18 +48,6 @@
                     "Sword": 2,
                     "Potion Boiler": 1
                 }
-            },
-            {
-                "ID": "e19cc835-4c50-4618-b15f-79db42a8b802",
-                "Name": "Second Try",
-                "RoomReference": "Cask",
-                "IsSelectionRandom": true,
-                "Elements": {
-                    "Broom": 5,
-                    "BoxLong": 5,
-                    "Box": 5,
-                    "Letter": 5
-                }
             }
         ],
         "ElementTypes": {
