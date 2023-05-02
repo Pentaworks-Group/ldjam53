@@ -54,6 +54,8 @@ namespace Assets.Scripts.Scenes.Menues
 
         private void Awake()
         {
+            GameObject.Find("UI/Fitter/VersionText").GetComponent<TMPro.TMP_Text>().text = $"Version: {Application.version}";
+
             if (GameObject.Find("UI/Fitter/Quit").TryGetComponent(out Button quitButton))
             {
                 quitButton.interactable = Base.Core.Game.IsFileAccessPossible;
