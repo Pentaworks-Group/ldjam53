@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Prefabs.Menues.Book
 {
     public class BookBehaviour : MonoBehaviour
     {
+        public bool ShouldGenerateIndexPage = false;
+
         private Int32 currentPageIndex = -1;
         private GameObject pageBackButton;
         private GameObject indexPageButton;
@@ -24,12 +27,16 @@ namespace Assets.Scripts.Prefabs.Menues.Book
             this.indexPageButton = this.transform.Find("PageButtons/IndexPageButton").gameObject;
             this.pageForwardButton = this.transform.Find("PageButtons/PageForwardContainer/PageForwardButton").gameObject;
             LoadPages();
+            if (ShouldGenerateIndexPage)
+            {
+                GenerateIndexPage();
+            }
             OpenPage(0);
         }
 
         private void LoadPages()
         {
-            this.pages = new List<PageBehaviour>(); 
+            this.pages = new List<PageBehaviour>();
             foreach (Transform child in this.transform.Find("PageArea"))
             {
                 var pageBehaviour = child.gameObject.GetComponent<PageBehaviour>();
@@ -43,6 +50,47 @@ namespace Assets.Scripts.Prefabs.Menues.Book
             var index = this.pages.IndexOf(page);
 
             OpenPage(index);
+        }
+
+        private void GenerateIndexPage()
+        {
+            var template = this.transform.Find("IndexPageTemplate").gameObject;
+            var pageArea = this.transform.Find("PageArea");
+            var indexPage = Instantiate(template, pageArea);
+
+            var numPages = Math.Min(5, pages.Count);
+            var buttonTemplate = indexPage.transform.Find("LeftArea/LeftAreaContent/Button").GetComponent<Button>();
+
+            var relativeSize = 0.2f;
+            CreateLinks(numPages, buttonTemplate, relativeSize, 0);
+            var remaining = pages.Count - numPages;
+            if (remaining > 0)
+            {
+                buttonTemplate = indexPage.transform.Find("RightArea/RightContentArea/Button").GetComponent<Button>();
+                relativeSize = 1f / 6f;
+                CreateLinks(remaining, buttonTemplate, relativeSize, numPages);
+            }
+            //OpenPage(indexPage.transform.GetSiblingIndex());
+            pages.Insert(0, indexPage.GetComponent<PageBehaviour>());
+            indexPage.transform.SetSiblingIndex(0);
+            //currentPageIndex = 0;
+        }
+
+        private void CreateLinks(Int32 numPages, Button buttonTemplate, Single relativeSize, Int32 pageOffset)
+        {
+            for (int i = 0; i < numPages; i++)
+            {
+                var page = pages[pageOffset + i];
+                var pageLink = Instantiate(buttonTemplate, buttonTemplate.transform.parent);
+                var text = pageLink.transform.Find("Text").GetComponent<Text>();
+                text.text = page.indexName;
+                var rect = pageLink.GetComponent<RectTransform>();
+                float top = 1 - (float)i * relativeSize;
+                rect.anchorMin = new Vector2(0, top - relativeSize);
+                rect.anchorMax = new Vector2(1, top);
+                pageLink.onClick.AddListener(pages[i].OpenThisPage);
+                pageLink.gameObject.SetActive(true);
+            }
         }
 
         public void OpenPage(Int32 pageIndex)
