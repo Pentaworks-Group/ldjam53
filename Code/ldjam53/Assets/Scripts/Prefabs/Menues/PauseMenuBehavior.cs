@@ -62,6 +62,12 @@ public class PauseMenuBehavior : MonoBehaviour
         }
     }
 
+    public GameObject Tutorial;
+    public void ToggleTutorial()
+    {
+        Tutorial.SetActive(!Tutorial.activeSelf);
+        menuToggle.SetActive(!menuToggle.activeSelf);
+    }
     public void ToggleMenu()
     {
         if (menuToggle.activeSelf == true)
