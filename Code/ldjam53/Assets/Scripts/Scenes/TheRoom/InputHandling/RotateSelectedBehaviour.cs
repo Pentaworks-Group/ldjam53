@@ -5,11 +5,12 @@ using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 {
-    public class TurnSelectedBehaviour : MonoBehaviour
+    public class RotateSelectedBehaviour :  ManipulationInterface
     {
-        public Camera cam;
-        public TheRoomBehaviour theRoomBehaviour;
+        //private Camera cam;
+        //private TheRoomBehaviour theRoomBehaviour;
 
+        public InputHandler inputHandler;
 
         private float threshhold = 5f;
 
@@ -23,12 +24,16 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         private static bool isMoving { get; set; } = false;
 
-
+        //private void Awake()
+        //{
+        //    cam = inputHander.cam;
+        //    theRoomBehaviour = inputHander.theRoomBehaviour;
+        //}
 
         void Update()
         {
 
-            var selected = theRoomBehaviour.selectedElement;
+            var selected = inputHandler.theRoomBehaviour.selectedElement;
             if (selected != default && !EventSystem.current.IsPointerOverGameObject())
             {
                 HorizontalMovment(selected);
@@ -96,7 +101,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         private Vector3 GetRotationVector(float moveX, float moveZ)
         {
-            float camAngle = cam.transform.eulerAngles.y;
+            float camAngle = inputHandler.cam.transform.eulerAngles.y;
             if (camAngle >= 45 && camAngle < 135)
             {
                 return new Vector3(0, moveX, moveZ);
@@ -158,7 +163,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                     vertical = -90;
                 }
                 Vector3 rotationVector;
-                float camAngle = cam.transform.eulerAngles.y;
+                float camAngle = inputHandler.cam.transform.eulerAngles.y;
                 if (camAngle >= 45 && camAngle < 135)
                 {
                     rotationVector = new Vector3(vertical, 0, 0);
@@ -178,6 +183,36 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 selected.transform.Rotate(rotationVector, Space.World);
                 selected.UpdateIsPlaceable();
             }
+        }
+
+        public override void OnButtonBottomMiddle()
+        {
+            inputHandler.RotateXN();
+        }
+
+        public override void OnButtonMidleLeft()
+        {
+            inputHandler.RotateYN();
+        }
+
+        public override void OnButtonMiddleRight()
+        {
+            inputHandler.RotateYP();
+        }
+
+        public override void OnButtonTopLeft()
+        {
+            inputHandler.RotateZN();
+        }
+
+        public override void OnButtonTopMiddle()
+        {
+            inputHandler.RotateXP();
+        }
+
+        public override void OnButtonTopRight()
+        {
+            inputHandler.RotateZP();
         }
     }
 }

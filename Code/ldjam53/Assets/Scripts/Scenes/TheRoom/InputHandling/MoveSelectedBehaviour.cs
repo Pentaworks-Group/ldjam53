@@ -1,3 +1,5 @@
+using System;
+
 using Assets.Scripts.Base;
 
 using UnityEngine;
@@ -5,11 +7,9 @@ using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 {
-    public class MoveSelectedBehaviour : MonoBehaviour
+    public class MoveSelectedBehaviour : ManipulationInterface
     {
-        public Camera cam;
-        public TheRoomBehaviour TheRoomBehaviour;
-
+        public InputHandler inputHandler;
 
         private float threshhold = 0.1f;
 
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         void Update()
         {
 
-            var selected = TheRoomBehaviour.selectedElement;
+            var selected = inputHandler.theRoomBehaviour.selectedElement;
             if (selected != default && !EventSystem.current.IsPointerOverGameObject())
             {
                 HorizontalMovment(selected);
@@ -58,6 +58,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                     moveX = (clickDown.x - Input.mousePosition.x);
                     moveZ = (clickDown.y - Input.mousePosition.y);
                     moveX = CheckThreshhold(moveX);
+                    moveZ = CheckThreshhold(moveZ);
                     clickDown = Input.mousePosition;
                 }
             }
@@ -83,16 +84,15 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 {
                     moveZ = 1;
                 }
-                var correctedVector = ApplyCamCorrection(moveX, 0, moveZ);
-                correctedVector = new Vector3(Mathf.RoundToInt(correctedVector.x), 0, Mathf.RoundToInt(correctedVector.z));
-                selected.transform.position += correctedVector;
-                currentInterval = moveInterval;
-                selected.UpdateIsPlaceable();
-            } else
+                ApplyHorizontalMovment(selected, moveX, moveZ);
+            }
+            else
             {
                 currentInterval -= Time.deltaTime;
             }
         }
+
+
 
         private float CheckThreshhold(float moveX)
         {
@@ -104,9 +104,28 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             return moveX;
         }
 
+
+        private void ApplyHorizontalMovment(RoomElementBehaviour selected, Vector3 vector)
+        {
+            selected.transform.position += vector;
+            currentInterval = moveInterval;
+            selected.UpdateIsPlaceable();
+        }
+
+
+        private void ApplyHorizontalMovment(RoomElementBehaviour selected, float moveX, float moveZ)
+        {
+            var correctedVector = ApplyCamCorrection(moveX, 0, moveZ);
+            moveX = Mathf.RoundToInt(correctedVector.x);
+            moveZ = Mathf.RoundToInt(correctedVector.z);
+            ApplyHorizontalMovment(selected, new Vector3(moveX, 0, moveZ));
+        }
+
+
+
         private float GetCamCorrectionAngle()
         {
-            float camAngle = cam.transform.eulerAngles.y;
+            float camAngle = inputHandler.cam.transform.eulerAngles.y;
             return Mathf.Deg2Rad * camAngle;
         }
         private Vector3 ApplyCamCorrection(float inputX, float inputY, float inputZ)
@@ -117,10 +136,13 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             var zPartX = Mathf.Cos(-radCorrectionAngle) * inputX;
             var zPartZ = Mathf.Sin(-radCorrectionAngle) * inputX;
 
-            return new Vector3(xPartX + zPartX, inputY, xPartZ + zPartZ);
+
+            var outX = (xPartX + zPartX) * .9f;
+            var outZ = (xPartZ + zPartZ) * .9f;
+            var vec = new Vector3(outX, inputY, outZ);
+            return vec;
 
         }
-
 
         private void VerticalMovment(RoomElementBehaviour selected)
         {
@@ -145,6 +167,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 }
             }
 
+            vertical = CheckThreshhold(vertical);
             if (vertical != 0)
             {
 
@@ -156,9 +179,45 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 {
                     vertical = -1;
                 }
-                selected.transform.position += new Vector3(0, vertical, 0);
-                selected.UpdateIsPlaceable();
+                MoveVertical(selected, vertical);
             }
+        }
+
+        private static void MoveVertical(RoomElementBehaviour selected, Single vertical)
+        {
+            selected.transform.position += new Vector3(0, vertical, 0);
+            selected.UpdateIsPlaceable();
+        }
+
+
+        public override void OnButtonBottomMiddle()
+        {
+            inputHandler.MoveBack();
+        }
+
+        public override void OnButtonMidleLeft()
+        {
+            inputHandler.MoveLeft();
+        }
+
+        public override void OnButtonMiddleRight()
+        {
+            inputHandler.MoveRight();
+        }
+
+        public override void OnButtonTopLeft()
+        {
+            inputHandler.MoveDown();
+        }
+
+        public override void OnButtonTopMiddle()
+        {
+            inputHandler.MoveForeward();
+        }
+
+        public override void OnButtonTopRight()
+        {
+            inputHandler.MoveUp();
         }
     }
 }

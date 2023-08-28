@@ -15,13 +15,26 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         public Image MoveCamImage;
         public Image TurnCamImage;
 
-        public CameraBehaviour cameraBehaviour;
+        //public CameraBehaviour cameraBehaviour;
         public MoveSelectedBehaviour moveSelectedBehaviour;
-        public TurnSelectedBehaviour turnSelectedBehaviour;
+        public RotateSelectedBehaviour turnSelectedBehaviour;
         public MoveCamBehaviour moveCamBehaviour;
-        public TurnCamBehaviour turnCamBehaviour;
+        public RotateCamBehaviour turnCamBehaviour;
 
+
+        private ManipulationInterface selectedBehaviourInterface;
         private Image selectedImage;
+
+        private ManipulationInterface defaultManipulationInterface;
+        private Image defaultSelectedImage;
+
+
+        public void Awake()
+        {
+            defaultManipulationInterface = moveSelectedBehaviour;
+            defaultSelectedImage = MoveSelectedImage;
+            DeselectIfAlreadySelected(defaultSelectedImage, defaultManipulationInterface);
+        }
 
         public void Update()
         {
@@ -69,7 +82,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         }
 
 
-        private void DeselectIfAlreadySelected(Image Image, Behaviour selectedBehaviour)
+        private void DeselectIfAlreadySelected(Image Image, ManipulationInterface selectedBehaviour)
         {
             moveSelectedBehaviour.enabled = false;
             turnSelectedBehaviour.enabled = false;
@@ -78,8 +91,10 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             if (Image == selectedImage)
             {
                 selectedImage.enabled = false;
-                selectedImage = null;
-                cameraBehaviour.enabled = true;
+                selectedImage = defaultSelectedImage;
+                selectedBehaviourInterface = defaultManipulationInterface;
+                selectedBehaviourInterface.enabled = true;
+
             }
             else
             {
@@ -89,9 +104,40 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 }
                 selectedImage = Image;
                 selectedImage.enabled = true;
-                cameraBehaviour.enabled = false;
                 selectedBehaviour.enabled = true;
+                selectedBehaviourInterface = selectedBehaviour;
             }
+        }
+
+
+        public void OnButtonBottomMiddle()
+        {
+            selectedBehaviourInterface.OnButtonBottomMiddle();
+        }
+
+        public void OnButtonMidleLeft()
+        {
+            selectedBehaviourInterface.OnButtonMidleLeft();
+        }
+
+        public void OnButtonMiddleRight()
+        {
+            selectedBehaviourInterface.OnButtonMiddleRight();
+        }
+
+        public void OnButtonTopLeft()
+        {
+            selectedBehaviourInterface.OnButtonTopLeft();
+        }
+
+        public void OnButtonTopMiddle()
+        {
+            selectedBehaviourInterface.OnButtonTopMiddle();
+        }
+
+        public void OnButtonTopRight()
+        {
+            selectedBehaviourInterface.OnButtonTopRight();
         }
     }
 }

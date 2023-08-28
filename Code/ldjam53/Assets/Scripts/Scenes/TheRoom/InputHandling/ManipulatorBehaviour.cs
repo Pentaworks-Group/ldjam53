@@ -21,56 +21,49 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             {
                 if (theRoomBehaviour.selectedElement != default)
                 {
-                    float camAngle = cam.transform.eulerAngles.y;
-                    float correctionAngle = 0;
-                    if (camAngle >= 45 && camAngle < 135)
-                    {
-                        correctionAngle = 90;
-                    }
-                    else if (camAngle >= 135 && camAngle < 225)
-                    {
-                        correctionAngle = 180;
-                    }
-                    else if (camAngle >= 225 && camAngle < 312)
-                    {
-                        correctionAngle = 270;
-                    }
-
-                    var radCorrectionAngle = Mathf.Deg2Rad * correctionAngle;
                     if (Input.GetKey(KeyCode.W))
                     {
+                        var radCorrectionAngle = GetCorrectionAngle();
                         Move(new Vector3(Mathf.Sin(radCorrectionAngle), 0, Mathf.Cos(radCorrectionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.S))
                     {
+                        var radCorrectionAngle = GetCorrectionAngle();
                         Move(new Vector3(-Mathf.Sin(radCorrectionAngle), 0, -Mathf.Cos(radCorrectionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.A))
                     {
+                        var radCorrectionAngle = GetCorrectionAngle();
                         Move(new Vector3(-Mathf.Cos(-radCorrectionAngle), 0, -Mathf.Sin(-radCorrectionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.D))
                     {
+                        var radCorrectionAngle = GetCorrectionAngle();
                         Move(new Vector3(Mathf.Cos(-radCorrectionAngle), 0, Mathf.Sin(-radCorrectionAngle)));
                     }
                     else if (Input.GetKey(KeyCode.Q))
                     {
+                        var radCorrectionAngle = GetCorrectionAngle();
                         Move(new Vector3(0, 1, 0));
                     }
                     else if (Input.GetKey(KeyCode.E))
                     {
+                        var radCorrectionAngle = GetCorrectionAngle();
                         Move(new Vector3(0, -1, 0));
                     }
                     else if (Input.GetKey(KeyCode.Z))
                     {
+                        var radCorrectionAngle = GetCorrectionAngle();
                         Rotate(new Vector3(90, 0, 0));
                     }
                     else if (Input.GetKey(KeyCode.X))
                     {
+                        var radCorrectionAngle = GetCorrectionAngle();
                         Rotate(new Vector3(0, 90, 0));
                     }
                     else if (Input.GetKey(KeyCode.C))
                     {
+                        var radCorrectionAngle = GetCorrectionAngle();
                         Rotate(new Vector3(0, 0, 90));
                     }
                 }
@@ -79,6 +72,27 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             {
                 currentInterval -= Time.deltaTime;
             }
+        }
+
+        private System.Single GetCorrectionAngle()
+        {
+            float camAngle = cam.transform.eulerAngles.y;
+            float correctionAngle = 0;
+            if (camAngle >= 45 && camAngle < 135)
+            {
+                correctionAngle = 90;
+            }
+            else if (camAngle >= 135 && camAngle < 225)
+            {
+                correctionAngle = 180;
+            }
+            else if (camAngle >= 225 && camAngle < 312)
+            {
+                correctionAngle = 270;
+            }
+
+            var radCorrectionAngle = Mathf.Deg2Rad * correctionAngle;
+            return radCorrectionAngle;
         }
 
         private void Move(Vector3 dir)

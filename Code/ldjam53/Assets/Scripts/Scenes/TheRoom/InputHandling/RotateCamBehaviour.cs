@@ -5,9 +5,10 @@ using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 {
-    public class TurnCamBehaviour : MonoBehaviour
+    public class RotateCamBehaviour : ManipulationInterface
     {
-        public Camera cam;
+        public InputHandler inputHandler;
+        //public Camera cam;
 
 
         private readonly float moveSpeedTouch = 0.085f;
@@ -83,9 +84,9 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
             if (lookX != 0 || lookY != 0)
             {
-                cam.transform.Rotate(new Vector3(-lookY, lookX, 0) * Time.deltaTime * Base.Core.Game.Options.LookSensivity);
-                float z = cam.transform.eulerAngles.z;
-                cam.transform.Rotate(0, 0, -z);
+                inputHandler.cam.transform.Rotate(new Vector3(-lookY, lookX, 0) * Time.deltaTime * Base.Core.Game.Options.LookSensivity);
+                float z = inputHandler.cam.transform.eulerAngles.z;
+                inputHandler.cam.transform.Rotate(0, 0, -z);
             }
         }
 
@@ -111,15 +112,46 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                     vertical = zoomSpeedTouch * (Vector2.Distance(touch1.position, touch2.position) - Vector2.Distance(prevPinch.Item1, prevPinch.Item2));
                     prevPinch = (touch1.position, touch2.position);
                     panTimeout = 20;
-                   
+
                 }
             }
             if (vertical != 0)
             {
                 vertical *= Time.deltaTime * Base.Core.Game.Options.ZoomSensivity;
-                Vector3 newCamPos = cam.transform.position + cam.transform.forward * vertical;
-                cam.transform.position = newCamPos;
+                Vector3 newCamPos = inputHandler.cam.transform.position + inputHandler.cam.transform.forward * vertical;
+                inputHandler.cam.transform.position = newCamPos;
             }
+        }
+
+
+        public override void OnButtonBottomMiddle()
+        {
+            inputHandler.RotateXN();
+        }
+
+        public override void OnButtonMidleLeft()
+        {
+            inputHandler.RotateYN();
+        }
+
+        public override void OnButtonMiddleRight()
+        {
+            inputHandler.RotateYP();
+        }
+
+        public override void OnButtonTopLeft()
+        {
+            inputHandler.RotateZN();
+        }
+
+        public override void OnButtonTopMiddle()
+        {
+            inputHandler.RotateXP();
+        }
+
+        public override void OnButtonTopRight()
+        {
+            inputHandler.RotateZP();
         }
     }
 }
