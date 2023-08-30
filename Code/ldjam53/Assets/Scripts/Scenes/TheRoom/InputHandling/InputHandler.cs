@@ -164,5 +164,78 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         }
 
 
+        public void CamRotateYN()
+        {
+            CamRotate(new Vector3(0, 0, -15));
+        }
+        public void CamRotateYP()
+        {
+            CamRotate(new Vector3(0, 0, 15));
+        }
+
+        public void CamRotateZN()
+        {
+            CamRotate(new Vector3(0, -15, 0));
+        }
+
+        public void CamRotateZP()
+        {
+            CamRotate(new Vector3(0, 15, 0));
+        }
+
+        public void CamRotateXN()
+        {
+            CamRotate(new Vector3(-15, 0, 0));
+        }
+
+        public void CamRotateXP()
+        {
+            CamRotate(new Vector3(15, 0, 0));
+        }
+
+        public void CamMoveDown()
+        {
+            CamMove(new Vector3(0, -1, 0));
+        }
+
+        public void CamMoveUp()
+        {
+            CamMove(new Vector3(0, 1, 0));
+        }
+
+        public void CamMoveRight()
+        {
+            var radCorrectionAngle = GetCorrectionAngle();
+            CamMove(new Vector3(Mathf.Cos(-radCorrectionAngle), 0, Mathf.Sin(-radCorrectionAngle)));
+        }
+
+        public void CamMoveLeft()
+        {
+            var radCorrectionAngle = GetCorrectionAngle();
+            CamMove(new Vector3(-Mathf.Cos(-radCorrectionAngle), 0, -Mathf.Sin(-radCorrectionAngle)));
+        }
+
+        public void CamMoveBack()
+        {
+            var radCorrectionAngle = GetCorrectionAngle();
+            CamMove(new Vector3(-Mathf.Sin(radCorrectionAngle), 0, -Mathf.Cos(radCorrectionAngle)));
+        }
+
+        public void CamMoveForeward()
+        {
+            var radCorrectionAngle = GetCorrectionAngle();
+            CamMove(new Vector3(Mathf.Sin(radCorrectionAngle), 0, Mathf.Cos(radCorrectionAngle)));
+        }
+
+        private void CamMove(Vector3 dir)
+        {
+            cam.transform.position = cam.transform.position + dir;
+        }
+
+        private void CamRotate(Vector3 dir)
+        {
+            cam.transform.Rotate(dir);
+        }
+
     }
 }

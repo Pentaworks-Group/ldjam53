@@ -126,32 +126,32 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         public override void OnButtonBottomMiddle()
         {
-            inputHandler.RotateXN();
+            inputHandler.CamRotateXP();
         }
 
         public override void OnButtonMidleLeft()
         {
-            inputHandler.RotateYN();
+            inputHandler.CamRotateZN();
         }
 
         public override void OnButtonMiddleRight()
         {
-            inputHandler.RotateYP();
+            inputHandler.CamRotateZP();
         }
 
         public override void OnButtonTopLeft()
         {
-            inputHandler.RotateZN();
+            inputHandler.CamRotateYN();
         }
 
         public override void OnButtonTopMiddle()
         {
-            inputHandler.RotateXP();
+            inputHandler.CamRotateXN();
         }
 
         public override void OnButtonTopRight()
         {
-            inputHandler.RotateZP();
+            inputHandler.CamRotateYP();
         }
     }
 }
