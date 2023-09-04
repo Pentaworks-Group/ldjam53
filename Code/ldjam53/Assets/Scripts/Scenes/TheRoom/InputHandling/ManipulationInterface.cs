@@ -6,6 +6,8 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
     public abstract class ManipulationInterface : MonoBehaviour
     {
 
+        [SerializeField] protected InputHandler inputHandler;
+
         abstract public void OnButtonBottomMiddle();
 
         abstract public void OnButtonMidleLeft();

@@ -7,7 +7,6 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 {
     public class MoveCamBehaviour : ManipulationInterface
     {
-        public InputHandler inputHandler;
 
         //public Camera cam;
 

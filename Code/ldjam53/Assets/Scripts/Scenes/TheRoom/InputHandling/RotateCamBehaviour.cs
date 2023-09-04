@@ -7,7 +7,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 {
     public class RotateCamBehaviour : ManipulationInterface
     {
-        public InputHandler inputHandler;
+        //public InputHandler inputHandler;
         //public Camera cam;
 
 

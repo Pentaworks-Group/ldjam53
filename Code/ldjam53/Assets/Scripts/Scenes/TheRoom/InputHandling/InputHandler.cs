@@ -175,12 +175,12 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         public void CamRotateZN()
         {
-            CamRotate(new Vector3(0, -15, 0));
+            CamRotate(new Vector3(0, -15, 0), Space.World);
         }
 
         public void CamRotateZP()
         {
-            CamRotate(new Vector3(0, 15, 0));
+            CamRotate(new Vector3(0, 15, 0), Space.World);
         }
 
         public void CamRotateXN()
@@ -195,46 +195,60 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         public void CamMoveDown()
         {
-            CamMove(new Vector3(0, -1, 0));
+            CamMove(new Vector3(0, -1, 0), Space.World);
         }
 
         public void CamMoveUp()
         {
-            CamMove(new Vector3(0, 1, 0));
+            CamMove(new Vector3(0, 1, 0), Space.World);
         }
 
         public void CamMoveRight()
         {
-            var radCorrectionAngle = GetCorrectionAngle();
-            CamMove(new Vector3(Mathf.Cos(-radCorrectionAngle), 0, Mathf.Sin(-radCorrectionAngle)));
+            //var radCorrectionAngle = GetCorrectionAngle();
+            float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
+            //CamMove(new Vector3(Mathf.Sin(-camAngle), 0, Mathf.Cos(-camAngle)));
+            var v = new Vector3(Mathf.Cos(camAngle), 0, -Mathf.Sin(camAngle));
+            CamMove(v);
+
+            //CamMove(new Vector3(1, 0, 0));
         }
 
         public void CamMoveLeft()
         {
-            var radCorrectionAngle = GetCorrectionAngle();
-            CamMove(new Vector3(-Mathf.Cos(-radCorrectionAngle), 0, -Mathf.Sin(-radCorrectionAngle)));
+            //var radCorrectionAngle = GetCorrectionAngle();
+            float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
+            //CamMove(new Vector3(-Mathf.Sin(-camAngle), 0, -Mathf.Cos(-camAngle)));
+            CamMove(new Vector3(-Mathf.Cos(camAngle), 0, Mathf.Sin(camAngle)));
+
+            //CamMove(new Vector3(-1, 0, 0));
         }
 
         public void CamMoveBack()
         {
-            var radCorrectionAngle = GetCorrectionAngle();
-            CamMove(new Vector3(-Mathf.Sin(radCorrectionAngle), 0, -Mathf.Cos(radCorrectionAngle)));
+            float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
+            CamMove(new Vector3(-Mathf.Sin(camAngle), 0, -Mathf.Cos(camAngle)), Space.World);
+
+            //CamMove(new Vector3(0, -1, 0));
         }
 
         public void CamMoveForeward()
         {
-            var radCorrectionAngle = GetCorrectionAngle();
-            CamMove(new Vector3(Mathf.Sin(radCorrectionAngle), 0, Mathf.Cos(radCorrectionAngle)));
+            float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
+            CamMove(new Vector3(Mathf.Sin(camAngle), 0, Mathf.Cos(camAngle)), Space.World);
+
+            //CamMove(new Vector3(0, 1, 0));
         }
 
-        private void CamMove(Vector3 dir)
+        private void CamMove(Vector3 dir, Space relativeTo = Space.Self)
         {
             cam.transform.position = cam.transform.position + dir;
+            //cam.transform.Translate(dir, relativeTo);
         }
 
-        private void CamRotate(Vector3 dir)
+        private void CamRotate(Vector3 dir, Space relativeTo = Space.Self)
         {
-            cam.transform.Rotate(dir);
+            cam.transform.Rotate(dir, relativeTo);
         }
 
     }

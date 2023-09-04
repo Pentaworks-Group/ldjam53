@@ -10,7 +10,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         //private Camera cam;
         //private TheRoomBehaviour theRoomBehaviour;
 
-        public InputHandler inputHandler;
+        //public InputHandler inputHandler;
 
         private float threshhold = 5f;
 

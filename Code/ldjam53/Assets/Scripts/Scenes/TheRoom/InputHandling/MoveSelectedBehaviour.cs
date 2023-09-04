@@ -9,7 +9,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 {
     public class MoveSelectedBehaviour : ManipulationInterface
     {
-        public InputHandler inputHandler;
+        //public InputHandler inputHandler;
 
         private float threshhold = 0.1f;
 
@@ -192,32 +192,55 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         public override void OnButtonBottomMiddle()
         {
-            inputHandler.MoveBack();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+                inputHandler.MoveBack();
+            }
         }
 
         public override void OnButtonMidleLeft()
         {
-            inputHandler.MoveLeft();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+
+                inputHandler.MoveLeft();
+            }
         }
 
         public override void OnButtonMiddleRight()
         {
-            inputHandler.MoveRight();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+
+                inputHandler.MoveRight();
+            }
         }
 
         public override void OnButtonTopLeft()
         {
-            inputHandler.MoveDown();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+
+                inputHandler.MoveDown();
+            }
         }
 
         public override void OnButtonTopMiddle()
         {
-            inputHandler.MoveForeward();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+
+                inputHandler.MoveForeward();
+            }
         }
 
         public override void OnButtonTopRight()
         {
-            inputHandler.MoveUp();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+
+                inputHandler.MoveUp();
+            }
         }
     }
 }
