@@ -120,6 +120,18 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             selectedBehaviourInterface.OnButtonMidleLeft();
         }
 
+
+        //public void OnButtonMiddleLeftClick()
+        //{
+
+        //    inputHandler.RotateYN();
+        //}
+
+        //public void OnButtonMiddleLeftDown()
+        //{
+        //    inputHandler.RotateYN();
+        //}
+
         public void OnButtonMiddleRight()
         {
             selectedBehaviourInterface.OnButtonMiddleRight();

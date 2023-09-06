@@ -167,49 +167,84 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         public void CamRotateYN()
         {
-            CamRotate(new Vector3(0, 0, -15));
+            if (!isCamRotating)
+            {
+                var rotationChange = Quaternion.Euler(0, 0, -15);
+                SetCamRotation(rotationChange, true);
+            }
+            //CamRotate(new Vector3(0, 0, -15));
         }
         public void CamRotateYP()
         {
-            CamRotate(new Vector3(0, 0, 15));
+            if (!isCamRotating)
+            {
+                var rotationChange = Quaternion.Euler(0, 0, 15);
+                SetCamRotation(rotationChange, true);
+            }
+            //CamRotate(new Vector3(0, 0, 15));
         }
+
+        private Quaternion rotationTarget;
+        private Quaternion rotationStart;
+        private float rotationLerpPercentage = 1f;
+        private bool isCamRotating = false;
 
         public void CamRotateZN()
         {
-            CamRotate(new Vector3(0, -15, 0), Space.World);
+            if (!isCamRotating)
+            {
+                var rotationChange = Quaternion.Euler(0, -15, 0);
+                SetCamRotation(rotationChange, false);
+            }
+            //CamRotate(new Vector3(0, -15, 0), Space.World);
         }
 
         public void CamRotateZP()
         {
-            CamRotate(new Vector3(0, 15, 0), Space.World);
+            if (!isCamRotating)
+            {
+                var rotationChange = Quaternion.Euler(0, 15, 0);
+                SetCamRotation(rotationChange, false);
+            }
         }
 
         public void CamRotateXN()
         {
             //var forward = cam.transform.forward;
             //CamRotate(new Vector3(-15, 0, 0));
-            var currEulerAngles = cam.transform.eulerAngles;
-            var x = currEulerAngles.x - 15;
-            if (x > 90 && x < 270)
+            //var currEulerAngles = cam.transform.eulerAngles;
+            //var x = currEulerAngles.x - 15;
+            //if (x > 90 && x < 270)
+            //{
+            //    x = -90;
+            //}
+            //currEulerAngles.x = x;
+            //cam.transform.rotation = Quaternion.Euler(currEulerAngles);
+
+            if (!isCamRotating)
             {
-                x = -90;
+                var rotationChange = Quaternion.Euler(-15, 0, 0);
+                SetCamRotation(rotationChange, false);
             }
-            currEulerAngles.x = x;
-            cam.transform.rotation = Quaternion.Euler(currEulerAngles);
         }
 
         public void CamRotateXP()
         {
             //CamRotate(new Vector3(15, 0, 0));
-            var currEulerAngles = cam.transform.eulerAngles;
-            var x = currEulerAngles.x + 15;
+            //var currEulerAngles = cam.transform.eulerAngles;
+            //var x = currEulerAngles.x + 15;
 
-            if (x > 90 && x < 270)
+            //if (x > 90 && x < 270)
+            //{
+            //    x = 90;
+            //}
+            //currEulerAngles.x = x;
+            //cam.transform.rotation = Quaternion.Euler(currEulerAngles);
+            if (!isCamRotating)
             {
-                x = 90;
+                var rotationChange = Quaternion.Euler(15, 0, 0);
+                SetCamRotation(rotationChange, false);
             }
-            currEulerAngles.x = x;
-            cam.transform.rotation = Quaternion.Euler(currEulerAngles);
         }
 
         public void CamMoveDown()
@@ -269,6 +304,44 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         {
             cam.transform.Rotate(dir, relativeTo);
         }
+
+
+        private void SetCamRotation(Quaternion rotationChange, bool selfCentred)
+        {
+            rotationStart = cam.transform.rotation;
+            rotationTarget = rotationStart;
+            if (selfCentred)
+            {
+                rotationTarget = rotationTarget * rotationChange;
+            }
+            else
+            {
+                rotationTarget = rotationChange * rotationTarget;
+            }
+            rotationLerpPercentage = 0;
+            Debug.Log("Start: " + rotationStart.eulerAngles);
+            Debug.Log("End: " + rotationTarget.eulerAngles);
+            isCamRotating = true;
+        }
+
+        public void Update()
+        {
+            if (isCamRotating)
+            {
+                rotationLerpPercentage = Mathf.MoveTowards(rotationLerpPercentage, 1f, Time.deltaTime * 10f);
+                if (rotationLerpPercentage >= 1)
+                {
+                    cam.transform.rotation = rotationTarget;
+                    isCamRotating = false;
+                }
+                else
+                {
+                    cam.transform.rotation = Quaternion.Slerp(rotationStart, rotationTarget, rotationLerpPercentage);
+                }
+
+            }
+        }
+
 
     }
 }

@@ -7351,6 +7351,7 @@ GameObject:
   - component: {fileID: 1870776929}
   - component: {fileID: 1870776928}
   - component: {fileID: 1870776927}
+  - component: {fileID: 1870776930}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -7385,7 +7386,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870776925}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -7400,7 +7401,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.10533662, g: 0.6792453, b: 0.05446779, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -7422,10 +7423,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1890587436}
+      - m_Target: {fileID: 1890587434}
         m_TargetAssemblyTypeName: Assets.Scripts.Scenes.TheRoom.InputHandling.InputPadBehaviour,
           Assembly-CSharp
-        m_MethodName: OnButtonMidleLeft
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7473,6 +7474,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870776925}
   m_CullTransparentMesh: 1
+--- !u!114 &1870776930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870776925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42ecb70ea16060469e7d752c18de1c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interval: 0.01
+  startTime: 0
+  repeatingMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1890587436}
+        m_TargetAssemblyTypeName: Assets.Scripts.Scenes.TheRoom.InputHandling.InputPadBehaviour,
+          Assembly-CSharp
+        m_MethodName: OnButtonMidleLeft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  clickMethod:
+    m_PersistentCalls:
+      m_Calls: []
+  t1t: 0
 --- !u!1 &1890587434
 GameObject:
   m_ObjectHideFlags: 0
@@ -7533,7 +7568,6 @@ MonoBehaviour:
   TurnSelectedImage: {fileID: 655412505}
   MoveCamImage: {fileID: 555727807}
   TurnCamImage: {fileID: 634545470}
-  cameraBehaviour: {fileID: 414000128}
   moveSelectedBehaviour: {fileID: 1890587439}
   turnSelectedBehaviour: {fileID: 1890587440}
   moveCamBehaviour: {fileID: 1890587437}
