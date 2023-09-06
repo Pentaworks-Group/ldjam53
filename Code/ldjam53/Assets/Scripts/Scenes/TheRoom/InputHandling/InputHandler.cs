@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -185,12 +186,30 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         public void CamRotateXN()
         {
-            CamRotate(new Vector3(-15, 0, 0));
+            //var forward = cam.transform.forward;
+            //CamRotate(new Vector3(-15, 0, 0));
+            var currEulerAngles = cam.transform.eulerAngles;
+            var x = currEulerAngles.x - 15;
+            if (x > 90 && x < 270)
+            {
+                x = -90;
+            }
+            currEulerAngles.x = x;
+            cam.transform.rotation = Quaternion.Euler(currEulerAngles);
         }
 
         public void CamRotateXP()
         {
-            CamRotate(new Vector3(15, 0, 0));
+            //CamRotate(new Vector3(15, 0, 0));
+            var currEulerAngles = cam.transform.eulerAngles;
+            var x = currEulerAngles.x + 15;
+
+            if (x > 90 && x < 270)
+            {
+                x = 90;
+            }
+            currEulerAngles.x = x;
+            cam.transform.rotation = Quaternion.Euler(currEulerAngles);
         }
 
         public void CamMoveDown()
