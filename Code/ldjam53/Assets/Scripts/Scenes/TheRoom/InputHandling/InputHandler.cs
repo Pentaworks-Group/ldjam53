@@ -16,55 +16,28 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         private float moveInterval = 0.1f;
         private float currentInterval = 0f;
 
-        //public void Update()
-        //{
-        //    if (currentInterval <= 0)
-        //    {
-        //        if (theRoomBehaviour.selectedElement != default)
-        //        {
-        //            if (Input.GetKey(KeyCode.W))
-        //            {
-        //                MoveForeward();
-        //            }
-        //            else if (Input.GetKey(KeyCode.S))
-        //            {
-        //                MoveBack();
-        //            }
-        //            else if (Input.GetKey(KeyCode.A))
-        //            {
-        //                MoveLeft();
-        //            }
-        //            else if (Input.GetKey(KeyCode.D))
-        //            {
-        //                MoveRight();
-        //            }
-        //            else if (Input.GetKey(KeyCode.Q))
-        //            {
-        //                MoveUp();
-        //            }
-        //            else if (Input.GetKey(KeyCode.E))
-        //            {
-        //                MoveDown();
-        //            }
-        //            else if (Input.GetKey(KeyCode.Z))
-        //            {
-        //                RotateXP();
-        //            }
-        //            else if (Input.GetKey(KeyCode.X))
-        //            {
-        //                RotateZP();
-        //            }
-        //            else if (Input.GetKey(KeyCode.C))
-        //            {
-        //                RotateYP();
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        currentInterval -= Time.deltaTime;
-        //    }
-        //}
+        private Quaternion camRotationTarget;
+        private Quaternion camRotationStart;
+        private float camRotationLerpPercentage = 1f;
+        private bool isCamRotating = false;
+
+        public void Update()
+        {
+            if (isCamRotating)
+            {
+                camRotationLerpPercentage = Mathf.MoveTowards(camRotationLerpPercentage, 1f, Time.deltaTime * 2f);
+                if (camRotationLerpPercentage >= 1)
+                {
+                    cam.transform.rotation = camRotationTarget;
+                    isCamRotating = false;
+                }
+                else
+                {
+                    cam.transform.rotation = Quaternion.Slerp(camRotationStart, camRotationTarget, camRotationLerpPercentage);
+                }
+
+            }
+        }
 
         public void RotateYN()
         {
@@ -172,7 +145,6 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 var rotationChange = Quaternion.Euler(0, 0, -15);
                 SetCamRotation(rotationChange, true);
             }
-            //CamRotate(new Vector3(0, 0, -15));
         }
         public void CamRotateYP()
         {
@@ -181,13 +153,9 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 var rotationChange = Quaternion.Euler(0, 0, 15);
                 SetCamRotation(rotationChange, true);
             }
-            //CamRotate(new Vector3(0, 0, 15));
         }
 
-        private Quaternion rotationTarget;
-        private Quaternion rotationStart;
-        private float rotationLerpPercentage = 1f;
-        private bool isCamRotating = false;
+
 
         public void CamRotateZN()
         {
@@ -196,7 +164,6 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 var rotationChange = Quaternion.Euler(0, -15, 0);
                 SetCamRotation(rotationChange, false);
             }
-            //CamRotate(new Vector3(0, -15, 0), Space.World);
         }
 
         public void CamRotateZP()
@@ -210,40 +177,39 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         public void CamRotateXN()
         {
-            //var forward = cam.transform.forward;
-            //CamRotate(new Vector3(-15, 0, 0));
-            //var currEulerAngles = cam.transform.eulerAngles;
-            //var x = currEulerAngles.x - 15;
-            //if (x > 90 && x < 270)
-            //{
-            //    x = -90;
-            //}
-            //currEulerAngles.x = x;
-            //cam.transform.rotation = Quaternion.Euler(currEulerAngles);
 
             if (!isCamRotating)
             {
+
+                camRotationStart = cam.transform.rotation;
                 var rotationChange = Quaternion.Euler(-15, 0, 0);
-                SetCamRotation(rotationChange, false);
+                var axis = Vector3.Cross(cam.transform.forward, Vector3.up);
+
+                camRotationTarget =  Quaternion.AngleAxis(15, axis) * camRotationStart;
+                camRotationLerpPercentage = 0;
+                isCamRotating = true;
+
+                Debug.Log("Start: " + camRotationStart.eulerAngles);
+                Debug.Log("End: " + camRotationTarget.eulerAngles);
+                //SetCamRotation(rotationChange, false);
             }
         }
 
         public void CamRotateXP()
         {
-            //CamRotate(new Vector3(15, 0, 0));
-            //var currEulerAngles = cam.transform.eulerAngles;
-            //var x = currEulerAngles.x + 15;
-
-            //if (x > 90 && x < 270)
-            //{
-            //    x = 90;
-            //}
-            //currEulerAngles.x = x;
-            //cam.transform.rotation = Quaternion.Euler(currEulerAngles);
             if (!isCamRotating)
             {
-                var rotationChange = Quaternion.Euler(15, 0, 0);
-                SetCamRotation(rotationChange, false);
+                camRotationStart = cam.transform.rotation;
+
+                var axis = Vector3.Cross(cam.transform.forward, Vector3.up);
+
+                camRotationTarget = Quaternion.AngleAxis(-15, axis) * camRotationStart;
+                camRotationLerpPercentage = 0;
+                isCamRotating = true;
+                Debug.Log("Start: " + camRotationStart.eulerAngles);
+                Debug.Log("End: " + camRotationTarget.eulerAngles);
+                //var rotationChange = Quaternion.Euler(15, 0, 0);
+                //SetCamRotation(rotationChange, false);
             }
         }
 
@@ -300,48 +266,22 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             //cam.transform.Translate(dir, relativeTo);
         }
 
-        private void CamRotate(Vector3 dir, Space relativeTo = Space.Self)
-        {
-            cam.transform.Rotate(dir, relativeTo);
-        }
-
-
         private void SetCamRotation(Quaternion rotationChange, bool selfCentred)
         {
-            rotationStart = cam.transform.rotation;
-            rotationTarget = rotationStart;
+            camRotationStart = cam.transform.rotation;
+            camRotationTarget = camRotationStart;
             if (selfCentred)
             {
-                rotationTarget = rotationTarget * rotationChange;
+                camRotationTarget = camRotationTarget * rotationChange;
             }
             else
             {
-                rotationTarget = rotationChange * rotationTarget;
+                camRotationTarget = rotationChange * camRotationTarget;
             }
-            rotationLerpPercentage = 0;
-            Debug.Log("Start: " + rotationStart.eulerAngles);
-            Debug.Log("End: " + rotationTarget.eulerAngles);
+            camRotationLerpPercentage = 0;
+            //Debug.Log("Start: " + camRotationStart.eulerAngles);
+            //Debug.Log("End: " + camRotationTarget.eulerAngles);
             isCamRotating = true;
         }
-
-        public void Update()
-        {
-            if (isCamRotating)
-            {
-                rotationLerpPercentage = Mathf.MoveTowards(rotationLerpPercentage, 1f, Time.deltaTime * 10f);
-                if (rotationLerpPercentage >= 1)
-                {
-                    cam.transform.rotation = rotationTarget;
-                    isCamRotating = false;
-                }
-                else
-                {
-                    cam.transform.rotation = Quaternion.Slerp(rotationStart, rotationTarget, rotationLerpPercentage);
-                }
-
-            }
-        }
-
-
     }
 }

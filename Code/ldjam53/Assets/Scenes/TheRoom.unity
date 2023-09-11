@@ -431,6 +431,7 @@ GameObject:
   - component: {fileID: 94310099}
   - component: {fileID: 94310098}
   - component: {fileID: 94310097}
+  - component: {fileID: 94310100}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -465,7 +466,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94310095}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -553,6 +554,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94310095}
   m_CullTransparentMesh: 1
+--- !u!114 &94310100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94310095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42ecb70ea16060469e7d752c18de1c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interval: 0.2
+  startTime: 0
+  repeatingMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1890587436}
+        m_TargetAssemblyTypeName: Assets.Scripts.Scenes.TheRoom.InputHandling.InputPadBehaviour,
+          Assembly-CSharp
+        m_MethodName: OnButtonTopMiddle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  clickMethod:
+    m_PersistentCalls:
+      m_Calls: []
+  t1t: 0
 --- !u!1001 &109321568
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1903,6 +1938,7 @@ GameObject:
   - component: {fileID: 518256897}
   - component: {fileID: 518256896}
   - component: {fileID: 518256895}
+  - component: {fileID: 518256898}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1937,7 +1973,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518256893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -2025,6 +2061,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518256893}
   m_CullTransparentMesh: 1
+--- !u!114 &518256898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518256893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42ecb70ea16060469e7d752c18de1c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interval: 0.2
+  startTime: 0
+  repeatingMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1890587436}
+        m_TargetAssemblyTypeName: Assets.Scripts.Scenes.TheRoom.InputHandling.InputPadBehaviour,
+          Assembly-CSharp
+        m_MethodName: OnButtonTopRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  clickMethod:
+    m_PersistentCalls:
+      m_Calls: []
+  t1t: 0
 --- !u!1001 &531439457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3315,6 +3385,7 @@ GameObject:
   - component: {fileID: 1102693854}
   - component: {fileID: 1102693853}
   - component: {fileID: 1102693852}
+  - component: {fileID: 1102693855}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -3349,7 +3420,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102693850}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -3437,6 +3508,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102693850}
   m_CullTransparentMesh: 1
+--- !u!114 &1102693855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102693850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42ecb70ea16060469e7d752c18de1c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interval: 0.2
+  startTime: 0
+  repeatingMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1890587436}
+        m_TargetAssemblyTypeName: Assets.Scripts.Scenes.TheRoom.InputHandling.InputPadBehaviour,
+          Assembly-CSharp
+        m_MethodName: OnButtonTopLeft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  clickMethod:
+    m_PersistentCalls:
+      m_Calls: []
+  t1t: 0
 --- !u!1001 &1158064479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4818,6 +4923,7 @@ GameObject:
   - component: {fileID: 1381671144}
   - component: {fileID: 1381671143}
   - component: {fileID: 1381671142}
+  - component: {fileID: 1381671145}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -4852,7 +4958,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381671140}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -4940,6 +5046,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381671140}
   m_CullTransparentMesh: 1
+--- !u!114 &1381671145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381671140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42ecb70ea16060469e7d752c18de1c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interval: 0.2
+  startTime: 0
+  repeatingMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1890587436}
+        m_TargetAssemblyTypeName: Assets.Scripts.Scenes.TheRoom.InputHandling.InputPadBehaviour,
+          Assembly-CSharp
+        m_MethodName: OnButtonBottomMiddle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  clickMethod:
+    m_PersistentCalls:
+      m_Calls: []
+  t1t: 0
 --- !u!1001 &1391574323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7083,6 +7223,7 @@ GameObject:
   - component: {fileID: 1815397115}
   - component: {fileID: 1815397114}
   - component: {fileID: 1815397113}
+  - component: {fileID: 1815397116}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -7117,7 +7258,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815397111}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -7205,6 +7346,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815397111}
   m_CullTransparentMesh: 1
+--- !u!114 &1815397116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815397111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42ecb70ea16060469e7d752c18de1c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interval: 0.2
+  startTime: 0
+  repeatingMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1890587436}
+        m_TargetAssemblyTypeName: Assets.Scripts.Scenes.TheRoom.InputHandling.InputPadBehaviour,
+          Assembly-CSharp
+        m_MethodName: OnButtonMiddleRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  clickMethod:
+    m_PersistentCalls:
+      m_Calls: []
+  t1t: 0
 --- !u!1 &1851949243
 GameObject:
   m_ObjectHideFlags: 0
@@ -7217,6 +7392,7 @@ GameObject:
   - component: {fileID: 1851949247}
   - component: {fileID: 1851949246}
   - component: {fileID: 1851949245}
+  - component: {fileID: 1851949248}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -7251,7 +7427,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851949243}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -7339,6 +7515,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851949243}
   m_CullTransparentMesh: 1
+--- !u!114 &1851949248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851949243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42ecb70ea16060469e7d752c18de1c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interval: 0.2
+  startTime: 0
+  repeatingMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 608277024}
+        m_TargetAssemblyTypeName: Assets.Scripts.Scenes.TheRoom.TheRoomBehaviour,
+          Assembly-CSharp
+        m_MethodName: PlaceSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  clickMethod:
+    m_PersistentCalls:
+      m_Calls: []
+  t1t: 0
 --- !u!1 &1870776925
 GameObject:
   m_ObjectHideFlags: 0
@@ -7486,7 +7696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a42ecb70ea16060469e7d752c18de1c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interval: 0.01
+  interval: 0.2
   startTime: 0
   repeatingMethod:
     m_PersistentCalls:

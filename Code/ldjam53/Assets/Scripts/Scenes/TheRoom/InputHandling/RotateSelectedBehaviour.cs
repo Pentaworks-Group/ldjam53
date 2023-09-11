@@ -187,32 +187,50 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         public override void OnButtonBottomMiddle()
         {
-            inputHandler.RotateXN();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+                inputHandler.RotateXN();
+            }
         }
 
         public override void OnButtonMidleLeft()
         {
-            inputHandler.RotateYN();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+                inputHandler.RotateYN();
+            }
         }
 
         public override void OnButtonMiddleRight()
         {
-            inputHandler.RotateYP();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+                inputHandler.RotateYP();
+            }
         }
 
         public override void OnButtonTopLeft()
         {
-            inputHandler.RotateZN();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+                inputHandler.RotateZN();
+            }
         }
 
         public override void OnButtonTopMiddle()
         {
-            inputHandler.RotateXP();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+                inputHandler.RotateXP();
+            }
         }
 
         public override void OnButtonTopRight()
         {
-            inputHandler.RotateZP();
+            if (inputHandler.theRoomBehaviour.selectedElement != default)
+            {
+                inputHandler.RotateZP();
+            }
         }
     }
 }
