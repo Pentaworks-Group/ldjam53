@@ -13,93 +13,131 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         public Camera cam;
 
         public TheRoomBehaviour theRoomBehaviour;
-        private float moveInterval = 0.1f;
-        private float currentInterval = 0f;
 
-        private Quaternion camRotationTarget;
-        private Quaternion camRotationStart;
-        private float camRotationLerpPercentage = 1f;
-        private bool isCamRotating = false;
+
+        private MoveInputHandler selectedMoveHandler = new();
+        private MoveInputHandler camMoveHandler = new();
+
+        private RotateInputHandler selectedRotateHandler = new();
+        private RotateInputHandler camRotateHandler = new();
+
+
+
 
         public void Update()
         {
-            if (isCamRotating)
-            {
-                camRotationLerpPercentage = Mathf.MoveTowards(camRotationLerpPercentage, 1f, Time.deltaTime * 2f);
-                if (camRotationLerpPercentage >= 1)
-                {
-                    cam.transform.rotation = camRotationTarget;
-                    isCamRotating = false;
-                }
-                else
-                {
-                    cam.transform.rotation = Quaternion.Slerp(camRotationStart, camRotationTarget, camRotationLerpPercentage);
-                }
+            camMoveHandler.UpdateHandler();
+            selectedMoveHandler.UpdateHandler();
 
-            }
+
+            camRotateHandler.UpdateHandler();
+            selectedRotateHandler.UpdateHandler();
+        }
+
+        public void Start()
+        {
+            camMoveHandler.Init(cam.transform, null);
+            camRotateHandler.Init(cam.transform, null);
+            selectedRotateHandler.SetAngle(90);
         }
 
         public void RotateYN()
         {
-            Rotate(new Vector3(0, 0, -90));
+            if (selectedRotateHandler.IsRotating() == false)
+            {
+                RotateSelected(new Vector3(0, 0, -90));
+            }
         }
         public void RotateYP()
         {
-            Rotate(new Vector3(0, 0, 90));
+            if (selectedRotateHandler.IsRotating() == false)
+            {
+                RotateSelected(new Vector3(0, 0, 90));
+            }
         }
 
         public void RotateZN()
         {
-            Rotate(new Vector3(0, -90, 0));
+            if (selectedRotateHandler.IsRotating() == false)
+            {
+                RotateSelected(new Vector3(0, -90, 0));
+            }
         }
 
         public void RotateZP()
         {
-            Rotate(new Vector3(0, 90, 0));
+            if (selectedRotateHandler.IsRotating() == false)
+            {
+                RotateSelected(new Vector3(0, 90, 0));
+            }
         }
 
         public void RotateXN()
         {
-            Rotate(new Vector3(-90, 0, 0));
+            if (selectedRotateHandler.IsRotating() == false)
+            {
+                RotateSelected(new Vector3(-90, 0, 0));
+            }
         }
 
         public void RotateXP()
         {
-            Rotate(new Vector3(90, 0, 0));
+            if (selectedRotateHandler.IsRotating() == false)
+            {
+                RotateSelected(new Vector3(90, 0, 0));
+            }
         }
 
         public void MoveDown()
         {
-            Move(new Vector3(0, -1, 0));
+            if (selectedMoveHandler.IsMoving() == false)
+            {
+                MoveSelected(new Vector3(0, -1, 0));
+            }
         }
 
         public void MoveUp()
         {
-            Move(new Vector3(0, 1, 0));
+            if (selectedMoveHandler.IsMoving() == false)
+            {
+                MoveSelected(new Vector3(0, 1, 0));
+            }
         }
 
         public void MoveRight()
         {
-            var radCorrectionAngle = GetCorrectionAngle();
-            Move(new Vector3(Mathf.Cos(-radCorrectionAngle), 0, Mathf.Sin(-radCorrectionAngle)));
+            if (selectedMoveHandler.IsMoving() == false)
+            {
+                var radCorrectionAngle = GetCorrectionAngle();
+                MoveSelected(new Vector3(Mathf.Cos(-radCorrectionAngle), 0, Mathf.Sin(-radCorrectionAngle)));
+            }
         }
 
         public void MoveLeft()
         {
-            var radCorrectionAngle = GetCorrectionAngle();
-            Move(new Vector3(-Mathf.Cos(-radCorrectionAngle), 0, -Mathf.Sin(-radCorrectionAngle)));
+            if (selectedMoveHandler.IsMoving() == false)
+            {
+                var radCorrectionAngle = GetCorrectionAngle();
+                MoveSelected(new Vector3(-Mathf.Cos(-radCorrectionAngle), 0, -Mathf.Sin(-radCorrectionAngle)));
+            }
         }
 
         public void MoveBack()
         {
-            var radCorrectionAngle = GetCorrectionAngle();
-            Move(new Vector3(-Mathf.Sin(radCorrectionAngle), 0, -Mathf.Cos(radCorrectionAngle)));
+            if (selectedMoveHandler.IsMoving() == false)
+            {
+                var radCorrectionAngle = GetCorrectionAngle();
+                MoveSelected(new Vector3(-Mathf.Sin(radCorrectionAngle), 0, -Mathf.Cos(radCorrectionAngle)));
+            }
         }
 
         public void MoveForeward()
         {
-            var radCorrectionAngle = GetCorrectionAngle();
-            Move(new Vector3(Mathf.Sin(radCorrectionAngle), 0, Mathf.Cos(radCorrectionAngle)));
+            if (selectedMoveHandler.IsMoving() == false)
+            {
+                var radCorrectionAngle = GetCorrectionAngle();
+                MoveSelected(new Vector3(Mathf.Sin(radCorrectionAngle), 0, Mathf.Cos(radCorrectionAngle)));
+            }
         }
 
         private System.Single GetCorrectionAngle()
@@ -123,35 +161,33 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             return radCorrectionAngle;
         }
 
-        private void Move(Vector3 dir)
+        private void MoveSelected(Vector3 dir)
         {
-            theRoomBehaviour.selectedElement.transform.position = theRoomBehaviour.selectedElement.transform.position + dir;
-            currentInterval = moveInterval;
-            theRoomBehaviour.selectedElement.UpdateIsPlaceable();
+            selectedMoveHandler.StartMove(dir, theRoomBehaviour.selectedElement.transform, theRoomBehaviour.selectedElement.UpdateIsPlaceable);
         }
 
-        private void Rotate(Vector3 dir)
+        private void RotateSelected(Vector3 dir)
         {
-            theRoomBehaviour.selectedElement.transform.Rotate(dir);
-            currentInterval = moveInterval;
-            theRoomBehaviour.selectedElement.UpdateIsPlaceable();
+            //theRoomBehaviour.selectedElement.transform.Rotate(dir);
+            //theRoomBehaviour.selectedElement.UpdateIsPlaceable();
+            selectedRotateHandler.StartRotation(dir, theRoomBehaviour.selectedElement.transform, theRoomBehaviour.selectedElement.UpdateIsPlaceable);
         }
 
 
         public void CamRotateYN()
         {
-            if (!isCamRotating)
+            if (camRotateHandler.IsRotating() == false)
             {
-                var rotationChange = Quaternion.Euler(0, 0, -15);
-                SetCamRotation(rotationChange, true);
+                var axis = cam.transform.forward * -1;
+                RotateCam(axis);
             }
         }
         public void CamRotateYP()
         {
-            if (!isCamRotating)
+            if (camRotateHandler.IsRotating() == false)
             {
-                var rotationChange = Quaternion.Euler(0, 0, 15);
-                SetCamRotation(rotationChange, true);
+                var axis = cam.transform.forward;
+                RotateCam(axis);
             }
         }
 
@@ -159,129 +195,103 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         public void CamRotateZN()
         {
-            if (!isCamRotating)
+            if (camRotateHandler.IsRotating() == false)
             {
-                var rotationChange = Quaternion.Euler(0, -15, 0);
-                SetCamRotation(rotationChange, false);
+                var axis = Vector3.down;
+                RotateCam(axis);
             }
         }
 
         public void CamRotateZP()
         {
-            if (!isCamRotating)
+            if (camRotateHandler.IsRotating() == false)
             {
-                var rotationChange = Quaternion.Euler(0, 15, 0);
-                SetCamRotation(rotationChange, false);
+                var axis = Vector3.up;
+                RotateCam(axis);
             }
         }
 
         public void CamRotateXN()
         {
 
-            if (!isCamRotating)
+            if (camRotateHandler.IsRotating() == false)
             {
-
-                camRotationStart = cam.transform.rotation;
-                var rotationChange = Quaternion.Euler(-15, 0, 0);
                 var axis = Vector3.Cross(cam.transform.forward, Vector3.up);
-
-                camRotationTarget =  Quaternion.AngleAxis(15, axis) * camRotationStart;
-                camRotationLerpPercentage = 0;
-                isCamRotating = true;
-
-                Debug.Log("Start: " + camRotationStart.eulerAngles);
-                Debug.Log("End: " + camRotationTarget.eulerAngles);
-                //SetCamRotation(rotationChange, false);
+                RotateCam(axis);
             }
         }
 
         public void CamRotateXP()
         {
-            if (!isCamRotating)
+            if (camRotateHandler.IsRotating() == false)
             {
-                camRotationStart = cam.transform.rotation;
-
                 var axis = Vector3.Cross(cam.transform.forward, Vector3.up);
 
-                camRotationTarget = Quaternion.AngleAxis(-15, axis) * camRotationStart;
-                camRotationLerpPercentage = 0;
-                isCamRotating = true;
-                Debug.Log("Start: " + camRotationStart.eulerAngles);
-                Debug.Log("End: " + camRotationTarget.eulerAngles);
-                //var rotationChange = Quaternion.Euler(15, 0, 0);
-                //SetCamRotation(rotationChange, false);
+                RotateCam(axis * -1);
             }
+        }
+
+        private void RotateCam(Vector3 axis)
+        {
+            camRotateHandler.StartRotation(axis, cam.transform.rotation);
         }
 
         public void CamMoveDown()
         {
-            CamMove(new Vector3(0, -1, 0), Space.World);
+            if (camMoveHandler.IsMoving() == false)
+            {
+                CamMove(new Vector3(0, -1, 0));
+            }
         }
 
         public void CamMoveUp()
         {
-            CamMove(new Vector3(0, 1, 0), Space.World);
+            if (camMoveHandler.IsMoving() == false)
+            {
+                CamMove(new Vector3(0, 1, 0));
+            }
         }
 
         public void CamMoveRight()
         {
-            //var radCorrectionAngle = GetCorrectionAngle();
-            float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
-            //CamMove(new Vector3(Mathf.Sin(-camAngle), 0, Mathf.Cos(-camAngle)));
-            var v = new Vector3(Mathf.Cos(camAngle), 0, -Mathf.Sin(camAngle));
-            CamMove(v);
-
-            //CamMove(new Vector3(1, 0, 0));
+            if (camMoveHandler.IsMoving() == false)
+            {
+                float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
+                var v = new Vector3(Mathf.Cos(camAngle), 0, -Mathf.Sin(camAngle));
+                CamMove(v);
+            }
         }
 
         public void CamMoveLeft()
         {
-            //var radCorrectionAngle = GetCorrectionAngle();
-            float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
-            //CamMove(new Vector3(-Mathf.Sin(-camAngle), 0, -Mathf.Cos(-camAngle)));
-            CamMove(new Vector3(-Mathf.Cos(camAngle), 0, Mathf.Sin(camAngle)));
-
-            //CamMove(new Vector3(-1, 0, 0));
+            if (camMoveHandler.IsMoving() == false)
+            {
+                float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
+                CamMove(new Vector3(-Mathf.Cos(camAngle), 0, Mathf.Sin(camAngle)));
+            }
         }
 
         public void CamMoveBack()
         {
-            float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
-            CamMove(new Vector3(-Mathf.Sin(camAngle), 0, -Mathf.Cos(camAngle)), Space.World);
-
-            //CamMove(new Vector3(0, -1, 0));
+            if (camMoveHandler.IsMoving() == false)
+            {
+                float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
+                CamMove(new Vector3(-Mathf.Sin(camAngle), 0, -Mathf.Cos(camAngle)));
+            }
         }
 
         public void CamMoveForeward()
         {
-            float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
-            CamMove(new Vector3(Mathf.Sin(camAngle), 0, Mathf.Cos(camAngle)), Space.World);
-
-            //CamMove(new Vector3(0, 1, 0));
+            if (camMoveHandler.IsMoving() == false)
+            {
+                float camAngle = Mathf.Deg2Rad * cam.transform.eulerAngles.y;
+                CamMove(new Vector3(Mathf.Sin(camAngle), 0, Mathf.Cos(camAngle)));
+            }
         }
 
-        private void CamMove(Vector3 dir, Space relativeTo = Space.Self)
+        private void CamMove(Vector3 dir)
         {
-            cam.transform.position = cam.transform.position + dir;
-            //cam.transform.Translate(dir, relativeTo);
-        }
-
-        private void SetCamRotation(Quaternion rotationChange, bool selfCentred)
-        {
-            camRotationStart = cam.transform.rotation;
-            camRotationTarget = camRotationStart;
-            if (selfCentred)
-            {
-                camRotationTarget = camRotationTarget * rotationChange;
-            }
-            else
-            {
-                camRotationTarget = rotationChange * camRotationTarget;
-            }
-            camRotationLerpPercentage = 0;
-            //Debug.Log("Start: " + camRotationStart.eulerAngles);
-            //Debug.Log("End: " + camRotationTarget.eulerAngles);
-            isCamRotating = true;
+            camMoveHandler.StartMove(dir, cam.transform.position);
         }
     }
 }

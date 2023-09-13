@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class ContinousButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] private float interval = 0.2f;
+    private float interval = 0.02f;
     [SerializeField] private float startTime = 0f;
     [SerializeField] private UnityEvent repeatingMethod;
     [SerializeField] private UnityEvent clickMethod;

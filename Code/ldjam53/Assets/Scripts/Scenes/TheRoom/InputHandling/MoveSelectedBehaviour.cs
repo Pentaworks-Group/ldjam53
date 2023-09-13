@@ -202,7 +202,6 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         {
             if (inputHandler.theRoomBehaviour.selectedElement != default)
             {
-
                 inputHandler.MoveLeft();
             }
         }
