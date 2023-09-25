@@ -21,7 +21,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
         private RotateInputHandler selectedRotateHandler = new();
         private RotateInputHandler camRotateHandler = new();
 
-
+        private TouchMouseHandler touchMouseHandler = new();
 
 
         public void Update()
@@ -32,6 +32,8 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
             camRotateHandler.UpdateHandler();
             selectedRotateHandler.UpdateHandler();
+
+            touchMouseHandler.UpdateTouchHandler();
         }
 
         public void Start()
@@ -39,7 +41,50 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             camMoveHandler.Init(cam.transform, null);
             camRotateHandler.Init(cam.transform, null);
             selectedRotateHandler.SetAngle(90);
+            touchMouseHandler.Init(Lefti, Righti, Zoomi);
         }
+
+
+        private void Zoomi(Vector2 vector)
+        {
+            Debug.Log(Base.Core.Game.Options.ZoomSensivity);
+            Vector3 newVect = cam.transform.forward * Time.deltaTime * Base.Core.Game.Options.ZoomSensivity * 20.0f * vector.y;
+            Vector3 newCamPos = cam.transform.position + newVect;
+            if (newCamPos.y < 1)
+            {
+                return;
+            }
+
+            cam.transform.position = newCamPos;
+        }
+        private void Righti(Vector2 vector)
+        {
+            cam.transform.Rotate(new Vector3(-vector.y, vector.x, 0) * Time.deltaTime * Base.Core.Game.Options.LookSensivity);
+            float z = cam.transform.eulerAngles.z;
+            cam.transform.Rotate(0, 0, -z);
+        }
+
+        private void Lefti(Vector2 vector)
+        {
+            cam.transform.position += ApplyCamCorrection(-vector.x, 0, -vector.y) * Time.deltaTime * Base.Core.Game.Options.MoveSensivity;
+        }
+        private Vector3 ApplyCamCorrection(float inputX, float inputY, float inputZ)
+        {
+            var radCorrectionAngle = GetCamCorrectionAngle();
+            var xPartX = Mathf.Sin(radCorrectionAngle) * inputZ;
+            var xPartZ = Mathf.Cos(radCorrectionAngle) * inputZ;
+            var zPartX = Mathf.Cos(-radCorrectionAngle) * inputX;
+            var zPartZ = Mathf.Sin(-radCorrectionAngle) * inputX;
+
+            return new Vector3(xPartX + zPartX, inputY, xPartZ + zPartZ);
+        }
+
+        private float GetCamCorrectionAngle()
+        {
+            float camAngle = cam.transform.eulerAngles.y;
+            return Mathf.Deg2Rad * camAngle;
+        }
+
 
         public void RotateYN()
         {
@@ -168,8 +213,6 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
 
         private void RotateSelected(Vector3 dir)
         {
-            //theRoomBehaviour.selectedElement.transform.Rotate(dir);
-            //theRoomBehaviour.selectedElement.UpdateIsPlaceable();
             selectedRotateHandler.StartRotation(dir, theRoomBehaviour.selectedElement.transform, theRoomBehaviour.selectedElement.UpdateIsPlaceable);
         }
 
@@ -190,9 +233,6 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 RotateCam(axis);
             }
         }
-
-
-
         public void CamRotateZN()
         {
             if (camRotateHandler.IsRotating() == false)

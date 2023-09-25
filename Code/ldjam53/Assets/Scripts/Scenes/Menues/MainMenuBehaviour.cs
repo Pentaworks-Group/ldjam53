@@ -29,7 +29,7 @@ namespace Assets.Scripts.Scenes.Menues
         {
             GameFrame.Base.Audio.Background.ReplaceClips(Base.Core.Game.AudioClipListGame);
             Base.Core.Game.PlayButtonSound();
-         
+
             Base.Core.Game.Start();
         }
 
@@ -49,7 +49,15 @@ namespace Assets.Scripts.Scenes.Menues
 
         public void QuitGame()
         {
+#if UNITY_WEBGL
+            Debug.Log("Quitti");
+            Application.ExternalEval("document.location.reload(true)");
+#elif UNITY_STANDALONE
             Application.Quit();
+#elif UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+            Debug.Log("dada");
         }
 
         private void Awake()
