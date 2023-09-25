@@ -25,6 +25,8 @@ public static class BuildConfigurator
     public static void BuildProjectDevelopment()
     {
         //BuildOptions.
+        Debug.Log($"SceneNames.scenes: {SceneNames.scenes}");
+        Debug.Log($"SceneNames.scenesDevelopment: {SceneNames.scenesDevelopment}");
         var report = BuildPipeline.BuildPlayer(getSceneNameArray(SceneNames.scenes, SceneNames.scenesDevelopment), locationPath, BuildTarget.WebGL, BuildOptions.Development);
         Debug.Log($"Build result: {report.summary.result}, {report.summary.totalErrors} errors");
         var indexAsJson = GameFrame.Core.Json.Handler.Serialize(new BuildInfo(), Formatting.None, new JsonSerializerSettings());
