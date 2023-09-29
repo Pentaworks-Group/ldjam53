@@ -27,7 +27,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
             LeftClick, RightClick, MouseWheel, SingleTouch, MultiTouch
         }
 
-        public void Init(Action<Vector2> leftClick,   Action<Vector2> rightClick,  Action<Vector2> zoomClick)
+        public void Init(Action<Vector2> leftClick, Action<Vector2> rightClick, Action<Vector2> zoomClick)
         {
             this.leftClick = leftClick;
             this.rightClick = rightClick;
@@ -48,7 +48,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                     StartHandling();
                 }
             }
-            
+
         }
 
         private void StartHandling()
@@ -67,6 +67,7 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 prevPinch = (touch1.position, touch2.position);
                 action = InputAction.MultiTouch;
                 isActionActive = true;
+                Debug.Log("Start MultiTouch");
             }
             else if (Input.touchCount == 1)
             {
@@ -74,13 +75,15 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 clickDown = touch1.position;
                 action = InputAction.SingleTouch;
                 isActionActive = true;
+                Debug.Log("Start SingleTouch");
             }
             else if (Input.GetMouseButtonDown(1))
             {
                 clickDown = Input.mousePosition;
                 action = InputAction.RightClick;
                 isActionActive = true;
-            } else if (Input.mouseScrollDelta.y != 0)
+            }
+            else if (Input.mouseScrollDelta.y != 0)
             {
                 zoomClick.Invoke(new Vector2(0, Math.Sign(Input.mouseScrollDelta.y)));
             }
@@ -94,30 +97,50 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                 {
                     isActionActive = false;
 
-                } else
+                }
+                else if (Input.touchCount > 1)
+                {
+                    Touch touch1 = Input.GetTouch(0);
+                    Touch touch2 = Input.GetTouch(1);
+
+                    prevPinch = (touch1.position, touch2.position);
+                    action = InputAction.MultiTouch;
+                }
+                else
                 {
                     Vector2 click = Input.mousePosition;
                     leftClick.Invoke(click - clickDown);
                     clickDown = Input.mousePosition;
-                }                    
+                }
             }
             else if (action == InputAction.RightClick)
             {
                 if (Input.GetMouseButtonUp(1))
                 {
                     isActionActive = false;
-                } else
+                }
+                else
                 {
                     Vector2 click = Input.mousePosition;
                     rightClick.Invoke(click - clickDown);
                     clickDown = Input.mousePosition;
                 }
-            } else if (action == InputAction.SingleTouch)
+            }
+            else if (action == InputAction.SingleTouch)
             {
-                if (Input.touchCount != 1)
+                if (Input.touchCount == 0)
                 {
                     isActionActive = false;
-                } else
+                }
+                else if (Input.touchCount > 1)
+                {
+                    Touch touch1 = Input.GetTouch(0);
+                    Touch touch2 = Input.GetTouch(1);
+
+                    prevPinch = (touch1.position, touch2.position);
+                    action = InputAction.MultiTouch;
+                }
+                else
                 {
                     leftClick.Invoke(Input.touches[0].position - clickDown);
                     clickDown = Input.mousePosition;
@@ -137,19 +160,29 @@ namespace Assets.Scripts.Scenes.TheRoom.InputHandling
                     {
                         var dist2 = touch1 - touch2;
                         var dist1 = prevPinch.Item1 - prevPinch.Item2;
-                        if (Math.Abs(dist1.magnitude - dist2.magnitude) > 5)
+                        var diff = Math.Abs(dist1.magnitude - dist2.magnitude);
+
+                        Debug.Log(diff);
+                        if (diff < 10)
                         {
                             rightClick.Invoke(dist2 - dist1);
                             prevPinch = (touch1, touch2);
                         }
+                        else
+                        {
+                            zoomClick.Invoke(dist2 - dist1);
+                            prevPinch = (touch1, touch2);
+                        }
                     }
                 }
-            } else if (action == InputAction.MouseWheel)
+            }
+            else if (action == InputAction.MouseWheel)
             {
                 if (Input.mouseScrollDelta.y == 0)
                 {
                     isActionActive = false;
-                } else
+                }
+                else
                 {
                     zoomClick.Invoke(new Vector2(0, Math.Sign(Input.mouseScrollDelta.y)));
                 }
