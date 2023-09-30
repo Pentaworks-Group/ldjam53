@@ -2,11 +2,16 @@ using Assets.Scripts.Constants;
 
 using UnityEngine;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 namespace Assets.Scripts.Scenes.Menues
 {
     public class MainMenuBehaviour : MonoBehaviour
     {
+        [DllImport("__Internal")]
+        private static extern void Quit();
+
+
         public void ShowSavedGames()
         {
             Base.Core.Game.PlayButtonSound();
@@ -49,25 +54,24 @@ namespace Assets.Scripts.Scenes.Menues
 
         public void QuitGame()
         {
-#if UNITY_WEBGL
-            Debug.Log("Quitti");
-            Application.ExternalEval("document.location.reload(true)");
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBGL
+            Quit();
 #elif UNITY_STANDALONE
             Application.Quit();
-#elif UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+            
 #endif
-            Debug.Log("dada");
         }
 
         private void Awake()
         {
             GameObject.Find("UI/Fitter/VersionText").GetComponent<TMPro.TMP_Text>().text = $"Version: {Application.version}";
 
-            if (GameObject.Find("UI/Fitter/Quit").TryGetComponent(out Button quitButton))
-            {
-                quitButton.interactable = Base.Core.Game.IsFileAccessPossible;
-            }
+            //if (GameObject.Find("UI/Fitter/Quit").TryGetComponent(out Button quitButton))
+            //{
+            //    quitButton.interactable = Base.Core.Game.IsFileAccessPossible;
+            //}
 
             GameFrame.Base.Audio.Background.ReplaceClips(Base.Core.Game.AudioClipListMenu);
         }
